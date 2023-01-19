@@ -1,0 +1,42 @@
+
+
+to-do:
+declare registers:
+
+    ac      -> accumulator, 16 bit
+    acx     -> accumulator first 8 address, 8 bit
+    acy     -> accumulator last 8 address, 8 bit
+
+    r       -> general purpose register, 16 bit
+    rx      -> general purpose register first 8 address, 8 bit
+    ry      -> general purpose register last 8 address, 8 bit
+
+    pc      -> program counter, 16 bit [not user accessible]
+    ar      -> address register, 16 bit [not user accessible]
+
+    flag    -> flag bit
+
+    memory size: 8 bits * pow (2, 16)
+
+
+known commands:
+
+    add     -> complex command, adds two numbers
+                one op: add, [reg]  = adds ac and the specified register together
+                two op: add, [reg], [reg, memory location] = adds
+
+                OP CODE:
+                    [one-op]: 0000 0010
+                    [two-op]: 0000 0011
+
+    db      -> define byte, [string literal, numeric]
+
+    char    -> prints the character
+               char [memory address, 8-bit register]
+
+    int8    -> prints the integer of 8 bits
+               int8 [memory address, 8-bit register]
+
+    int16   -> prints the integer of 16 bits
+               int16 [memory address, 16-bit register]
+
