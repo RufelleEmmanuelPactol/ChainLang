@@ -39,4 +39,4 @@ known commands:
 
     int16   -> prints the integer of 16 bits
                int16 [memory address, 16-bit register]
-
+r
