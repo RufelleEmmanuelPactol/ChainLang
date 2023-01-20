@@ -1,3 +1,6 @@
-start 0
+main:
+start, main
 
-start
+
+end:
+end, [end]

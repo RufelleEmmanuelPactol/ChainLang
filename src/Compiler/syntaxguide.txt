@@ -1,42 +1,142 @@
 
 
 to-do:
+-> check for label name if collide with map
 declare registers:
 
-    ac      -> accumulator, 16 bit
-    acx     -> accumulator first 8 address, 8 bit
-    acy     -> accumulator last 8 address, 8 bit
+    user-accessible:
+    ac      [1011 0001]     -> accumulator, 16 bit
+    acx     [1010 0000]     -> accumulator first 8 address, 8 bit
+    acy     [1010 0001]     -> accumulator last 8 address, 8 bit
 
-    r       -> general purpose register, 16 bit
-    rx      -> general purpose register first 8 address, 8 bit
-    ry      -> general purpose register last 8 address, 8 bit
+    r       [1011 0010]     -> general purpose register, 16 bit
+    rx      [1010 0010]     -> general purpose register first 8 address, 8 bit
+    ry      [1010 0011]     -> general purpose register last 8 address, 8 bit
 
+    flag    [1010 0000]     -> flag bit
+
+    not user-accessible:
     pc      -> program counter, 16 bit [not user accessible]
     ar      -> address register, 16 bit [not user accessible]
 
-    flag    -> flag bit
+
 
     memory size: 8 bits * pow (2, 16)
 
 
 known commands:
 
+math functions:
+
     add     -> complex command, adds two numbers
-                one op: add, [reg]  = adds ac and the specified register together
-                two op: add, [reg], [reg, memory location] = adds
+                no op: add, [reg]  = adds AC and the R together
+                two op: add, [reg], [reg, memory location] = adds and stores result at reg
+                note: reg determines byte size
+                turns flag to high if number is beyond 16-bit
 
                 OP CODE:
-                    [one-op]: 0000 0010
-                    [two-op]: 0000 0011
+                    [no-op]:  0000 0100
+                    [two-op]: 0000 0101
 
+
+
+    sub     -> complex command, subtracts two numbers,
+               no op: add, [reg]  = subtracts AC and the R
+               two op: add, [reg], [reg, memory location] = subs, stores at reg
+               note: reg determines byte size
+
+               OP CODE:
+                   [no-op]:  0000 0110
+                   [two-op]: 0000 0111
+
+    mul    -> complex command, multiplies two numbers
+               no op: add, [reg]  = multiplies AC and the R
+               two op: add, [reg], [reg, memory location] = mults, stores at reg
+               note: reg determines byte size
+
+               OP CODE:
+                   [no-op]:  0000 1000
+                   [two-op]: 0000 1001
+
+    div    -> complex command, divides two numbers
+                   no op: add, [reg]  = divides AC and the R
+                   two op: add, [reg], [reg, memory location] = divs, stores at reg
+                   note: reg determines byte size
+
+                   OP CODE:
+                       [no-op]:  0000 1010
+                       [two-op]: 0000 1011
+
+    not    -> bitshift reversal of specified operand
+                  takes a register for operations and reverses
+
+                  OP CODE: 0000 1100
+
+    cmp    -> compares to values
+              cmp, [register], [memory location, register]
+              if operand B > operand A, sets flag to high, otherwise, low
+
+              OP CODE: 0000 1101
+
+    equ    -> checks if equal
+              equ [register], [memory location, register]
+              if operand A == operand B, set flag to low, otherwise, high
+
+              OP CODE: 0000 1110
+
+
+
+memory alloc functions:
     db      -> define byte, [string literal, numeric]
+    dw      -> define word, [string literal, numeric]
 
+
+print functions:
     char    -> prints the character
                char [memory address, 8-bit register]
+               OP CODE: 0000 0001
 
     int8    -> prints the integer of 8 bits
                int8 [memory address, 8-bit register]
+               OP CODE: 0000 0010
 
     int16   -> prints the integer of 16 bits
                int16 [memory address, 16-bit register]
-r
+               OP CODE: 0000 0011
+
+
+jump functions:
+
+    jmp     -> jumps the PC to a specified mem loc
+                jmp [label / memory address]
+
+                OP CODE: 0000 1111
+
+    jpt     -> jump if true, jumps if the flag register is true
+                jpt [label / memory address]
+
+                OP CODE: 0001 0000
+
+    jpf     -> jump if false, jumps if flag register is false
+                jpf [label / memory address]
+
+                OP CODE: 0001 0001
+
+
+move function:
+    mov     -> move data from X to Y
+               move [register], [register, memory address, label]
+               move [register, memory address, label], [register]
+
+               OP CODE: 0001 1111
+
+directives:
+    start   -> determines the starting point
+               start [memory address / label]
+
+               OP CODE: 0010 0000
+
+    end     -> determines the end point
+               end [memory address / label]
+
+               OP CODE: 0010 0001

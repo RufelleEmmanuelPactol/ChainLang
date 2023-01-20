@@ -15,24 +15,39 @@ enum Datatype{
     // operators
     label, complex, basic, directive
 };
+
+enum Operand{
+    inv, mem, math, print, mov, alloc
+};
 using std::string;
 
 struct token {
     Kind kind;
     Datatype datatype;
     string name;
+    Operand operand;
 
     token(){
         kind = invalid;
         datatype = null;
-        name = "";
+        operand = inv;
+
     }
 
-    token (Kind kind, Datatype datatype, string name){
+    token (Kind kind, Datatype datatype, const string& name){
         this->kind = kind;
         this->datatype = datatype;
         this->name = name;
+        operand = inv;
     }
+
+    token (Kind kind, Datatype datatype, Operand operand, const string& name){
+        this->kind = kind;
+        this->datatype = datatype;
+        this->name = name;
+        this->operand = operand;
+    }
+
 };
 
 
