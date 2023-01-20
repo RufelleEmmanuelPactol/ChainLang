@@ -15,6 +15,9 @@
 #define strvector_p const std::vector<std::string> &
 #define strvector std::vector<std::string>
 
+auto const& npos = std::string::npos;
+std::string m_line;
+
 
 Memory memory = Memory();
 size_t line = 0;

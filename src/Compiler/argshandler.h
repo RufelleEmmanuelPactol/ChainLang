@@ -5,7 +5,7 @@
 #ifndef CHAIN_ARGSHANDLER_H
 #define CHAIN_ARGSHANDLER_H
 #include "exceptions.h"
-#include "compiler_module.h"
+#include "compiler.h"
 
 namespace chain
 {

@@ -13,7 +13,7 @@ enum Kind {
 enum Datatype{
 
     // data
-    null, str, ref, reg, num,
+    null, str, ref, reg, num, label_ref,
     // operators
     label, complex, basic, directive
 };
@@ -42,6 +42,7 @@ struct token {
     Operand operand;
     Register reg;
     Numeric numeric;
+    size_t operand_count = -1;
 
 
     token(){
@@ -63,11 +64,12 @@ struct token {
     }
 
     // OPERAND
-    token (Kind kind, Datatype datatype, Operand operand, const string& name){
+    token (Kind kind, Datatype datatype, Operand operand, size_t operand_count,  const string& name){
         this->kind = kind;
         this->datatype = datatype;
         this->name = name;
         this->operand = operand;
+        this->operand_count = operand_count;
         reg = not_reg;
         numeric = not_numeric;
     }

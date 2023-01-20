@@ -1,3 +1,6 @@
 main:
 start, main ; start at the main function
-db, 0d1E2;
+db, 0x1E2;
+dw, 0x1E2;
+db, "This is a string literal"
+mov, [123]
