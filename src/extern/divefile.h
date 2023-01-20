@@ -37,7 +37,7 @@ namespace dive {
          * @brief The @c dive::FileReader() default constructor.
          * @params path contains the file's path.
          */
-        FileReader(const std::string& path) {
+        explicit FileReader(const std::string& path) {
             this->path = path;
             input_file = std::make_shared<std::ifstream>(path);
 
@@ -70,7 +70,7 @@ namespace dive {
          * @return Returns a @c std::string containing the line.
          */
         auto readLine() {
-            std::string line = "";
+            std::string line;
             if (input_file->is_open()) {
                 std::getline(*input_file, line);
             }
@@ -132,7 +132,7 @@ namespace dive {
          * @brief FileWriter's default constructor.
          * @param path used for determining the path to the file.
          */
-        FileWriter(const std::string& path) {
+        explicit FileWriter(const std::string& path) {
             this->path = path;
             output_file = std::make_shared<std::ofstream>(path);
             this->append = false;

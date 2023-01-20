@@ -11,13 +11,25 @@ enum Kind {
 };
 
 enum Datatype{
-    null, varchar, ref, reg8, reg16, reg1,
+
+    // data
+    null, str, ref, reg, num,
     // operators
     label, complex, basic, directive
 };
 
+enum Register{
+    not_reg, reg16, reg8, flag
+};
+
+enum Numeric{
+    not_numeric, num2, num10, num16
+};
+
+
+
 enum Operand{
-    inv, mem, math, print, mov, alloc
+    not_operand, mem, math, print, mov, alloc
 };
 using std::string;
 
@@ -25,12 +37,19 @@ struct token {
     Kind kind;
     Datatype datatype;
     string name;
+
+    //optional
     Operand operand;
+    Register reg;
+    Numeric numeric;
+
 
     token(){
         kind = invalid;
         datatype = null;
-        operand = inv;
+        operand = not_operand;
+        reg = not_reg;
+        numeric = not_numeric;
 
     }
 
@@ -38,14 +57,40 @@ struct token {
         this->kind = kind;
         this->datatype = datatype;
         this->name = name;
-        operand = inv;
+        operand = not_operand;
+        reg = not_reg;
+        numeric = not_numeric;
     }
 
+    // OPERAND
     token (Kind kind, Datatype datatype, Operand operand, const string& name){
         this->kind = kind;
         this->datatype = datatype;
         this->name = name;
         this->operand = operand;
+        reg = not_reg;
+        numeric = not_numeric;
+    }
+
+    // REGISTER
+    token (Kind kind, Datatype datatype, Register reg, const string& name){
+        this->kind = kind;
+        this->datatype = datatype;
+        this->name = name;
+        this->reg = reg;
+        operand = not_operand;
+        numeric = not_numeric;
+    }
+
+    // NUMERIC
+    token (Kind kind, Datatype datatype, Numeric numeric, const string& name){
+        this->kind = kind;
+        this->datatype = datatype;
+        this->name = name;
+        this->numeric = numeric;
+        reg = not_reg;
+        operand = not_operand;
+
     }
 
 };

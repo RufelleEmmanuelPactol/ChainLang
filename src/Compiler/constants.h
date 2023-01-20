@@ -18,17 +18,19 @@ public:
     Constants(){
 
         // init for registers
-        m_registers.emplace("ac", token(not_op, reg16, "ac"));
-        m_registers.emplace("acx", token(not_op, reg8, "acx"));
-        m_registers.emplace("acy", token(not_op, reg8, "acy"));
-        m_registers.emplace("r", token(not_op, reg16, "r"));
-        m_registers.emplace("rx", token(not_op, reg8, "rx"));
-        m_registers.emplace("ry", token(not_op, reg8, "ry"));
+        m_registers.emplace("ac", token(not_op, reg, reg16, "ac"));
+        m_registers.emplace("acx", token(not_op, reg, reg8, "acx"));
+        m_registers.emplace("acy", token(not_op, reg, reg8, "acy"));
+        m_registers.emplace("r", token(not_op, reg, reg16, "r"));
+        m_registers.emplace("rx", token(not_op, reg, reg8, "rx"));
+        m_registers.emplace("ry", token(not_op, reg, reg8, "ry"));
+        m_registers.emplace("flag", token(not_op, reg, flag, "flag"));
+
 
         // not accessible for users
         /*      m_registers.emplace("pc", token(not_op, reg16, "pc"));
         m_registers.emplace("ar", token(not_op, reg16, "ar"));
-        m_registers.emplace("flag", token(not_op, reg1, "flag"));*/
+        */
 
         // init for m_directives
         m_directives.emplace("start", token(op, directive, mem, "start"));
@@ -52,6 +54,7 @@ public:
         m_commands.emplace("int16", token(op, basic, print, "int16"));
         m_commands.emplace("mov", token(op, basic, mov, "mov"));
 
+
     }
     
     auto registers(){
@@ -67,6 +70,27 @@ public:
     }
 
 
+    auto isBinary(const char change){
+        if (change=='0' || change=='1'){
+            return true;
+        } return false;
+    }
+
+    auto isDecimal(const char change){
+        if (change>='0' && change<='9'){
+            return true;
+        } return false;
+    }
+
+    auto isHex(char & change){
+        if (isDecimal(change)) return true;
+        change = static_cast<char>(toupper(change));
+        if (change >= 'A' && change <= 'F'){
+            return true;
+        } return false;
+    }
+
+
     void emplaceLabel(const string& label_name , int address){
         if (m_labels.find(label_name)!=m_labels.end()){
             chain::RepeatLabelException(label_name);
@@ -75,8 +99,15 @@ public:
     }
 
     auto getAddress(const string& find){
+        if (m_labels.find(find)==m_labels.end()){
+            chain::NoSuchLabelException(find);
+        }
         return m_labels[find];
     }
+
+
+
+
 };
 
 Constants constants;

@@ -4,10 +4,10 @@
 
 #ifndef CHAINC_SPLITTER_H
 #define CHAINC_SPLITTER_H
-
+#include "constants.h"
 namespace chain
 {
-    strvector stack_split (const std::string& line){
+    strvector stack_split (std::string& line){
         strvector ret;
         std::string stack;
         for (int i=0; i<line.size(); i++){
@@ -24,7 +24,7 @@ namespace chain
                 return ret;
             }
 
-            // varchar
+            // string splitter
             else if (c=='\"'){
 
                 // checks for stray quote
@@ -47,13 +47,105 @@ namespace chain
                 continue;
             }
 
+            // numeric tokenizer
+            if (c=='0' && stack.empty()){
+
+                // hex
+                if (line[i+1] == 'x' || line[i+1] == 'h'){
+                    i+=2;
+                    while (true){
+
+                        if (line[i]==';'){
+                            if (stack.empty()){
+                                NullNumericToken(line);
+                            } break;
+                        }
+
+                        if (!constants.isHex(line[i])){
+                            InvalidNumericToken(line, line[i]);
+                        }
+
+                        stack.push_back(line[i]);
+                        i++;
+
+                        if (i >= line.size() || line[i] == ','){
+                            break;
+                        }
+                    }
+                    stack.append(" $$HEX$$");
+                    ret.emplace_back(stack);
+                    stack.clear();
+                    continue;
+                }
+
+                // decimal
+                if (line[i+1] == 'd'){
+                    i+=2;
+                    while (true){
+
+                        if (line[i]==';'){
+                            if (stack.empty()){
+                                NullNumericToken(line);
+                            } break;
+                        }
+
+                        if (!constants.isDecimal(line[i])){
+                            InvalidNumericToken(line, line[i]);
+                        }
+
+                        stack.push_back(line[i]);
+                        i++;
+
+                        if (i >= line.size() || line[i] == ','){
+                            break;
+                        }
+                    }
+                    stack.append(" $$DEC$$");
+                    ret.emplace_back(stack);
+                    stack.clear();
+                    continue;
+                }
+
+                // binary
+                if (line[i+1] == 'b'){
+                    i+=2;
+                    while (true){
+
+                        if (line[i]==';'){
+                            if (stack.empty()){
+                                NullNumericToken(line);
+                            } break;
+                        }
+
+                        if (!constants.isBinary(line[i])){
+                            InvalidNumericToken(line, line[i]);
+                        }
+
+                        stack.push_back(line[i]);
+                        i++;
+
+                        if (i >= line.size() || line[i] == ','){
+                            break;
+                        }
+                    }
+                    stack.append(" $$BIN$$");
+                    ret.emplace_back(stack);
+                    stack.clear();
+                    continue;
+                }
+            }
+
+            // escape sequence
             if (c==','){
                 if (stack.empty()){
                     DanglingCommaException(line);
                 }
                 ret.push_back(stack);
                 stack.clear();
-            } else if (c==':'){
+            }
+
+            // label tokenizer
+            else if (c==':'){
                 if (stack.empty()){
                     StrayLabelDeclaration(line);
                 }
@@ -61,7 +153,10 @@ namespace chain
                 ret.push_back(stack);
                 stack.clear();
                 continue;
-            } else if (c=='[') {
+            }
+
+            // memory location tokenizer
+            else if (c=='[') {
                 i++;
                 // check if an instance of [] is invoked
                 if (line[i]==']'){
@@ -93,6 +188,8 @@ namespace chain
                 stack.push_back(c);
             }
         }
+
+
         if (stack.empty()){
             return ret;
         }
