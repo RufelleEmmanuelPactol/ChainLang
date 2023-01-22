@@ -117,7 +117,7 @@ struct token {
 };
 
 
-struct Unit {
+struct AST { // pseudo-abstract syntax tree nodes
     token op;
     std::vector<token> operands;
     string labels;

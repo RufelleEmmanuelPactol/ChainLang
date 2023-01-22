@@ -18,10 +18,10 @@ namespace chain {
     class Parser {
     public:
         static auto stream(const std::vector<token> &tokenstream) {
-            Unit unit;
-            token &instance_operand = unit.op;
+            AST ast;
+            token &instance_operand = ast.op;
             instance_operand.name = "badtoken";
-            std::vector<token>& operators = unit.operands;
+            std::vector<token>& operators = ast.operands;
 
             for (auto &i: tokenstream) {
 
@@ -29,7 +29,7 @@ namespace chain {
                     if (instance_operand.name != "badtoken" || !operators.empty()){
                         InvalidLabelTokenDeclaration(i.name, tokenstream);
                     }
-                    unit.labels = i.name;
+                    ast.labels = i.name;
                     continue;
                 }
 
@@ -87,7 +87,7 @@ namespace chain {
 
 
 
-            return unit;
+            return ast;
 
         }
 

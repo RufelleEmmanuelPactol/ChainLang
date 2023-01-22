@@ -10,12 +10,12 @@
 #include "compiler_macros.h"
 class Translator {
 public:
-    static void translate (Unit unit, dive::FileWriter& fw){
+    static void translate (AST ast, dive::FileWriter& fw){
         std::string buffer;
         // debug
-        buffer.append(unit.labels.append(": "));
-        buffer.append(unit.op.name + ", ");
-        for (auto &i : unit.operands){
+        buffer.append(ast.labels.append(": "));
+        buffer.append(ast.op.name + ", ");
+        for (auto &i : ast.operands){
             buffer.append(i.name + ", ");
         }
         fw.writeLine(buffer + '\n');

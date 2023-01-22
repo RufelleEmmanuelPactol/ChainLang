@@ -36,8 +36,8 @@ namespace chain
             line++;
             m_line = i;
             auto tokenstream = Tokenizer::stream(stack_split(i));
-            auto unit = Parser::stream(tokenstream);
-            Translator::translate(unit, fw);
+            auto ast = Parser::stream(tokenstream);
+            Translator::translate(ast, fw);
         }
 
 
