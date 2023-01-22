@@ -35,8 +35,8 @@ math functions:
                 turns flag to high if number is beyond 16-bit
 
                 OP CODE:
-                    [no-op]:  0000 0100
-                    [two-op]: 0000 0101
+                    0000 0100
+
 
 
 
@@ -46,8 +46,7 @@ math functions:
                note: reg determines byte size
 
                OP CODE:
-                   [no-op]:  0000 0110
-                   [two-op]: 0000 0111
+                   0000 0101
 
     mul    -> complex command, multiplies two numbers
                no op: add, [reg]  = multiplies AC and the R
@@ -55,8 +54,7 @@ math functions:
                note: reg determines byte size
 
                OP CODE:
-                   [no-op]:  0000 1000
-                   [two-op]: 0000 1001
+                   0000 0110
 
     div    -> complex command, divides two numbers
                    no op: add, [reg]  = divides AC and the R
@@ -64,26 +62,34 @@ math functions:
                    note: reg determines byte size
 
                    OP CODE:
-                       [no-op]:  0000 1010
-                       [two-op]: 0000 1011
+                   0000 0111
 
-    not    -> bitshift reversal of specified operand
-                  takes a register for operations and reverses
+    inc    -> one_op, increments the given register by one
 
-                  OP CODE: 0000 1100
+                   OP CODE:
+                   0000 1000
+
+    dec    -> one_op, decrements the given register by one
+
+                   OP CODE:
+                   0000 1001
 
     cmp    -> compares to values
               cmp, [register], [memory location, register]
               if operand B > operand A, sets flag to high, otherwise, low
 
-              OP CODE: 0000 1101
+              OP CODE: 0000 1010
 
     equ    -> checks if equal
               equ [register], [memory location, register]
               if operand A == operand B, set flag to low, otherwise, high
 
-              OP CODE: 0000 1110
+              OP CODE: 0000 1011
 
+    not    -> bitshift reversal of specified operand
+                      takes a register for operations and reverses
+
+              OP CODE: 0000 1100
 
 
 memory alloc functions:
@@ -110,33 +116,36 @@ jump functions:
     jmp     -> jumps the PC to a specified mem loc
                 jmp [label / memory address]
 
-                OP CODE: 0000 1111
+                OP CODE: 0000 1101
 
     jpt     -> jump if true, jumps if the flag register is true
                 jpt [label / memory address]
 
-                OP CODE: 0001 0000
+                OP CODE: 0000 1110
 
     jpf     -> jump if false, jumps if flag register is false
                 jpf [label / memory address]
 
-                OP CODE: 0001 0001
+                OP CODE: 0000 1111
 
 
-move function:
-    mov     -> move data from X to Y
+move functions:
+    mov     -> copy data from X to Y
                move [register], [register, memory address, label]
                move [register, memory address, label], [register]
 
-               OP CODE: 0001 1111
+               OP CODE: 0001 0000
+
+    swp     -> swaps two register values together
+               swp [register], [register]
+
+               OP CODE: 0001 0001
 
 directives:
     start   -> determines the starting point
                start [memory address / label]
 
-               OP CODE: 0010 0000
-
     end     -> determines the end point
                end [memory address / label]
 
-               OP CODE: 0010 0001
+               OP CODE: 0101 0101

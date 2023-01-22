@@ -172,6 +172,11 @@ namespace chain
                     stack.push_back(line[i]);
                     i++;
                     if (line[i]==']'){
+                        if (i+1 < line.size()){
+                            if (line[i+1] == ','){
+                                i++;
+                            }
+                        }
                         break;
                     }
                     if (i>=line.size()){

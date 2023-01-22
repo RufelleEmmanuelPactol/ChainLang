@@ -69,7 +69,7 @@ public:
             if (mem!=npos){
                 auto verify = (i.substr(i.length()-11, 11)==" $$MEMLOC$$");
                 if (verify){
-                    tokenstream.emplace_back(token(not_op, ref, i.substr(0, i.length()-11)));
+                    tokenstream.emplace_back(token(not_op, reference, i.substr(0, i.length()-11)));
                     continue;
                 } chain::IllegalTokenFound(m_line, "$$MEMLOC$$");
             }

@@ -16,11 +16,12 @@
 #define strvector std::vector<std::string>
 
 auto const& npos = std::string::npos;
-std::string m_line;
+std::string m_line, output_name = "out";
 
 
 Memory memory = Memory();
 size_t line = 0;
+
 
 
 using namespace dive;

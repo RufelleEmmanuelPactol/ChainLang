@@ -6,6 +6,7 @@
 #define CHAINC_TOKENS_H
 #include <string>
 
+
 enum Kind {
     invalid, op, not_op
 };
@@ -13,9 +14,9 @@ enum Kind {
 enum Datatype{
 
     // data
-    null, str, ref, reg, num, label_ref,
+    null, str, reference, reg, num, label_ref,
     // operators
-    label, complex, basic, directive
+    label, complex, basic, directive, single_op
 };
 
 enum Register{
@@ -28,8 +29,10 @@ enum Numeric{
 
 
 
+
+
 enum Operand{
-    not_operand, mem, math, print, mov, alloc
+    not_operand, mem, math, reg_param16, reg_param8, mov, alloc, reg_param, no_op
 };
 using std::string;
 
@@ -43,7 +46,8 @@ struct token {
     Register reg;
     Numeric numeric;
     size_t operand_count = -1;
-
+    bool has_op = false;
+    string opcode;
 
     token(){
         kind = invalid;
@@ -51,6 +55,7 @@ struct token {
         operand = not_operand;
         reg = not_reg;
         numeric = not_numeric;
+
 
     }
 
@@ -74,12 +79,27 @@ struct token {
         numeric = not_numeric;
     }
 
+    // OPERAND WITH OPCODE
+    token (Kind kind, Datatype datatype, Operand operand, size_t operand_count,  const string& name, const string && opcode){
+        this->kind = kind;
+        this->datatype = datatype;
+        this->name = name;
+        this->operand = operand;
+        this->operand_count = operand_count;
+        this->opcode = opcode;
+        has_op = true;
+        reg = not_reg;
+        numeric = not_numeric;
+    }
+
     // REGISTER
-    token (Kind kind, Datatype datatype, Register reg, const string& name){
+    token (Kind kind, Datatype datatype, Register reg, const string& name, const string && opcode){
         this->kind = kind;
         this->datatype = datatype;
         this->name = name;
         this->reg = reg;
+        this->opcode = opcode;
+        has_op = true;
         operand = not_operand;
         numeric = not_numeric;
     }
@@ -92,11 +112,16 @@ struct token {
         this->numeric = numeric;
         reg = not_reg;
         operand = not_operand;
-
     }
 
 };
 
+
+struct Unit {
+    token op;
+    std::vector<token> operands;
+    string labels;
+};
 
 
 #endif //CHAINC_TOKENS_H

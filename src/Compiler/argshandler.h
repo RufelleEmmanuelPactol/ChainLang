@@ -22,10 +22,45 @@ namespace chain
             return;
         }
 
-        // compiler call
-        if (args.at(1)=="-c"){
-            compiler(args.at(2));
+        strvector commands;
+        strvector arguments;
+        int c = 0;
+        for (auto&i : args){
+            if (c!=0){
+                if (c%2==0){
+                    arguments.emplace_back(i);
+                } else {
+                    commands.emplace_back(i);
+                }
+            }
+            c++;
         }
+        if (arguments.size()!=commands.size()){
+            InvalidCommandSequence(args);
+        }
+
+        string fn;
+        bool compileq = false;
+        for (int i = 0; i<arguments.size(); i++){
+            auto &j = arguments[i];
+            auto &k = commands[i];
+
+            if (k == "-c"){
+                fn = j;
+                compileq = true;
+            }
+
+            if (k == "-o"){
+                output_name = j;
+            }
+
+
+        }
+        // compile command takes last precedence
+        if (compileq){
+            compiler(fn);
+        }
+
 
 
     }

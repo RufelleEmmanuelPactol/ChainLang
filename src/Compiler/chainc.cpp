@@ -5,18 +5,20 @@
 #include "../extern/vectorize.h"
 #include "argshandler.h"
 #include "compiler.h"
-
+#include "chaintime.h"
 
 
 
 
 int main (int argc, char ** argv){
     {
+        Timer timer;
         // scoped namespace
         using namespace chain;
         auto args_vector = vectorize(argc, argv);
         handle(args_vector);
-        compiler("debug");
+        // compiler("../src/compiler/hello.link");
+        std::cout << "<!> Compilation success.\n";
     }
 
 

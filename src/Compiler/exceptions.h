@@ -4,14 +4,31 @@
 
 #ifndef CHAIN_EXCEPTIONS_H
 #define CHAIN_EXCEPTIONS_H
-#include <string>
-#define err_line ", found in line " << line << ".\nIn line " << line << ": '" << m_line << "'.\n"
+#include "tokens.h"
+#include "tknstringify.h"
+#include "coloredmacros.h"
+#define err_line ", found in line " << line << ".\nIn line " << line << ": '" << m_line << "'" << endl << endl
+#define err_line2 ", found in line " << line << ".\nIn line " << line << ": '" << m_line << "'" << endl
 namespace chain
 {
     using namespace std;
     void NoPathProvidedException(const string& command){
         cerr << "ERR 021C NoPathProvided [CompilerCall]: No path specified after invoking instance of command [" << command << "].\n";
         exit(021);
+    }
+
+    void InvalidCommandSequence (strvector_p commands){
+        cerr << "ERR 022C InvalidCommandSequence [CompilerCall]: Invalid seqeuence of commands '";
+        bool first = true;
+        for (auto&i : commands){
+            if (first){
+                first = false;
+                continue;
+            }
+            cerr << i << " ";
+        }
+        cerr << "'\n";
+        exit(022);
     }
 
     void FileNotFoundException (const string& file){
@@ -99,8 +116,63 @@ namespace chain
         exit(301);
     }
 
-    void ParameterMatch (const string& m_operator){
+    void ParameterMismatch (const token& m_operator, size_t count){
+        cerr << "ERR 302 ParameterMismatch [Parse Error]: Cannot find parameter match of operator '" << m_operator.name << "', which needs " << m_operator.operand_count << " operator(s) to work, where " << count << " operator(s) was / were provided" << err_line;
+        exit(302);
+    }
 
+    void ParameterDataMismatch (const string& m_operator, Datatype type_1, Datatype type_2, Datatype type_3, Datatype _other){
+        string type1 = Tknstringify::getDatatypeFromToken(type_1);
+        string type2 = Tknstringify::getDatatypeFromToken(type_2);
+        string type3 = Tknstringify::getDatatypeFromToken(type_3);
+        string other = Tknstringify::getDatatypeFromToken(_other);
+        cerr << "ERR 303 ParameterDataTypeMismatch [Parse Error]: Cannot find parameter match of operator '" << m_operator << "', which needs data type '" << type1 << ", " << type2 << ", " << type3 << "' to work, where '" << other << "' was provided" << err_line;
+        exit(303);
+    }
+
+    void ParameterDataMismatch (const string& m_operator, Datatype type_1, Datatype type_2, Datatype _other){
+        string type1 = Tknstringify::getDatatypeFromToken(type_1);
+        string type2 = Tknstringify::getDatatypeFromToken(type_2);
+        string other = Tknstringify::getDatatypeFromToken(_other);
+        cerr << "ERR 303 ParameterDataTypeMismatch [Parse Error]: Cannot find parameter match of operator '" << m_operator << "', which needs data type '" << type1 << ", " << type2 << "' to work, where '" << other << "' was provided" << err_line;
+        exit(303);
+    }
+
+    void ParameterDataMismatch (const string& m_operator, Datatype type_1, Datatype _other){
+        string type1 = Tknstringify::getDatatypeFromToken(type_1);
+        string other = Tknstringify::getDatatypeFromToken(_other);
+        cerr << "ERR 303 ParameterDataTypeMismatch [Parse Error]: Cannot find parameter match of operator '" << m_operator << "', which needs data type '" << type1 << "' to work, where '" << other << "' was provided" << err_line;
+        exit(303);
+    }
+
+    void CannotResolveOperands (const std::vector<token> & tokens){
+        std::cerr << "ERR 304 IllegalOperandInstance [Parse Error]: Cannot resolve operand token stream, unable to operate on tokens ";
+        for (auto &i : tokens){
+            std::cerr << "'" << i.name << "' ";
+        } std::cerr << "because valid operators were not found. To resolve, check for missing operators or missing commas" << err_line;
+        exit(304);
+    }
+
+    void InvalidLabelTokenDeclaration (const string& label_name, const vector<token>& line_tokens){
+        std::cerr << "ERR 305 IllegalLabelDeclaration [Parse Error]: Cannot resolve token declaration of label '" << label_name << "'. Labels must be either be declared alone or must be placed in the beginning of a line. Postfix labels are not allowed " << err_line;
+        std::cerr << "Consider the following syntax instead: '" << label_name << ":";
+        string output;
+        for (auto &j : line_tokens){
+            if (j.datatype != label){
+                output.append(" " + j .name + ",");
+            }
+        }
+        output[output.size()-1] = '\'';
+        output.append(".");
+        cerr << output;
+        exit(305);
+    }
+
+    void DataSizeMismatch (const string & reg_1, Register r1, const string & reg_2, Register r2){
+        auto size1 = Tknstringify::getDataSizeFromToken(r1);
+        auto size2 = Tknstringify::getDataSizeFromToken(r2);
+        cerr << "ERR 400 DataSizeMismatch [Data Error]: Cannot perform operations on mismatched registers where register '" << reg_1 << "' has size " << size1 << " bits while register '" << reg_2 << "' has size " << size2 << " bits" err_line2;
+        exit(400);
     }
 
 

@@ -9,27 +9,27 @@
 class Memory
 {
     static const size_t mem_cap = pow(2, 16);
-    bool ** heap;
+    char ** heap;
 
     // registers
-    bool * ac;
-    bool * acx;
-    bool * acy;
-    bool * r;
-    bool * rx;
-    bool * ry;
-    bool * ar;
-    bool * pc;
+    char * ac;
+    char * acx;
+    char * acy;
+    char * r;
+    char * rx;
+    char * ry;
+    char * ar;
+    char * pc;
     bool flag;
 
-    void set(bool * arr){
+    void set(char * arr){
         for (int i=0; i<16; i++){
-            arr[i] = false;
+            arr[i] = '0';
         }
     }
 
-    auto regalloc(){
-        return new bool[8];
+    static auto regalloc(){
+        return new char[8];
     }
 
 public:
@@ -42,9 +42,9 @@ public:
         ar = regalloc();
 
 
-        heap = new bool*[mem_cap];
+        heap = new char*[mem_cap];
         for (int i=0; i<mem_cap; i++){
-            heap[i] = new bool[mem_cap];
+            heap[i] = new char[mem_cap];
             set(heap[i]);
         }
 
@@ -69,7 +69,7 @@ public:
     void display(){
         for (int i=0; i<mem_cap; i++){
             std::cout << i << " > ";
-            for (int j=0; j<7; j++){
+            for (int j=0; j<=7; j++){
                 std::cout << heap[i][j] << " ";
             } std::cout << std::endl;
         }

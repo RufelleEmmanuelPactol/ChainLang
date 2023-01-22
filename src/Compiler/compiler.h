@@ -12,6 +12,7 @@
 
 #ifndef CHAIN_COMPILER_MODULE_H
 #define CHAIN_COMPILER_MODULE_H
+#include "translator.h"
 #include "splitter.h"
 #include "tokenizer.h"
 #include "../extern/divefile.h"
@@ -21,7 +22,9 @@
 namespace chain
 {
     auto compiler (const std::string& path){
-        FileReader fr = FileReader("../src/compiler/hello.link");
+        //FileReader fr = FileReader("../src/compiler/hello.link");
+        FileReader fr = FileReader(path);
+        auto fw = dive::FileWriter(output_name + ".bin");
 
         if (!fr.isOpen()){
             FileNotFoundException(path);
@@ -33,7 +36,8 @@ namespace chain
             line++;
             m_line = i;
             auto tokenstream = Tokenizer::stream(stack_split(i));
-            Parser::stream(tokenstream);
+            auto unit = Parser::stream(tokenstream);
+            Translator::translate(unit, fw);
         }
 
 
