@@ -24,20 +24,29 @@ namespace chain
     auto compiler (const std::string& path){
         //FileReader fr = FileReader("../src/compiler/hello.link");
         FileReader fr = FileReader(path);
-        auto fw = dive::FileWriter(output_name + ".bin");
-
+        auto fw = dive::FileWriter(output_name + ".bcc");
         if (!fr.isOpen()){
             FileNotFoundException(path);
         }
 
+        std::vector<AST> AbstractSyntaxTree;
 
         auto commands = fr.readFile();
         for (auto i : *commands){
             line++;
+            if (i.empty()){
+                continue;
+            }
             m_line = i;
             auto tokenstream = Tokenizer::stream(stack_split(i));
             auto ast = Parser::stream(tokenstream);
-            Translator::translate(ast, fw);
+            AbstractSyntaxTree.emplace_back(ast);
+        }
+
+        line = 0;
+        for (auto &i: AbstractSyntaxTree){
+            line++;
+            Translator::translate(i, fw);
         }
 
 

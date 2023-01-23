@@ -1,2 +1,6 @@
-add, ac, ac
-char, ac, ac
+main:
+start, main
+string : db, "Hello, World!"
+counter : db, 13
+
+start_loop:

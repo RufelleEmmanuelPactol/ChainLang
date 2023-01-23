@@ -175,6 +175,13 @@ namespace chain
         exit(400);
     }
 
+    void RegisterParameterMismatch (const string & instruction, const string & register_name, Register provided, Register required){
+        auto provided_ = Tknstringify::getDataSizeFromToken(provided);
+        auto required_ = Tknstringify::getDataSizeFromToken(required);
+        cerr << "ERR 401 RegisterSizeMismatch [Data Error]: Cannot perform operations on mismatched registers where '" << register_name << "' has register size " << provided_ << " bits while instruction '" << instruction << "' needs " << required_ << " bits" << err_line2;
+        exit(401);
+    }
+
 
 }
 
