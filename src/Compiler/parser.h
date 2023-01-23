@@ -51,10 +51,11 @@ namespace chain {
             // check if operand is null
 
             if (instance_operand.name == "badtoken" && !operators.empty()){
-                if (!ast.labels.empty()){
+                if (ast.labels.empty()){
                     CannotResolveOperands(operators);
                 }
             }
+
 
             // check operand match
             if (instance_operand.operand_count != operators.size() && instance_operand.name != "badtoken") {
@@ -66,7 +67,7 @@ namespace chain {
             // check param data type match
             if (instance_operand.operand == mem){
                 if (op1dt != reference && op1dt != label_ref ){
-                    ParameterDataMismatch(instance_operand.name, label, label_ref, op1dt, op1.name);
+                    ParameterDataMismatch(instance_operand.name,  label_ref, reference, op1dt, op1.name);
                 }
             }
 
@@ -113,7 +114,7 @@ namespace chain {
 
                 // check for generic illegal data types
                 if (op1dt != num && op1dt != str){
-                    ParameterDataMismatch(instance_operand.name, num, str, op1.name);
+                    ParameterDataMismatch(instance_operand.name, num, op1dt, op1.name);
                 }
 
 

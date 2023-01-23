@@ -6,6 +6,7 @@
 #include "argshandler.h"
 #include "compiler.h"
 #include "chaintime.h"
+#include "errorhelper.h"
 
 
 

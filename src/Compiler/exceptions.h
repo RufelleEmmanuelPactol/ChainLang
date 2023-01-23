@@ -2,13 +2,22 @@
 // Created by Rufelle on 17/01/2023.
 //
 
+
+
 #ifndef CHAIN_EXCEPTIONS_H
 #define CHAIN_EXCEPTIONS_H
 #include "tokens.h"
+
 #include "tknstringify.h"
 #include "coloredmacros.h"
 #define err_line ", found in line " << line << ".\nIn line " << line << ": '" << m_line << "'" << endl
 #define err_line2 ", found in line " << line << ".\nIn line " << line << ": '" << m_line << "'" << endl
+
+//helper function
+namespace chainhelp{
+    void resolveOperands(const std::vector<token>&tokens);
+}
+
 namespace chain
 {
     using namespace std;
@@ -129,7 +138,7 @@ namespace chain
         string type5 = Tknstringify::getDatatypeFromToken(type_5);
         string other = Tknstringify::getDatatypeFromToken(_other);
         cerr << "ERR 303 ParameterDataTypeMismatch [Parse Error]: Cannot find parameter match of operator '" << m_operator << "', which needs data type '" << type1 << ", " << type2 << ", " << type3 << ", " << type4 << ", " << type5 << "' to work, where '" << other << "' was provided" << err_line;
-        cerr << ">>> Consider changing: '" << opname << "' to matching data type." << endl;
+        cerr << ">>> Consider changing: '" << opname << "' to matching data type which can be '" << type1 << "', '" << type2 << "', '" << type3 << "', '" << type4 <<  "', or '" << type5 <<  "'." << endl;
         exit(303);
     }
 
@@ -140,7 +149,7 @@ namespace chain
         string type4 = Tknstringify::getDatatypeFromToken(type_4);
         string other = Tknstringify::getDatatypeFromToken(_other);
         cerr << "ERR 303 ParameterDataTypeMismatch [Parse Error]: Cannot find parameter match of operator '" << m_operator << "', which needs data type '" << type1 << ", " << type2 << ", " << type3 << ", " << type4 << "' to work, where '" << other << "' was provided" << err_line;
-        cerr << ">>> Consider changing: '" << opname << "' to matching data type." << endl;
+        cerr << ">>> Consider changing: '" << opname << "' to matching data type which can be '" << type1 << "', '" << type2 << "', '" << type3 << "', or '" << type4 <<  "'." << endl;
         exit(303);
     }
 
@@ -150,7 +159,7 @@ namespace chain
         string type3 = Tknstringify::getDatatypeFromToken(type_3);
         string other = Tknstringify::getDatatypeFromToken(_other);
         cerr << "ERR 303 ParameterDataTypeMismatch [Parse Error]: Cannot find parameter match of operator '" << m_operator << "', which needs data type '" << type1 << ", " << type2 << ", " << type3 << "' to work, where '" << other << "' was provided" << err_line;
-        cerr << ">>> Consider changing: '" << opname << "' to matching data type." << endl;
+        cerr << ">>> Consider changing: '" << opname << "' to matching data type which can be '" << type1 << "', '" << type2 << "', or '" << type3 <<  "'." << endl;
         exit(303);
     }
 
@@ -159,7 +168,7 @@ namespace chain
         string type2 = Tknstringify::getDatatypeFromToken(type_2);
         string other = Tknstringify::getDatatypeFromToken(_other);
         cerr << "ERR 303 ParameterDataTypeMismatch [Parse Error]: Cannot find parameter match of operator '" << m_operator << "', which needs data type '" << type1 << ", " << type2 << "' to work, where '" << other << "' was provided" << err_line;
-        cerr << ">>> Consider changing: '" << opname << "' to matching data type." << endl;
+        cerr << ">>> Consider changing: '" << opname << "' to matching data type which can be '" << type1 << "', or '" << type2 <<  "'." << endl;
         exit(303);
     }
 
@@ -171,15 +180,16 @@ namespace chain
             cerr << ">>> Consider changing: '" << m_operator << "' to appropriate alloc directive for strings, which is 'db'." << endl;
             exit(303);
         }
-        cerr << ">>> Consider changing: '" << opname << "' to matching data type." << endl;
+        cerr << ">>> Consider changing: '" << opname << "' to matching data type which is '" << type1 << "'." << endl;
         exit(303);
     }
 
-    void CannotResolveOperands (const std::vector<token> & tokens){
+    void CannotResolveOperands (const std::vector<token> &tokens){
         std::cerr << "ERR 304 IllegalOperandInstance [Parse Error]: Cannot resolve operand token stream, unable to operate on tokens ";
         for (auto &i : tokens){
             std::cerr << "'" << i.name << "' ";
         } std::cerr << "because valid operators were not found. To resolve, check for missing operators or missing commas" << err_line;
+        chainhelp::resolveOperands(tokens);
         exit(304);
     }
 
@@ -215,5 +225,6 @@ namespace chain
 
 }
 
+#include "errorhelper.h"
 
 #endif //CHAIN_EXCEPTIONS_H

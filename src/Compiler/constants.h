@@ -94,6 +94,10 @@ public:
         } return false;
     }
 
+    auto& labels(){
+        return m_labels;
+    }
+
 
     void emplaceLabel(const string& label_name , int address){
         if (m_labels.find(label_name)!=m_labels.end()){

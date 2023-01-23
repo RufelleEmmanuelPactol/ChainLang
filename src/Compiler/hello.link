@@ -1,5 +1,0 @@
-main:
-; set start as program entry point
-start, main;
-printer: db, "HELLO, WORLD!"
-dw, "Hello"
