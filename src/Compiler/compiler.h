@@ -24,7 +24,6 @@ namespace chain
     auto compiler (const std::string& path){
         //FileReader fr = FileReader("../src/compiler/hello.link");
         FileReader fr = FileReader(path);
-        auto fw = dive::FileWriter(output_name + ".bcc");
         if (!fr.isOpen()){
             FileNotFoundException(path);
         }
@@ -44,10 +43,17 @@ namespace chain
         }
 
         line = 0;
+
+        // move this to the writer unit after
+        auto fw = dive::FileWriter(output_name + ".bcc");
+
         for (auto &i: AbstractSyntaxTree){
             line++;
             Translator::translate(i, fw);
         }
+
+
+
 
 
 

@@ -51,7 +51,9 @@ namespace chain {
             // check if operand is null
 
             if (instance_operand.name == "badtoken" && !operators.empty()){
-                CannotResolveOperands(operators);
+                if (!ast.labels.empty()){
+                    CannotResolveOperands(operators);
+                }
             }
 
             // check operand match
@@ -64,23 +66,28 @@ namespace chain {
             // check param data type match
             if (instance_operand.operand == mem){
                 if (op1dt != reference && op1dt != label_ref ){
-                    ParameterDataMismatch(instance_operand.name, label, label_ref, op1dt);
+                    ParameterDataMismatch(instance_operand.name, label, label_ref, op1dt, op1.name);
                 }
             }
 
+            // math checker
             if (instance_operand.operand == math){
                 if (!operators.empty()){
                     if (op1dt != reg){
-                        ParameterDataMismatch(instance_operand.name, reg, op1dt);
+                        ParameterDataMismatch(instance_operand.name, reg, op1dt, op1.name);
                     }
                     if (op2dt == reg){
                         if (op2.reg != op1.reg){
                             DataSizeMismatch(op1.name, op1.reg, op2.name, op2.reg);
                         }
                     }
+                    if (op2dt != reg && op2dt != label_ref && op2dt != num && op2dt != reference){
+                        ParameterDataMismatch(instance_operand.name, reg, label_ref, reference, num, op2dt, op2.name);
+                    }
                 }
             }
 
+            // reg param8:
             if (instance_operand.operand == reg_param8){
                 if (op1.reg != reg8){
                     RegisterParameterMismatch(instance_operand.name, op1.name,op1.reg, reg8);
@@ -92,6 +99,27 @@ namespace chain {
                     RegisterParameterMismatch(instance_operand.name, op1.name,op1.reg, reg16);
                 }
             }
+
+            // alloc type checking
+            if (instance_operand.operand == alloc){
+
+                // check if str was allocated using dw
+                if (instance_operand.reg == reg16){
+                    if (op1dt == str){
+                        ParameterDataMismatch(instance_operand.name, num, str, op1.name);
+                    }
+                }
+
+
+                // check for generic illegal data types
+                if (op1dt != num && op1dt != str){
+                    ParameterDataMismatch(instance_operand.name, num, str, op1.name);
+                }
+
+
+            }
+
+
 
 
 

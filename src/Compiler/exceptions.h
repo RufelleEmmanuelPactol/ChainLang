@@ -7,7 +7,7 @@
 #include "tokens.h"
 #include "tknstringify.h"
 #include "coloredmacros.h"
-#define err_line ", found in line " << line << ".\nIn line " << line << ": '" << m_line << "'" << endl << endl
+#define err_line ", found in line " << line << ".\nIn line " << line << ": '" << m_line << "'" << endl
 #define err_line2 ", found in line " << line << ".\nIn line " << line << ": '" << m_line << "'" << endl
 namespace chain
 {
@@ -121,27 +121,57 @@ namespace chain
         exit(302);
     }
 
-    void ParameterDataMismatch (const string& m_operator, Datatype type_1, Datatype type_2, Datatype type_3, Datatype _other){
+    void ParameterDataMismatch (const string& m_operator, Datatype type_1, Datatype type_2, Datatype type_3, Datatype type_4, Datatype type_5, Datatype _other, const string & opname){
+        string type1 = Tknstringify::getDatatypeFromToken(type_1);
+        string type2 = Tknstringify::getDatatypeFromToken(type_2);
+        string type3 = Tknstringify::getDatatypeFromToken(type_3);
+        string type4 = Tknstringify::getDatatypeFromToken(type_4);
+        string type5 = Tknstringify::getDatatypeFromToken(type_5);
+        string other = Tknstringify::getDatatypeFromToken(_other);
+        cerr << "ERR 303 ParameterDataTypeMismatch [Parse Error]: Cannot find parameter match of operator '" << m_operator << "', which needs data type '" << type1 << ", " << type2 << ", " << type3 << ", " << type4 << ", " << type5 << "' to work, where '" << other << "' was provided" << err_line;
+        cerr << ">>> Consider changing: '" << opname << "' to matching data type." << endl;
+        exit(303);
+    }
+
+    void ParameterDataMismatch (const string& m_operator, Datatype type_1, Datatype type_2, Datatype type_3, Datatype type_4, Datatype _other, const string & opname){
+        string type1 = Tknstringify::getDatatypeFromToken(type_1);
+        string type2 = Tknstringify::getDatatypeFromToken(type_2);
+        string type3 = Tknstringify::getDatatypeFromToken(type_3);
+        string type4 = Tknstringify::getDatatypeFromToken(type_4);
+        string other = Tknstringify::getDatatypeFromToken(_other);
+        cerr << "ERR 303 ParameterDataTypeMismatch [Parse Error]: Cannot find parameter match of operator '" << m_operator << "', which needs data type '" << type1 << ", " << type2 << ", " << type3 << ", " << type4 << "' to work, where '" << other << "' was provided" << err_line;
+        cerr << ">>> Consider changing: '" << opname << "' to matching data type." << endl;
+        exit(303);
+    }
+
+    void ParameterDataMismatch (const string& m_operator, Datatype type_1, Datatype type_2, Datatype type_3, Datatype _other, const string & opname){
         string type1 = Tknstringify::getDatatypeFromToken(type_1);
         string type2 = Tknstringify::getDatatypeFromToken(type_2);
         string type3 = Tknstringify::getDatatypeFromToken(type_3);
         string other = Tknstringify::getDatatypeFromToken(_other);
         cerr << "ERR 303 ParameterDataTypeMismatch [Parse Error]: Cannot find parameter match of operator '" << m_operator << "', which needs data type '" << type1 << ", " << type2 << ", " << type3 << "' to work, where '" << other << "' was provided" << err_line;
+        cerr << ">>> Consider changing: '" << opname << "' to matching data type." << endl;
         exit(303);
     }
 
-    void ParameterDataMismatch (const string& m_operator, Datatype type_1, Datatype type_2, Datatype _other){
+    void ParameterDataMismatch (const string& m_operator, Datatype type_1, Datatype type_2, Datatype _other, const string & opname){
         string type1 = Tknstringify::getDatatypeFromToken(type_1);
         string type2 = Tknstringify::getDatatypeFromToken(type_2);
         string other = Tknstringify::getDatatypeFromToken(_other);
         cerr << "ERR 303 ParameterDataTypeMismatch [Parse Error]: Cannot find parameter match of operator '" << m_operator << "', which needs data type '" << type1 << ", " << type2 << "' to work, where '" << other << "' was provided" << err_line;
+        cerr << ">>> Consider changing: '" << opname << "' to matching data type." << endl;
         exit(303);
     }
 
-    void ParameterDataMismatch (const string& m_operator, Datatype type_1, Datatype _other){
+    void ParameterDataMismatch (const string& m_operator, Datatype type_1, Datatype _other, const string & opname){
         string type1 = Tknstringify::getDatatypeFromToken(type_1);
         string other = Tknstringify::getDatatypeFromToken(_other);
         cerr << "ERR 303 ParameterDataTypeMismatch [Parse Error]: Cannot find parameter match of operator '" << m_operator << "', which needs data type '" << type1 << "' to work, where '" << other << "' was provided" << err_line;
+        if (type_1 == num && _other == str && m_operator == "dw"){
+            cerr << ">>> Consider changing: '" << m_operator << "' to appropriate alloc directive for strings, which is 'db'." << endl;
+            exit(303);
+        }
+        cerr << ">>> Consider changing: '" << opname << "' to matching data type." << endl;
         exit(303);
     }
 
@@ -154,8 +184,8 @@ namespace chain
     }
 
     void InvalidLabelTokenDeclaration (const string& label_name, const vector<token>& line_tokens){
-        std::cerr << "ERR 305 IllegalLabelDeclaration [Parse Error]: Cannot resolve token declaration of label '" << label_name << "'. Labels must be either be declared alone or must be placed in the beginning of a line. Postfix labels are not allowed " << err_line;
-        std::cerr << "Consider the following syntax instead: '" << label_name << ":";
+        std::cerr << "ERR 305 IllegalLabelDeclaration [Parse Error]: Cannot resolve token declaration of label '" << label_name << "'. Labels must be either be declared alone or must be placed in the beginning of a line. Postfix labels are not allowed" << err_line;
+        std::cerr << ">>> Consider the following syntax instead: '" << label_name << ":";
         string output;
         for (auto &j : line_tokens){
             if (j.datatype != label){

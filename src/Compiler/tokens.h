@@ -79,6 +79,17 @@ struct token {
         numeric = not_numeric;
     }
 
+    // OPERAND WITH SIZE
+    token (Kind kind, Datatype datatype, Operand operand, size_t operand_count, Register reg, const string& name){
+        this->kind = kind;
+        this->datatype = datatype;
+        this->name = name;
+        this->operand = operand;
+        this->operand_count = operand_count;
+        this->reg = reg;
+        numeric = not_numeric;
+    }
+
     // OPERAND WITH OPCODE
     token (Kind kind, Datatype datatype, Operand operand, size_t operand_count,  const string& name, const string && opcode){
         this->kind = kind;

@@ -1,6 +1,5 @@
 main:
-start, main
-string : db, "Hello, World!"
-counter : db, 13
-
-start_loop:
+; set start as program entry point
+start, main;
+printer: db, "HELLO, WORLD!"
+dw, "Hello"

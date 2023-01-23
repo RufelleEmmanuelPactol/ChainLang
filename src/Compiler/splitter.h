@@ -44,6 +44,11 @@ namespace chain
                 stack.append(" $$VARCHAR$$");
                 ret.push_back(stack);
                 stack.clear();
+
+                // ensure no dangling comma
+                if (i+1 != line.size()){
+                    i++;
+                }
                 continue;
             }
 

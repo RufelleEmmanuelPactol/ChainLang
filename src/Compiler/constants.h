@@ -36,8 +36,8 @@ public:
         // init for m_directives
         m_directives.emplace("start", token(op, directive, mem, 1, "start"));
         m_directives.emplace("org", token(op, directive, mem, 1, "org"));
-        m_directives.emplace("db", token(op, directive, alloc, 1, "db"));
-        m_directives.emplace("dw", token(op, directive, alloc, 1, "dw"));
+        m_directives.emplace("db", token(op, directive, alloc,  1, reg8, "db"));
+        m_directives.emplace("dw", token(op, directive, alloc, 1, reg16, "dw"));
         m_directives.emplace("end", token(op, directive, no_op, 0, "end", "01010101"));
 
         // init for m_commands
