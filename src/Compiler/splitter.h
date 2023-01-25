@@ -199,7 +199,7 @@ namespace chain
                 }
                 stack.append(" $$MEMLOC$$");
                 ret.push_back(stack);
-                ret.clear();
+                stack.clear();
                 continue;
             } else if (c==']'){
                 StrayClosingDeclaration(line);

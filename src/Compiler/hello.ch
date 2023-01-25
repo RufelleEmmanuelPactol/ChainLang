@@ -1,1 +1,0 @@
-mov, [12] collect:
