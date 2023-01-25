@@ -1,2 +1,1 @@
-main:
-start, "hello";
+mov, [12] collect:

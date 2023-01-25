@@ -208,6 +208,12 @@ namespace chain
         exit(305);
     }
 
+    void InvalidMemLocDeclaration(const string& str){
+        cerr << "ERR 306 InvalidMemoryLocationDeclaration [Parse Error]: Cannot resolve the declaration of token '[" << str << "]'. Check for a missing comma" << err_line;
+        cerr << ">>> Consider changing token: '[" << str << "]' to token '[" << str << "],'";
+        exit(306);
+    }
+
     void DataSizeMismatch (const string & reg_1, Register r1, const string & reg_2, Register r2){
         auto size1 = Tknstringify::getDataSizeFromToken(r1);
         auto size2 = Tknstringify::getDataSizeFromToken(r2);

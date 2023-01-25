@@ -177,9 +177,18 @@ namespace chain
                     stack.push_back(line[i]);
                     i++;
                     if (line[i]==']'){
-                        if (i+1 < line.size()){
-                            if (line[i+1] == ','){
+                        i++;
+                        while(true){
+                            if (i>=line.size()){
+                                break;
+                            } if (line[i] == ' '){
                                 i++;
+                                continue;
+                            } else if (line[i] == ','){
+                                i++;
+                                break;
+                            } else {
+                                InvalidMemLocDeclaration(stack);
                             }
                         }
                         break;
@@ -190,7 +199,7 @@ namespace chain
                 }
                 stack.append(" $$MEMLOC$$");
                 ret.push_back(stack);
-                stack.clear();
+                ret.clear();
                 continue;
             } else if (c==']'){
                 StrayClosingDeclaration(line);
