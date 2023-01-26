@@ -214,6 +214,28 @@ namespace chain
         exit(306);
     }
 
+    void InvalidLabelCharacter (const char c){
+        cerr << "ERR 307 InvalidLabelCharacter [Parse Error]: Cannot parse label with starting character '" << c << "'. Labels cannot start with an alphanumeric character" << err_line;
+        exit(307);
+    }
+
+    void InvalidLabelCharacter (const string &c){
+        cerr << "ERR 307 InvalidLabelCharacter [Parse Error]: Cannot parse label with numeric tokens '" << c << "'. Labels cannot start with an alphanumeric character" << err_line;
+        cerr << ">>> Consider, did you perhaps mean to declare a numeric token? Consider changing '" << c << "' to '0d" << c << "'.\n";
+        exit(307);
+    }
+
+    void InvalidLabelReferenceCharacter (const char c){
+        cerr << "ERR 308 InvalidLabelCharacter [Parse Error]: Cannot parse label reference with starting character '" << c << "'. Labels cannot start with an alphanumeric character" << err_line;
+        exit(308);
+    }
+
+    void InvalidLabelReferenceCharacter (const string &c){
+        cerr << "ERR 307 InvalidLabelCharacter [Parse Error]: Cannot parse label reference with numeric tokens '" << c << "'. Labels cannot start with an alphanumeric character" << err_line;
+        cerr << ">>> Consider, did you perhaps mean to declare a numeric token? Consider changing '" << c << "' to '0d" << c << "'.\n";
+        exit(308);
+    }
+
     void DataSizeMismatch (const string & reg_1, Register r1, const string & reg_2, Register r2){
         auto size1 = Tknstringify::getDataSizeFromToken(r1);
         auto size2 = Tknstringify::getDataSizeFromToken(r2);

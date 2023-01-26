@@ -155,6 +155,18 @@ namespace chain
                     StrayLabelDeclaration(line);
                 }
                 stack.append(" $$LABEL$$");
+                if (!isalpha(stack[0])){
+                    string token;
+                    size_t ctr = 0;
+                    if (!isdigit(stack[0])){
+                        InvalidLabelCharacter(stack[0]);
+                    }
+                    while ((isdigit(stack[ctr]))&&ctr < stack.size()){
+                        token.push_back(stack[ctr]);
+                        ctr++;
+                    }
+                    InvalidLabelCharacter(token);
+                }
                 ret.push_back(stack);
                 stack.clear();
                 continue;
@@ -211,6 +223,18 @@ namespace chain
 
         if (stack.empty()){
             return ret;
+        }
+        if (!isalpha(stack[0])){
+            string token;
+            size_t ctr = 0;
+            if (!isdigit(stack[0])){
+                InvalidLabelReferenceCharacter(stack[0]);
+            }
+            while ((isdigit(stack[ctr]))&&ctr < stack.size()){
+                token.push_back(stack[ctr]);
+                ctr++;
+            }
+            InvalidLabelReferenceCharacter(token);
         }
         ret.push_back(stack);
         return ret;
