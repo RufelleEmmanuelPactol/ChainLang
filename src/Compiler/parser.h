@@ -120,6 +120,26 @@ namespace chain {
 
             }
 
+            // mov checker
+
+            if (instance_operand.operand == mov){
+                if (op1dt == reg && op2dt == reg){
+                    if (op1.reg != op2.reg){
+                        DataSizeMismatch(op1.name, op1.reg, op2.name, op2.reg);
+                    }
+                }
+                if (op1dt == reg){
+                    if (op2dt != reg && op2dt != label_ref && op2dt != reference){
+                        ParameterDataMismatch(instance_operand.name, reg, reg, label_ref, reference, op2dt,op2.name);
+                    }
+                }
+                if (op1dt == label_ref || op1dt == reference){
+                    if (op2dt != reg){
+                        ParameterDataMismatch(instance_operand.name, reg, op2dt, op2.name);
+                    }
+                }
+            }
+
 
 
 
