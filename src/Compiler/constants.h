@@ -38,7 +38,6 @@ public:
         m_directives.emplace("org", token(op, directive, mem, 1, "org"));
         m_directives.emplace("db", token(op, directive, alloc,  1, reg8, "db"));
         m_directives.emplace("dw", token(op, directive, alloc, 1, reg16, "dw"));
-        m_directives.emplace("end", token(op, directive, no_op, 0, "end", "01010101"));
 
         // init for m_commands
         m_commands.emplace("add", token(op, complex, math, 2, "add", "00000100"));
@@ -58,7 +57,7 @@ public:
         m_commands.emplace("inc", token(op, single_op, reg_param, 1, "inc", "00001000"));
         m_commands.emplace("dec", token(op, single_op, reg_param, 1, "dec", "00001001"));
         m_commands.emplace("swp", token(op, basic, reg_param, 2, "swp", "00010001"));
-
+        m_commands.emplace("end", token(op, basic, no_op, 0, "end", "01010101"));
     }
     
     auto registers(){

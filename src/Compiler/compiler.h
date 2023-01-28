@@ -19,8 +19,22 @@
 #include "exceptions.h"
 #include <vector>
 #include "parser.h"
+#include <functional>
 namespace chain
 {
+    auto checkpiece (const string & i) -> bool {
+        for (auto &j : i){
+            if (j == ' '){
+                continue;
+            }
+            if (j == ';'){
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
     auto compiler (const std::string& path){
         //FileReader fr = FileReader("../src/compiler/hello.link");
         FileReader fr = FileReader(path);
@@ -29,26 +43,27 @@ namespace chain
         }
 
         std::vector<AST> AbstractSyntaxTree;
-
+        auto indexes = std::vector<size_t>(); // valid indexes that are not empty tokens
         auto commands = fr.readFile();
         for (auto i : *commands){
             line++;
-            if (i.empty()){
+            if (i.empty() || checkpiece(i)){
                 continue;
             }
             m_line = i;
+            indexes.push_back(line);
             auto tokenstream = Tokenizer::stream(stack_split(i));
             auto ast = Parser::stream(tokenstream);
             AbstractSyntaxTree.emplace_back(ast);
         }
 
-        line = 0;
 
         // move this to the writer unit after
         auto fw = dive::FileWriter(output_name + ".bcc");
-
+        size_t ctr = 0;
         for (auto &i: AbstractSyntaxTree){
-            line++;
+            line = indexes[ctr];
+            ctr++;
             Translator::translate(i, fw);
         }
 

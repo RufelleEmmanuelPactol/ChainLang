@@ -15,7 +15,8 @@
 
 //helper function
 namespace chainhelp{
-    void resolveOperands(const std::vector<token>&tokens);
+    void resolveOperands(const std::vector<token>tokens);
+    void findOperands(const std::vector<token> & tokenstream);
 }
 
 namespace chain
@@ -184,12 +185,13 @@ namespace chain
         exit(303);
     }
 
-    void CannotResolveOperands (const std::vector<token> &tokens){
+    void CannotResolveOperands (const std::vector<token> tokens){
         std::cerr << "ERR 304 IllegalOperandInstance [Parse Error]: Cannot resolve operand token stream, unable to operate on tokens ";
         for (auto &i : tokens){
             std::cerr << "'" << i.name << "' ";
         } std::cerr << "because valid operators were not found. To resolve, check for missing operators or missing commas" << err_line;
         chainhelp::resolveOperands(tokens);
+        chainhelp::findOperands(tokens);
         exit(304);
     }
 
@@ -233,6 +235,7 @@ namespace chain
     void InvalidLabelReferenceCharacter (const string &c){
         cerr << "ERR 307 InvalidLabelCharacter [Parse Error]: Cannot parse label reference with numeric tokens '" << c << "'. Labels cannot start with an alphanumeric character" << err_line;
         cerr << ">>> Consider, did you perhaps mean to declare a numeric token? Consider changing '" << c << "' to '0d" << c << "'.\n";
+        cerr << ">>> Consider, did you perhaps mean to reference a memory location? Consider changing '" << c <<"' to '[" << c << "]'.\n";
         exit(308);
     }
 

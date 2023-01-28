@@ -90,12 +90,18 @@ namespace chain {
 
             // reg param8:
             if (instance_operand.operand == reg_param8){
+                if (op1.datatype != reg){
+                    ParameterDataMismatch(instance_operand.name, reg, op1.datatype, op1.name);
+                }
                 if (op1.reg != reg8){
                     RegisterParameterMismatch(instance_operand.name, op1.name,op1.reg, reg8);
                 }
             }
 
             if (instance_operand.operand == reg_param16){
+                if (op1.datatype != reg){
+                    ParameterDataMismatch(instance_operand.name, reg, op1.datatype, op1.name);
+                }
                 if (op1.reg != reg16){
                     RegisterParameterMismatch(instance_operand.name, op1.name,op1.reg, reg16);
                 }
