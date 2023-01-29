@@ -18,8 +18,10 @@ int main (int argc, char ** argv){
         using namespace chain;
         auto args_vector = vectorize(argc, argv);
         handle(args_vector);
-        // compiler("../src/compiler/hello.link");
+        compiler("../src/compiler/hello.ch");
+        memory.display(0, 100);
         std::cout << "<!> Compilation success.\n";
+
     }
 
 

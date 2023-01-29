@@ -11,15 +11,15 @@
 class Translator {
 public:
     static void translate (AST ast, dive::FileWriter& fw){
-        std::string buffer;
-        // debug
-        buffer.append(ast.labels.append(": "));
-        buffer.append(ast.op.name + ", ");
-        for (auto &i : ast.operands){
-            buffer.append(i.name + ", ");
+        if (!ast.labels.empty()){
+            constants.emplaceLabel(ast.labels, memory.PC());
         }
-        fw.writeLine(buffer + '\n');
-        fw.flush();
+        if (ast.op.name != "badtoken"){
+            if (!ast.op.opcode.empty()){
+                memory.write(memory.PC(), ast.op.opcode);
+                memory.inc();
+            }
+        }
     }
 };
 

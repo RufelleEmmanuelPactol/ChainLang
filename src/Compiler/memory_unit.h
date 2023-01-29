@@ -18,9 +18,11 @@ class Memory
     char * r;
     char * rx;
     char * ry;
-    char * ar;
-    char * pc;
+    size_t ar;
+    size_t pc;
     bool flag;
+    char * pc_char;
+    char * ar_char;
 
     void set(char * arr){
         for (int i=0; i<16; i++){
@@ -28,18 +30,25 @@ class Memory
         }
     }
 
-    static auto regalloc(){
-        return new char[8];
+    char * regalloc(){
+        auto * a = new char[8];
+        if (a == NULL){
+            regalloc();
+        } return a;
     }
 
 public:
     Memory(){
 
 
-        ac = regalloc();
+
         r = regalloc();
-        pc = regalloc();
-        ar = regalloc();
+        ac = regalloc();
+        pc_char = regalloc();
+        ar_char = regalloc();
+
+        pc = 0;
+        ar = 0;
 
 
         heap = new char*[mem_cap];
@@ -48,10 +57,10 @@ public:
             set(heap[i]);
         }
 
-        set(ac);
         set(r);
-        set(pc);
-        set(ar);
+        set(ac);
+        set(pc_char);
+        set(ar_char);
         flag = false;
 
         acx = ac;
@@ -75,10 +84,46 @@ public:
         }
     }
 
+    void display(size_t a, size_t b){
+        for (int i=a; i<=b; i++){
+            std::cout << i << " > ";
+            for (int j=0; j<=7; j++){
+                std::cout << heap[i][j] << " ";
+            } std::cout << std::endl;
+        }
+    }
+
     ~Memory(){
         for (int i=0; i<mem_cap; i++){
             delete heap[i];
         } delete heap;
+    }
+public:
+    auto& AR(){
+        return ar;
+    }
+
+    auto& PC(){
+        return pc;
+    }
+
+    auto HEAP (){
+        return heap;
+    }
+
+    auto write (size_t address, char * copy){
+
+        memcpy(heap[address], copy, sizeof(char)*8);
+    }
+
+    auto write (size_t address, const std::string & cpy){
+
+        memcpy(heap[address], cpy.c_str(), sizeof(char)*8);
+    }
+
+    auto inc (){
+        pc++;
+        ar++;
     }
 };
 
