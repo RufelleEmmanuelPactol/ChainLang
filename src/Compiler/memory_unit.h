@@ -6,6 +6,7 @@
 #define CHAINC_MEMORY_UNIT_H
 #include "math.h"
 #include <array>
+#include <cstring>
 class Memory
 {
     static const size_t mem_cap = pow(2, 16);
