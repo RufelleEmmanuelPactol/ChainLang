@@ -1,3 +1,1 @@
-main:
-add
-main:
+varcode, [12]

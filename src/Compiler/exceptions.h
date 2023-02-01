@@ -217,12 +217,12 @@ namespace chain
     }
 
     void InvalidLabelCharacter (const char c){
-        cerr << "ERR 307 InvalidLabelCharacter [Parse Error]: Cannot parse label with starting character '" << c << "'. Labels cannot start with an alphanumeric character" << err_line;
+        cerr << "ERR 307 InvalidLabelCharacter [Parse Error]: Cannot parse label with starting character '" << c << "'. Labels cannot start with a numeric character" << err_line;
         exit(307);
     }
 
     void InvalidLabelCharacter (const string &c){
-        cerr << "ERR 307 InvalidLabelCharacter [Parse Error]: Cannot parse label with numeric tokens '" << c << "'. Labels cannot start with an alphanumeric character" << err_line;
+        cerr << "ERR 307 InvalidLabelCharacter [Parse Error]: Cannot parse label with numeric tokens '" << c << "'. Labels cannot start with a numeric character" << err_line;
         cerr << ">>> Consider, did you perhaps mean to declare a numeric token? Consider changing '" << c << "' to '0d" << c << "'.\n";
         exit(307);
     }
