@@ -69,8 +69,15 @@ public:
             if (mem!=npos){
                 auto verify = (i.substr(i.length()-11, 11)==" $$MEMLOC$$");
                 if (verify){
-                    tokenstream.emplace_back(token(not_op, reference, i.substr(0, i.length()-11)));
-                    continue;
+                    auto reduced = i.substr(0, i.length()-11);
+                    try {
+                        auto registers = constants.registers()->at(reduced);
+                        tokenstream.emplace_back(token(not_op, reg_ref, registers.reg, reduced));
+                        continue;
+                    } catch (std::out_of_range &e) {
+                        tokenstream.emplace_back(token(not_op, reference, reduced));
+                        continue;
+                    }
                 } chain::IllegalTokenFound(m_line, "$$MEMLOC$$");
             }
 

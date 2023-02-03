@@ -14,7 +14,7 @@ enum Kind {
 enum Datatype{
 
     // data
-    null, str, reference, reg, num, label_ref,
+    null, str, reference, reg, num, label_ref, reg_ref, label_memory,
     // operators
     label, complex, basic, directive, single_op
 };
@@ -67,6 +67,18 @@ struct token {
         reg = not_reg;
         numeric = not_numeric;
     }
+
+    // Register REFERENCES
+
+    token (Kind kind, Datatype datatype, Register reg, const string& name){
+        this->kind = kind;
+        this->datatype = datatype;
+        this->name = name;
+        operand = not_operand;
+        this->reg = reg;
+        numeric = not_numeric;
+    }
+
 
     // OPERAND
     token (Kind kind, Datatype datatype, Operand operand, size_t operand_count,  const string& name){

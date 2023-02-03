@@ -93,15 +93,22 @@ namespace chain {
                 if (op1.datatype != reg){
                     ParameterDataMismatch(instance_operand.name, reg, op1.datatype, op1.name);
                 }
+                if (op1.datatype == reg_ref && op1.reg == reg8){
+                    ReferenceInvalidData(op1.name);
+                }
                 if (op1.reg != reg8){
                     RegisterParameterMismatch(instance_operand.name, op1.name,op1.reg, reg8);
                 }
             }
 
             if (instance_operand.operand == reg_param16){
-                if (op1.datatype != reg){
+                if (op1.datatype != reg && op1.datatype != reg_ref){
                     ParameterDataMismatch(instance_operand.name, reg, op1.datatype, op1.name);
                 }
+                if (op1.datatype == reg_ref && op1.reg == reg8){
+                    ReferenceInvalidData(op1.name);
+                }
+
                 if (op1.reg != reg16){
                     RegisterParameterMismatch(instance_operand.name, op1.name,op1.reg, reg16);
                 }

@@ -253,6 +253,11 @@ namespace chain
         exit(401);
     }
 
+    void ReferenceInvalidData (const string & mem_label){
+        cerr << "ERR 401 ReferenceInvalidSize [Data Error]: Cannot take the values of register '" << mem_label << "' as an address, as the register '" << mem_label <<"' is 8-bit, and addresses are 16-bit values" << err_line;
+        exit(401);
+    }
+
 
 }
 
