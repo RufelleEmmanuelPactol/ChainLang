@@ -142,7 +142,7 @@ namespace chain {
                     }
                 }
                 if (op1dt == reg){
-                    if (op2dt != reg && op2dt != label_ref && op2dt != reference){
+                    if (op2dt != reg && op2dt != label_ref && op2dt != reference && op2dt != label_memory && op2dt != reg_ref){
                         ParameterDataMismatch(instance_operand.name, reg, reg, label_ref, reference, op2dt,op2.name);
                     }
                 }

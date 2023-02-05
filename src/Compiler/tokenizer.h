@@ -71,10 +71,15 @@ public:
                 if (verify){
                     auto reduced = i.substr(0, i.length()-11);
                     try {
+                        // check if string is a register
                         auto registers = constants.registers()->at(reduced);
                         tokenstream.emplace_back(token(not_op, reg_ref, registers.reg, reduced));
                         continue;
                     } catch (std::out_of_range &e) {
+                        if (constants.isDecimal(reduced[0])){
+                            tokenstream.emplace_back(token(not_op, label_memory, reduced));
+                            continue;
+                        }
                         tokenstream.emplace_back(token(not_op, reference, reduced));
                         continue;
                     }
