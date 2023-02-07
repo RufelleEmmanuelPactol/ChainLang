@@ -12,6 +12,9 @@ class Translator {
 public:
 
     static void translate (AST ast, dive::FileWriter& fw){
+        if (!ast.labels.empty()){
+            constants.emplaceLabel(ast.labels, memory.PC());
+        }
         if (ast.op.name != "badtoken"){
             if (!ast.op.opcode.empty()){
                 memory.write(memory.PC(), ast.op.opcode);
@@ -33,7 +36,9 @@ public:
 
         if (!ast.operands.empty()){
             for (auto i : ast.operands){
+                    if (i.datatype == num){
 
+                    }
             }
         }
     }

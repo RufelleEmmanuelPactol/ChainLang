@@ -88,24 +88,32 @@ public:
 
             if (binary!=npos){
                 auto verify = (i.substr(i.length()-8, 8)==" $$BIN$$");
+                auto remID = i.substr(0, i.length()-8);
+                auto nums = (remID.substr(2, remID.length()-2));
                 if (verify){
-                    tokenstream.emplace_back(token(not_op, num, num2, i.substr(0, i.length()-8)));
+                    tokenstream.emplace_back(token(not_op, num, nums, i.substr(0, i.length()-8)));
                     continue;
                 } chain::IllegalTokenFound(m_line, "$$BIN$$");
             }
 
             if (decimal!=npos){
                 auto verify = (i.substr(i.length()-8, 8)==" $$DEC$$");
+                auto remID = i.substr(0, i.length()-8);
+                auto nums = (remID.substr(2, remID.length()-2));
+
                 if (verify){
-                    tokenstream.emplace_back(token(not_op, num, num10, i.substr(0, i.length()-8)));
+                    tokenstream.emplace_back(token(not_op, num, nums, i.substr(0, i.length()-8)));
+
                     continue;
                 } chain::IllegalTokenFound(m_line, "$$DEC$$");
             }
 
             if (hex!=npos){
                 auto verify = (i.substr(i.length()-8, 8)==" $$HEX$$");
+                auto remID = i.substr(0, i.length()-8);
+                auto nums = (remID.substr(2, remID.length()-2));
                 if (verify){
-                    tokenstream.emplace_back(token(not_op, num, num16, i.substr(0, i.length()-8)));
+                    tokenstream.emplace_back(token(not_op, num, nums, i.substr(0, i.length()-8)));
                     continue;
                 } chain::IllegalTokenFound(m_line, "$$HEX$$");
             }

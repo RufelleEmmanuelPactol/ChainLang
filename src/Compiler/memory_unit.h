@@ -112,19 +112,21 @@ public:
         return heap;
     }
 
-    auto write (size_t address, char * copy){
-
-        memcpy(heap[address], copy, sizeof(char)*8);
-    }
 
     auto write (size_t address, const std::string & cpy){
-
-        memcpy(heap[address], cpy.c_str(), sizeof(char)*8);
+        for (int i=0; i<8; i++){
+           auto temp  = cpy[i];
+            heap[address][i] = temp;
+        }
     }
 
     auto inc (){
         pc++;
         ar++;
+    }
+
+    auto toBIN16(std::string num){
+
     }
 };
 

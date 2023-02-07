@@ -23,9 +23,7 @@ enum Register{
     not_reg, reg16, reg8, flag
 };
 
-enum Numeric{
-    not_numeric, num2, num10, num16
-};
+
 
 
 
@@ -44,8 +42,8 @@ struct token {
     //optional
     Operand operand;
     Register reg;
-    Numeric numeric;
-    size_t operand_count = -1;
+    std::string numeric;
+    size_t operand_count = 0;
     bool has_op = false;
     string opcode;
 
@@ -54,7 +52,6 @@ struct token {
         datatype = null;
         operand = not_operand;
         reg = not_reg;
-        numeric = not_numeric;
 
 
     }
@@ -65,7 +62,6 @@ struct token {
         this->name = name;
         operand = not_operand;
         reg = not_reg;
-        numeric = not_numeric;
     }
 
     // Register REFERENCES
@@ -76,7 +72,6 @@ struct token {
         this->name = name;
         operand = not_operand;
         this->reg = reg;
-        numeric = not_numeric;
     }
 
 
@@ -88,7 +83,6 @@ struct token {
         this->operand = operand;
         this->operand_count = operand_count;
         reg = not_reg;
-        numeric = not_numeric;
     }
 
     // OPERAND WITH SIZE
@@ -99,7 +93,6 @@ struct token {
         this->operand = operand;
         this->operand_count = operand_count;
         this->reg = reg;
-        numeric = not_numeric;
     }
 
     // OPERAND WITH OPCODE
@@ -112,7 +105,6 @@ struct token {
         this->opcode = opcode;
         has_op = true;
         reg = not_reg;
-        numeric = not_numeric;
     }
 
     // REGISTER
@@ -124,11 +116,10 @@ struct token {
         this->opcode = opcode;
         has_op = true;
         operand = not_operand;
-        numeric = not_numeric;
     }
 
     // NUMERIC
-    token (Kind kind, Datatype datatype, Numeric numeric, const string& name){
+    token (Kind kind, Datatype datatype, const std::string& numeric, const string& name){
         this->kind = kind;
         this->datatype = datatype;
         this->name = name;

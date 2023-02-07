@@ -53,7 +53,7 @@ public:
         m_commands.emplace("char", token(op, basic, reg_param8, 1,"char", "00000001"));
         m_commands.emplace("int8", token(op, basic, reg_param8, 1, "int8", "00000010"));
         m_commands.emplace("int16", token(op, basic, reg_param16, 1, "int16", "00000011"));
-        m_commands.emplace("mov", token(op, basic, mov, 2, "mov", "0001000"));
+        m_commands.emplace("mov", token(op, basic, mov, 2, "mov", "00001000"));
         m_commands.emplace("inc", token(op, single_op, reg_param, 1, "inc", "00001000"));
         m_commands.emplace("dec", token(op, single_op, reg_param, 1, "dec", "00001001"));
         m_commands.emplace("swp", token(op, basic, reg_param, 2, "swp", "00010001"));
