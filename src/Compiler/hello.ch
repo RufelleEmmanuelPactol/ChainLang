@@ -2,7 +2,8 @@ main:
 start, main
 mov, ac, [main]
 local: db, 0d50
-mov, r, local
+db, "Hello"
+mov, a, [rx]
 inc, r
 int16, [ac]
 inc, r
@@ -18,5 +19,3 @@ mov, ac, [local]
 ; number_string in tokenizer -> convert to binary string in translator
 ; implement start and org
 
-marang:
-marang:
