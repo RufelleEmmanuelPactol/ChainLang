@@ -73,11 +73,11 @@ public:
                     try {
                         // check if string is a register
                         auto registers = constants.registers()->at(reduced);
-                        tokenstream.emplace_back(token(not_op, reg_ref, registers.reg, reduced));
+                        tokenstream.emplace_back(token(not_op, mem_reg, registers.reg, reduced));
                         continue;
                     } catch (std::out_of_range &e) {
                         if (constants.isDecimal(reduced[0])){
-                            tokenstream.emplace_back(token(not_op, label_memory, reduced));
+                            tokenstream.emplace_back(token(not_op, mem_label, reduced));
                             continue;
                         }
                         tokenstream.emplace_back(token(not_op, reference, reduced));
@@ -120,7 +120,6 @@ public:
 
             tokenstream.emplace_back(token(not_op, label_ref, i));
 
-            // implement syntax here
 
 
 

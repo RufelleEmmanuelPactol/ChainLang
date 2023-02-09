@@ -14,7 +14,7 @@ enum Kind {
 enum Datatype{
 
     // data
-    null, str, reference, reg, num, label_ref, reg_ref, label_memory,
+    null, str, reference, reg, num, label_ref, mem_reg, mem_label,
     // operators
     label, complex, basic, directive, single_op
 };

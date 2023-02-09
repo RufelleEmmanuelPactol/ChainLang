@@ -1,9 +1,9 @@
 main:
 start, main
-mov, ac, [main]
+mov, ac, nor
 local: db, 0d50
 db, "Hello"
-mov, a, [rx]
+mov, rx, [r]
 inc, r
 int16, [ac]
 inc, r

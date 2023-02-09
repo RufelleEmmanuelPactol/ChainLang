@@ -19,7 +19,7 @@ int main (int argc, char ** argv){
         auto args_vector = vectorize(argc, argv);
         handle(args_vector);
        compiler("../src/compiler/hello.ch");
-        memory.display(0, 100);
+       // memory.display(0, 100);
         std::cout << "<!> Compilation success.\n";
 
     }

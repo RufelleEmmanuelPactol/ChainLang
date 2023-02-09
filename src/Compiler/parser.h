@@ -93,7 +93,7 @@ namespace chain {
                 if (op1.datatype != reg){
                     ParameterDataMismatch(instance_operand.name, reg, op1.datatype, op1.name);
                 }
-                if (op1.datatype == reg_ref && op1.reg == reg8){
+                if (op1.datatype == mem_reg && op1.reg == reg8){
                     ReferenceInvalidData(op1.name);
                 }
                 if (op1.reg != reg8){
@@ -102,10 +102,10 @@ namespace chain {
             }
 
             if (instance_operand.operand == reg_param16){
-                if (op1.datatype != reg && op1.datatype != reg_ref){
+                if (op1.datatype != reg && op1.datatype != mem_reg){
                     ParameterDataMismatch(instance_operand.name, reg, op1.datatype, op1.name);
                 }
-                if (op1.datatype == reg_ref && op1.reg == reg8){
+                if (op1.datatype == mem_reg && op1.reg == reg8){
                     ReferenceInvalidData(op1.name);
                 }
 
@@ -142,7 +142,7 @@ namespace chain {
                     }
                 }
                 if (op1dt == reg){
-                    if (op2dt != reg && op2dt != label_ref && op2dt != reference && op2dt != label_memory && op2dt != reg_ref){
+                    if (op2dt != reg && op2dt != label_ref && op2dt != reference && op2dt != mem_label && op2dt != mem_reg){
                         ParameterDataMismatch(instance_operand.name, reg, reg, label_ref, reference, op2dt,op2.name);
                     }
                 }
@@ -151,7 +151,20 @@ namespace chain {
                         ParameterDataMismatch(instance_operand.name, reg, op2dt, op2.name);
                     }
                 }
+                // updated label checkers
+
+                for (auto i : operators){
+                    if (i.datatype == mem_reg){
+                        auto find_instance_of_register = constants.registers()->find(i.name);
+                        if (find_instance_of_register!=constants.registers()->end()){
+                            if (find_instance_of_register->second.reg != reg16){
+                                RegisterParameterMismatch("register address reference", find_instance_of_register->second.name, reg8, reg16);
+                            }
+                        }
+                    }
+                }
             }
+
 
 
 

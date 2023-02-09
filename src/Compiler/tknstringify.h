@@ -23,7 +23,12 @@ public:
             type_str = "label reference";
         } else if (type_2 == label) {
             type_str = "label";
-        } else {
+        } else if (type_2 == mem_reg){
+            type_str = "register memory access";
+        } else if (type_2 == mem_label){
+            type_str = "label memory access";
+        }
+        else {
             type_str = "null";
         }
         return type_str;

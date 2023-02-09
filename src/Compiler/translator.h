@@ -36,8 +36,9 @@ public:
 
         if (!ast.operands.empty()){
             for (auto i : ast.operands){
-                    if (i.datatype == num){
-
+                    if (i.datatype == label_ref){
+                        auto found_label = constants.labels().find(i.name);
+                        if (found_label == constants.labels().end()) chain::NoSuchLabelException(i.name);
                     }
             }
         }
