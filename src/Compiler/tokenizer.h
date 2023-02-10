@@ -76,7 +76,8 @@ public:
                         tokenstream.emplace_back(token(not_op, mem_reg, registers.reg, reduced));
                         continue;
                     } catch (std::out_of_range &e) {
-                        if (constants.isDecimal(reduced[0])){
+
+                        if (!constants.isDecimal(reduced[0])){
                             tokenstream.emplace_back(token(not_op, mem_label, reduced));
                             continue;
                         }
@@ -89,9 +90,9 @@ public:
             if (binary!=npos){
                 auto verify = (i.substr(i.length()-8, 8)==" $$BIN$$");
                 auto remID = i.substr(0, i.length()-8);
-                auto nums = (remID.substr(2, remID.length()-2));
+          //      auto nums = (remID.substr(2, remID.length()-2));
                 if (verify){
-                    tokenstream.emplace_back(token(not_op, num, nums, i.substr(0, i.length()-8)));
+                    tokenstream.emplace_back(token(not_op, num, remID, i.substr(0, i.length()-8)));
                     continue;
                 } chain::IllegalTokenFound(m_line, "$$BIN$$");
             }

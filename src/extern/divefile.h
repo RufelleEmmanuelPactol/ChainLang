@@ -138,6 +138,8 @@ namespace dive {
             this->append = false;
         }
 
+        explicit FileWriter(){}
+
         /**
          *
          *

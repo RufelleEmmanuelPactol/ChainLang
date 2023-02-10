@@ -20,6 +20,7 @@
 #include <vector>
 #include "parser.h"
 #include <functional>
+#include "writer.h"
 namespace chain
 {
     auto checkpiece (const string & i) -> bool {
@@ -60,14 +61,17 @@ namespace chain
 
         // move this to the writer unit after
         // the m_line is a general macro used for detecting errors
-        auto fw = dive::FileWriter(output_name + ".bcc");
         size_t ctr = 0;
         for (auto &i: AbstractSyntaxTree){
             line = indexes[ctr];
             ctr++;
             m_line = commands->at(line-1);
-            Translator::translate(i, fw);
+            Translator::translate(i);
         }
+
+        auto fw = dive::FileWriter(output_name + ".bcc");
+        Writer write = Writer(fw);
+
 
 
 

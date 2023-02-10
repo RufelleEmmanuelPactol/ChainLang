@@ -9,7 +9,9 @@
 #include <cstring>
 class Memory
 {
+
     static const size_t mem_cap = pow(2, 16);
+private:
     char ** heap;
 
     // registers
@@ -113,21 +115,43 @@ public:
     }
 
 
-    auto write (size_t address, const std::string & cpy){
-        for (int i=0; i<8; i++){
+    auto write (size_t size, const std::string & cpy){
+        for (int i=0; i<size; i++){
            auto temp  = cpy[i];
-            heap[address][i] = temp;
+           heap[pc][i] = temp;
         }
     }
+
+
 
     auto inc (){
         pc++;
         ar++;
     }
 
-    auto toBIN16(std::string num){
+    int binToDec(std::string binary) {
+        int n = binary.length();
 
+        int decimal = 0;
+        for (int i = 0; i < n; i++) {
+            if (binary[i] == '1') {
+                decimal += pow(2, n-1-i);
+            }
+        }
+        return decimal;
     }
+
+    std::string getBitString (size_t address, size_t size){
+        std::string result;
+        for (int i=0; i<size; i++){
+            result.push_back(heap[address][i]);
+        }
+        return result;
+    }
+
+
+
+    static size_t MEM_CAP(){return mem_cap;}
 };
 
 

@@ -11,37 +11,56 @@
 class Translator {
 public:
 
-    static void translate (AST ast, dive::FileWriter& fw){
+    static void translate (AST ast){
         if (!ast.labels.empty()){
             constants.emplaceLabel(ast.labels, memory.PC());
         }
         if (ast.op.name != "badtoken"){
             if (!ast.op.opcode.empty()){
-                memory.write(memory.PC(), ast.op.opcode);
+                memory.write(8, ast.op.opcode);
                 memory.inc();
                 string operator_write;
                 // operands checker: where 0001 is register and 0000 is address
-                for (size_t i = 1; i<= ast.operands.size(); i++)
-                {
-                    if (ast.operands[i-1].datatype == reg)
-                    {
-                        operator_write.append("0000");
-                    } else
-                    {
-                        operator_write.append("0001");
-                    }
+                if (ast.operands.size() == 0 ){
+                    memory.write(16, "00000000");
+                    goto operator_analysis;
                 }
+                operator_write.append(getOpType(ast.operands[0]));
+                if (ast.operands.size() == 1){
+                    operator_write.append("0000");
+                } else {
+                    operator_write.append(getOpType(ast.operands[1]));
+                }
+
+                memory.write(8, operator_write);
+                memory.inc();
             }
         }
 
+        operator_analysis:
         if (!ast.operands.empty()){
             for (auto i : ast.operands){
-                    if (i.datatype == label_ref){
+                    if (i.datatype == label_ref || i.datatype == mem_label){
                         auto found_label = constants.labels().find(i.name);
                         if (found_label == constants.labels().end()) chain::NoSuchLabelException(i.name);
                     }
+
+                    else if (i.datatype == mem_reg){
+                        auto opcode_finder_reg = constants.registers()->at(i.name);
+                        memory.write(8, opcode_finder_reg.opcode);
+                    }
+
+                    else {
+                        memory.write(8, i.opcode);
+                    }
             }
         }
+    }
+
+    static string getOpType (const token & op){
+        if (op.datatype == reg){
+            return "1111";
+        } return "0001";
     }
 };
 
