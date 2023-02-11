@@ -13,6 +13,7 @@ class Memory
     static const size_t mem_cap = pow(2, 16);
 private:
     char ** heap;
+    bool isDeleted = false;
 
     // registers
     char * ac;
@@ -28,7 +29,7 @@ private:
     char * ar_char;
 
     void set(char * arr){
-        for (int i=0; i<16; i++){
+        for (int i=0; i<8; i++){
             arr[i] = '0';
         }
     }
@@ -97,6 +98,9 @@ public:
     }
 
     ~Memory(){
+        if (isDeleted){
+            return;
+        }
         for (int i=0; i<mem_cap; i++){
             delete heap[i];
         } delete heap;
@@ -147,6 +151,15 @@ public:
             result.push_back(heap[address][i]);
         }
         return result;
+    }
+
+    void destroy (){
+        isDeleted = true;
+        for (int i=0; i<MEM_CAP(); i++){
+            free(HEAP()[i]);
+        }
+        free(r);
+        free(ac);
     }
 
 

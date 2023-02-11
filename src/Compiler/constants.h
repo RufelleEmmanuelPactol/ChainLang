@@ -85,6 +85,12 @@ public:
         } return false;
     }
 
+    bool allDecimal (const std::string & str){
+        for (auto i : str){
+            if (!isDecimal(i)) return false;
+        } return true;
+    }
+
     auto isHex(char & change){
         if (isDecimal(change)) return true;
         change = static_cast<char>(toupper(change));
@@ -105,7 +111,7 @@ public:
         m_labels.emplace(label_name, address);
     }
 
-    auto getAddress(const string& find){
+    auto fetchLabel(const string& find){
         if (m_labels.find(find)==m_labels.end()){
             chain::NoSuchLabelException(find);
         }

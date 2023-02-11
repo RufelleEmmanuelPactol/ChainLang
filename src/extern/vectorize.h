@@ -10,9 +10,9 @@ namespace dive{
     auto vectorize (int argc, char ** argv){
         std::vector<std::string> ret;
         for (int i=0; i<argc; i++){
-
             ret.emplace_back(argv[i]);
         }
+
         return ret;
     }
 

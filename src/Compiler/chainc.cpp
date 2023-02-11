@@ -8,6 +8,7 @@
 #include "errorhelper.h"
 
 
+
 int main (int argc, char ** argv){
     {
 
@@ -16,10 +17,11 @@ int main (int argc, char ** argv){
         using namespace chain;
         auto args_vector = vectorize(argc, argv);
         handle(args_vector);
-      if (argc == 1 ) compiler("../src/compiler/hello.ch");
+        if (argc == 1 ) compiler("../src/compiler/hello.ch");
        // memory.display(0, 100);
        // scope = true;
         std::cout << "<!> Compilation success.\n";
+        std::cout << "<!> Compiled under file name '" << output_name + ".bcc'\n";
     }
 
 

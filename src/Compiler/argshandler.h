@@ -47,6 +47,7 @@ namespace chain
 
             if (k == "-c"){
                 fn = j;
+                output_name = fn.substr(0, fn.find('.'));
                 compileq = true;
             }
 
@@ -59,6 +60,8 @@ namespace chain
         // compile command takes last precedence
         if (compileq){
             compiler(fn);
+        } else if (!compileq){
+            exit(0);
         }
 
 

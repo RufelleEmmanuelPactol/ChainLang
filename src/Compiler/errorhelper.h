@@ -57,7 +57,7 @@ namespace chainhelp{
                     std::cerr << ", ";
                 }
             }
-            std::cout << std::endl;
+            std::cerr << std::endl;
         }
     }
 

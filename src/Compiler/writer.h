@@ -21,7 +21,7 @@ public:
     void write(){
         for (int i=0; i<memory.MEM_CAP(); i++){
             auto string = memory.getBitString(i, 8);
-            wr.writeLine(string);
+            wr.writeLine(string + '\n');
             wr.flush();
         }
     }

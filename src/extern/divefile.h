@@ -40,8 +40,11 @@ namespace dive {
         explicit FileReader(const std::string& path) {
             this->path = path;
             input_file = std::make_shared<std::ifstream>(path);
+            if (!isOpen()){throw new std::ios_base::failure(path + " not found.");}
 
         }
+
+        explicit FileReader(){};
 
         /**
          *
@@ -86,6 +89,7 @@ namespace dive {
          * @warning Using this method will exhaust the file lines. Use the @c resetFile() method to reset the file's lines.
          */
         auto readFile() {
+
             auto vector = std::make_shared<std::vector<std::string>>();
             while (this->input_file->good()) {
                 vector->push_back(readLine());
@@ -107,7 +111,7 @@ namespace dive {
          *
          * @return A boolean which returns true if the file is open.
          */
-        auto isOpen(){
+        bool isOpen(){
             return input_file->is_open();
         }
 

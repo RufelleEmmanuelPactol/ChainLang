@@ -1,7 +1,9 @@
 add, ac, r
 db, 0b1
+; test
 add, acx, acy
-mov, ac, [ra]
+add, ac, [50]
+mov, ac, r
 ; to-do
 ; Implement the label checker reference and the register checker
 
@@ -9,4 +11,5 @@ mov, ac, [ra]
 ; number_string in tokenizer -> convert to binary string in translator
 ; implement start and org
 ; fix decimal parsing of memory references
-
+; add label-register convergences
+; create decimal parsers

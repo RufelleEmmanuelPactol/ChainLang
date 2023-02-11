@@ -77,7 +77,7 @@ public:
                         continue;
                     } catch (std::out_of_range &e) {
 
-                        if (!constants.isDecimal(reduced[0])){
+                        if (!constants.allDecimal(reduced)){
                             tokenstream.emplace_back(token(not_op, mem_label, reduced));
                             continue;
                         }

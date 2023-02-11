@@ -51,6 +51,7 @@ public:
                     }
 
                     else {
+
                         memory.write(8, i.opcode);
                     }
             }
