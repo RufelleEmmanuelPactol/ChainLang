@@ -1,7 +1,7 @@
 //
 // Created by Rufelle on 18/01/2023.
 //
-
+#include <iostream>
 #ifndef CHAINC_MEMORY_UNIT_H
 #define CHAINC_MEMORY_UNIT_H
 #include "math.h"

@@ -6,7 +6,7 @@
 #define CHAIN_COMPILER_MACROS_H
 #include "../extern/divefile.h"
 #include <iostream>
-#include "memory_unit.h"
+#include "../extern/memory_unit.h"
 
 #define __ver__ "0.0.1"
 

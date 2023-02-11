@@ -6,7 +6,7 @@
 #ifndef CHAINC_VM_MACROS_H
 #define CHAINC_VM_MACROS_H
 #include <iostream>
-#include "../compiler/memory_unit.h"
+#include "../extern/memory_unit.h"
 std::size_t MAXCONSTEXPR_line = 0;
 #define _LINE_ MAXCONSTEXPR_line
 Memory memory;
