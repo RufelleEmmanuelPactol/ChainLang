@@ -5,7 +5,9 @@
 #ifndef CHAINC_CONSTANTS_H
 #define CHAINC_CONSTANTS_H
 #include <map>
-
+#include <string>
+#include "../compiler/tokens.h"
+#include "vm_macros.h"
 struct Constants{
 
 private:
@@ -90,6 +92,12 @@ public:
         } return true;
     }
 
+    bool allBinary (const std::string & str){
+        for (auto i : str){
+            if (!isBinary(i)) return false;
+        } return true;
+    }
+
     auto isHex(char & change){
         if (isDecimal(change)) return true;
         change = static_cast<char>(toupper(change));
@@ -105,14 +113,14 @@ public:
 
     void emplaceLabel(const string& label_name , int address){
         if (m_labels.find(label_name)!=m_labels.end()){
-            chain::RepeatLabelException(label_name);
+            errMachineError();
         }
         m_labels.emplace(label_name, address);
     }
 
     auto fetchLabel(const string& find){
         if (m_labels.find(find)==m_labels.end()){
-            chain::NoSuchLabelException(find);
+            errMachineError();
         }
         return m_labels[find];
     }

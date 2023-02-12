@@ -8,6 +8,7 @@
 #define CHAIN_EXCEPTIONS_H
 #include "tokens.h"
 
+
 #include "tknstringify.h"
 #include "coloredmacros.h"
 #define err_line ", found in line " << line << ".\nIn line " << line << ": '" << m_line << "'" << endl

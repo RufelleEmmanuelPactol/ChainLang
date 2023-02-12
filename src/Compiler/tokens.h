@@ -5,7 +5,7 @@
 #ifndef CHAINC_TOKENS_H
 #define CHAINC_TOKENS_H
 #include <string>
-
+#include <vector>
 
 enum Kind {
     invalid, op, not_op

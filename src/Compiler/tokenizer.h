@@ -5,8 +5,8 @@
 #ifndef CHAINC_TOKENIZER_H
 #define CHAINC_TOKENIZER_H
 #include "tokens.h"
-#include "compiler_macros.h"
 #include "constants.h"
+#define strvector_p const std::vector<std::string> &
 
 
 class Tokenizer{

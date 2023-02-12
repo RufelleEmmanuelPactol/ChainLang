@@ -8,6 +8,7 @@
 #include "string"
 #include "../extern/divefile.h"
 #include "vm_macros.h"
+#include "constants.h"
 
 namespace chain {
     class Runtime {
@@ -35,7 +36,7 @@ namespace chain {
             std::string result;
                 auto index = path_name.find(".bcc");
                 if (index == std::string::npos || index > path_name.size()){
-                    throw std::exception();
+                    throw std::invalid_argument("");
                 }
                 char curr = path_name[index];
                 do  {
@@ -54,14 +55,29 @@ namespace chain {
                 if (x==500){
                     return;
                 }
+
+                // ensures that there is a termination character
+                try {
+                    parsed.at(8) = '\0';
+                } catch (std::exception & e){
+                    parsed.push_back('\0');
+                }
                 printf("%d: %s\n", x, parsed.c_str());
                 fflush(stdout);
             }
         }
 
         void load_to_memory(){
+            int indexer = -1;
             for (auto &i: *vector_binaries){
-                memory.write(8, i);
+                indexer++;
+                if (constants.allBinary(i)){
+                    memory.writeAt(indexer, i);
+                } else {
+                    std::cerr << "<!> This file is corrupted. Unable to proceed with runtime.\n";
+                    exit(3);
+                }
+
             }
         }
 

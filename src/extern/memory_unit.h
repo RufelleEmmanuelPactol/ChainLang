@@ -7,6 +7,9 @@
 #include "math.h"
 #include <array>
 #include <cstring>
+#include <unistd.h>
+
+
 class Memory
 {
 
@@ -32,6 +35,7 @@ private:
         for (int i=0; i<8; i++){
             arr[i] = '0';
         }
+        arr[8] = '\0';
     }
 
     char * regalloc(){
@@ -57,7 +61,7 @@ public:
 
         heap = new char*[mem_cap];
         for (int i=0; i<mem_cap; i++){
-            heap[i] = new char[mem_cap];
+            heap[i] = new char[9];
             set(heap[i]);
         }
 
@@ -124,6 +128,11 @@ public:
            auto temp  = cpy[i];
            heap[pc][i] = temp;
         }
+    }
+
+    auto writeAt (size_t address, const std::string & cpy){
+        if (address >= 65536) return;
+        memcpy(this->HEAP()[address], cpy.c_str(), 8);
     }
 
 

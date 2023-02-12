@@ -39,7 +39,11 @@ namespace dive {
          */
         explicit FileReader(const std::string& path) {
             this->path = path;
+            try{
             input_file = std::make_shared<std::ifstream>(path);
+            } catch (std::exception &e){
+
+            }
             if (!isOpen()){throw new std::ios_base::failure(path + " not found.");}
 
         }
