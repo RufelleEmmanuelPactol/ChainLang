@@ -60,9 +60,13 @@ public:
 
     static string getOpType (const token & op){
         if (op.datatype == reg){
+            if (op.reg == reg8){
+                return "1010";
+            }
             return "1111";
         } return "0001";
     }
+
 };
 
 #endif //CHAINC_TRANSLATOR_H

@@ -133,6 +133,7 @@ namespace chain
                             break;
                         }
                     }
+
                     stack.append(" $$BIN$$");
                     ret.emplace_back(stack);
                     stack.clear();

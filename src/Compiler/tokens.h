@@ -42,7 +42,7 @@ struct token {
     //optional
     Operand operand;
     Register reg;
-    std::string numeric;
+    int numeric;
     size_t operand_count = 0;
     bool has_op = false;
     string opcode;
@@ -119,7 +119,7 @@ struct token {
     }
 
     // NUMERIC
-    token (Kind kind, Datatype datatype, const std::string& numeric, const string& name){
+    token (Kind kind, Datatype datatype, int numeric, const string& name){
         this->kind = kind;
         this->datatype = datatype;
         this->name = name;

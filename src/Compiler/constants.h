@@ -117,6 +117,21 @@ public:
         return m_labels[find];
     }
 
+    int binToDec (std::string & decimal){
+        auto pos = decimal.end().base();
+        return strtol(decimal.c_str(), &pos, 2);
+    }
+
+    int hexToDec (std::string & decimal){
+        auto pos = decimal.end().base();
+        return strtol(decimal.c_str(), &pos, 16);
+    }
+
+    int strToDec (std::string & decimal){
+        auto pos = decimal.end().base();
+        return strtol(decimal.c_str(), &pos, 10);
+    }
+
 
 
 

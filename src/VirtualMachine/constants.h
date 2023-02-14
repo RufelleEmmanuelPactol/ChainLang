@@ -125,6 +125,10 @@ public:
         return m_labels[find];
     }
 
+    int binToDecimal (std::string str){
+
+    }
+
 
 
 

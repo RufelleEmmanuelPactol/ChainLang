@@ -63,7 +63,7 @@ public:
                     tokenstream.emplace_back(token(not_op, str, i.substr(0, i.length()-12)));
                     continue;
                 }
-                chain::IllegalTokenFound(m_line, "$$ VARCHAR");
+                chain::IllegalTokenFound(m_line, " $$VARCHAR");
             }
 
             if (mem!=npos){
@@ -90,9 +90,9 @@ public:
             if (binary!=npos){
                 auto verify = (i.substr(i.length()-8, 8)==" $$BIN$$");
                 auto remID = i.substr(0, i.length()-8);
-          //      auto nums = (remID.substr(2, remID.length()-2));
+                int parsed_num = constants.binToDec(remID);
                 if (verify){
-                    tokenstream.emplace_back(token(not_op, num, remID, i.substr(0, i.length()-8)));
+                    tokenstream.emplace_back(token(not_op, num, parsed_num, i.substr(0, i.length()-8)));
                     continue;
                 } chain::IllegalTokenFound(m_line, "$$BIN$$");
             }
@@ -101,9 +101,10 @@ public:
                 auto verify = (i.substr(i.length()-8, 8)==" $$DEC$$");
                 auto remID = i.substr(0, i.length()-8);
                 auto nums = (remID.substr(2, remID.length()-2));
+                int parsed_num = constants.strToDec(remID);
 
                 if (verify){
-                    tokenstream.emplace_back(token(not_op, num, nums, i.substr(0, i.length()-8)));
+                    tokenstream.emplace_back(token(not_op, num, parsed_num, i.substr(0, i.length()-8)));
 
                     continue;
                 } chain::IllegalTokenFound(m_line, "$$DEC$$");
@@ -113,8 +114,9 @@ public:
                 auto verify = (i.substr(i.length()-8, 8)==" $$HEX$$");
                 auto remID = i.substr(0, i.length()-8);
                 auto nums = (remID.substr(2, remID.length()-2));
+                int parsed_num = constants.hexToDec(remID);
                 if (verify){
-                    tokenstream.emplace_back(token(not_op, num, nums, i.substr(0, i.length()-8)));
+                    tokenstream.emplace_back(token(not_op, num, parsed_num, i.substr(0, i.length()-8)));
                     continue;
                 } chain::IllegalTokenFound(m_line, "$$HEX$$");
             }
