@@ -124,10 +124,15 @@ public:
 
 
     auto write (size_t size, const std::string & cpy){
+      int degree = 0;
         for (int i=0; i<size; i++){
            auto temp  = cpy[i];
-           heap[pc][i] = temp;
+           if (i%8 == 0){
+               if (i!=0) degree++;
+           }
+           heap[pc + degree][i - (degree * 8)] = temp;
         }
+
     }
 
     auto writeAt (size_t address, const std::string & cpy){
@@ -140,6 +145,11 @@ public:
     auto inc (){
         pc++;
         ar++;
+    }
+
+    auto inc (size_t amount){
+        pc += amount;
+        ar += amount;
     }
 
     int binToDec(std::string binary) {
@@ -161,6 +171,8 @@ public:
         }
         return result;
     }
+
+
 
     void destroy (){
         isDeleted = true;

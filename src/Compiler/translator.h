@@ -40,6 +40,8 @@ public:
         operator_analysis:
         if (!ast.operands.empty()){
             for (auto i : ast.operands){
+
+                // label checkers
                     if (i.datatype == label_ref || i.datatype == mem_label){
                         auto found_label = constants.labels().find(i.name);
                         if (found_label == constants.labels().end()) chain::NoSuchLabelException(i.name);
@@ -50,9 +52,18 @@ public:
                         memory.write(8, opcode_finder_reg.opcode);
                     }
 
+                    // label reference writer
+
+                    if (i.datatype == label_ref){
+                        auto get_address = constants.fetchLabel(i.name);
+                        memory.write(16, constants.decToBin(get_address, 16));
+                        memory.inc(2);
+                    }
+
                     else {
 
                         memory.write(8, i.opcode);
+                        memory.inc();
                     }
             }
         }
@@ -61,10 +72,10 @@ public:
     static string getOpType (const token & op){
         if (op.datatype == reg){
             if (op.reg == reg8){
-                return "1010";
+                return "1010"; // 8 bit register
             }
-            return "1111";
-        } return "0001";
+            return "1111"; // 16 bit register
+        } return "0001"; // not a register
     }
 
 };

@@ -132,6 +132,19 @@ public:
         return strtol(decimal.c_str(), &pos, 10);
     }
 
+    std::string decToBin (int decimal, size_t length){
+        std::string result;
+        for (int i=length; i>=0; i--){
+            int max = (int)(pow(2, i-1));
+            if (decimal-max >= 0){
+                result.push_back('1');
+                decimal = decimal - max;
+            }
+            else result.push_back('0');
+        }
+        return result;
+    }
+
 
 
 

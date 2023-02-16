@@ -73,6 +73,7 @@ public:
                     try {
                         // check if string is a register
                         auto registers = constants.registers()->at(reduced);
+                        chain::UnsupportedRegisterAddressExtraction(reduced);
                         tokenstream.emplace_back(token(not_op, mem_reg, registers.reg, reduced));
                         continue;
                     } catch (std::out_of_range &e) {

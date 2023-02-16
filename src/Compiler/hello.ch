@@ -1,8 +1,6 @@
-add, ac, r
-db, 0d1012
-add, acx, acy
-add, ac, [50]
-mov, ac, r
+inc, r
+label:
+add, ac, label
 
 ; to-do
 ; Implement the label checker reference and the register checker
@@ -12,3 +10,6 @@ mov, ac, r
 ; fix decimal parsing of memory references
 ; add label-register convergences
 ; create decimal parser
+
+
+; --> TO IMPLEMENT LIST before 1.0 release

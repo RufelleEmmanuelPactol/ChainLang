@@ -1,22 +1,8 @@
 # ninja log v5
-898	1050	6978826683850600	chainvm.exe	99ae1ad49d00dbd8
 1	151	6979518410822876	build.ninja	94d9902f18f344ce
-3	1789	6978822098765335	CMakeFiles/chainc.dir/src/Compiler/chainc.cpp.obj	d2130dea69b6aa32
-1790	2172	6978822102585103	chainc.exe	dad6eb556a339f81
-3	897	6978826682328285	CMakeFiles/chainvm.dir/src/VirtualMachine/chainvm.cpp.obj	c87d6494ac8d1f92
-4	1053	6979518572295629	CMakeFiles/chainvm.dir/src/VirtualMachine/chainvm.cpp.obj	826d089e6b64125
 1054	1286	6979518574577640	chainvm.exe	99ae1ad49d00dbd8
-3	1947	6980502332518640	CMakeFiles/chainc.dir/src/Compiler/chainc.cpp.obj	5c8a77b78d54685
-1948	2352	6980502336570116	chainc.exe	dad6eb556a339f81
-3	1535	6980663798928684	CMakeFiles/chainc.dir/src/Compiler/chainc.cpp.obj	5c8a77b78d54685
-1536	1820	6980663801759565	chainc.exe	dad6eb556a339f81
-4	1818	6980725351856317	CMakeFiles/chainc.dir/src/Compiler/chainc.cpp.obj	5c8a77b78d54685
-1819	2128	6980725354951484	chainc.exe	dad6eb556a339f81
-4	1340	6980729541455335	CMakeFiles/chainc.dir/src/Compiler/chainc.cpp.obj	5c8a77b78d54685
-1341	1631	6980729544370716	chainc.exe	dad6eb556a339f81
-3	1504	6980729872622179	CMakeFiles/chainc.dir/src/Compiler/chainc.cpp.obj	5c8a77b78d54685
-1504	1767	6980729875243266	chainc.exe	dad6eb556a339f81
-3	1397	6980732692922276	CMakeFiles/chainc.dir/src/Compiler/chainc.cpp.obj	5c8a77b78d54685
-1397	1659	6980732695543358	chainc.exe	dad6eb556a339f81
-4	1457	6980733572774430	CMakeFiles/chainc.dir/src/Compiler/chainc.cpp.obj	5c8a77b78d54685
-1458	1735	6980733575549888	chainc.exe	dad6eb556a339f81
+4	1767	6982592326532903	CMakeFiles/chainc.dir/src/Compiler/chainc.cpp.obj	5c8a77b78d54685
+1767	2067	6982592329525156	chainc.exe	dad6eb556a339f81
+4	1053	6979518572295629	CMakeFiles/chainvm.dir/src/VirtualMachine/chainvm.cpp.obj	826d089e6b64125
+3	1693	6982592638330288	CMakeFiles/chainc.dir/src/Compiler/chainc.cpp.obj	5c8a77b78d54685
+1694	2009	6982592641466661	chainc.exe	dad6eb556a339f81

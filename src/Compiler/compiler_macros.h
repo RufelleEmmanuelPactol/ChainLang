@@ -8,7 +8,7 @@
 #include <iostream>
 #include "../extern/memory_unit.h"
 
-#define __ver__ "0.0.1"
+#define __ver__ "0.2.6  "
 
 #define func constexpr auto
 #define let const auto
