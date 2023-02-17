@@ -131,6 +131,10 @@ public:
                if (i!=0) degree++;
            }
            heap[pc + degree][i - (degree * 8)] = temp;
+           if (temp != '1' && temp != '0'){
+               std::cerr << "Internal compiler error.\n";
+               exit(0);
+           }
         }
 
     }

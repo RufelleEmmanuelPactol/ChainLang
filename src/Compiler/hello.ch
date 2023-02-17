@@ -1,6 +1,8 @@
-inc, r
+add
 label:
-add, ac, label
+mov, r, label
+
+
 
 ; to-do
 ; Implement the label checker reference and the register checker

@@ -22,7 +22,7 @@ public:
                 string operator_write;
                 // operands checker: where 0001 is register and 0000 is address
                 if (ast.operands.size() == 0 ){
-                    memory.write(16, "00000000");
+                    memory.write(8, "00000000");
                     goto operator_analysis;
                 }
                 operator_write.append(getOpType(ast.operands[0]));
@@ -54,14 +54,22 @@ public:
 
                     // label reference writer
 
-                    if (i.datatype == label_ref){
+                    else if (i.datatype == label_ref){
                         auto get_address = constants.fetchLabel(i.name);
+                        std::cout << "Debug: " << constants.decToBin(get_address, 16) << std::endl;
                         memory.write(16, constants.decToBin(get_address, 16));
                         memory.inc(2);
                     }
 
-                    else {
+                    // mem_ref writer
 
+                    else if (i.datatype == mem){
+                        auto str_ptr = i.name.c_str();
+                        auto end_ptr = str_ptr + i.name.length()-1;
+                        memory.write(16, constants.decToBin(16, strtol(str_ptr, const_cast<char **>(&end_ptr), 10)));
+                    }
+
+                    else {
                         memory.write(8, i.opcode);
                         memory.inc();
                     }
