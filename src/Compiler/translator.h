@@ -63,7 +63,7 @@ public:
 
                     // mem_ref writer
 
-                    else if (i.datatype == mem){
+                    else if (i.datatype == reference){
                         auto str_ptr = i.name.c_str();
                         auto end_ptr = str_ptr + i.name.length()-1;
                         memory.write(16, constants.decToBin(16, strtol(str_ptr, const_cast<char **>(&end_ptr), 10)));

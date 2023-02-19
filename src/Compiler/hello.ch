@@ -1,6 +1,7 @@
 add
 label:
 mov, r, label
+mov, ac, [50]
 
 
 

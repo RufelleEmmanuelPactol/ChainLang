@@ -49,6 +49,11 @@ namespace chain {
         exit(022);
     }
 
+    void InternalCompilerError (){
+        std::cout << "ERR 023C InternalCompilerError [Compiler]: Internal compiler error instance occured. This is not a bug on the user's end. Please contact me in Github at Xue64 to report this bug" << err_line;
+        exit(023);
+    }
+
     void DanglingCommaException(const string &m_line) {
         cerr << "ERR121 DanglingCommaDeclaration [Syntax]: Dangling comma found at line " << line << ".\n"
              << "In line:  " << m_line << endl;

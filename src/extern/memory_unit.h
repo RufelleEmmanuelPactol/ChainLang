@@ -9,6 +9,11 @@
 #include <cstring>
 #include <unistd.h>
 
+namespace chain{
+    void InternalCompilerError ();
+}
+
+
 
 class Memory
 {
@@ -132,8 +137,7 @@ public:
            }
            heap[pc + degree][i - (degree * 8)] = temp;
            if (temp != '1' && temp != '0'){
-               std::cerr << "Internal compiler error.\n";
-               exit(0);
+                chain::InternalCompilerError();
            }
         }
 
@@ -141,6 +145,11 @@ public:
 
     auto writeAt (size_t address, const std::string & cpy){
         if (address >= 65536) return;
+        for (auto temp : cpy){
+            if (temp != '1' && temp != '0'){
+                chain::InternalCompilerError();
+            }
+        }
         memcpy(this->HEAP()[address], cpy.c_str(), 8);
     }
 
