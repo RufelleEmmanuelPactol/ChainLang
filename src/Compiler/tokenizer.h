@@ -103,7 +103,6 @@ public:
                 auto remID = i.substr(0, i.length()-8);
                 auto nums = (remID.substr(2, remID.length()-2));
                 int parsed_num = constants.strToDec(remID);
-
                 if (verify){
                     tokenstream.emplace_back(token(not_op, num, parsed_num, i.substr(0, i.length()-8)));
 

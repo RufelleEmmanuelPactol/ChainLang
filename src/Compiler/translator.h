@@ -15,11 +15,28 @@ public:
         if (!ast.labels.empty()){
             constants.emplaceLabel(ast.labels, memory.PC());
         }
+
         if (ast.op.name != "badtoken"){
+            // directives execution
+            if (ast.op.datatype == directive){
+
+                // org
+                if (ast.op.name == "org"){
+                    memory.set(atoi(ast.operands[0].name.c_str()));
+                }
+
+
+            }
+
+
             if (!ast.op.opcode.empty()){
                 memory.write(8, ast.op.opcode);
                 memory.inc();
                 string operator_write;
+
+
+
+
                 // operands checker: where 0001 is register and 0000 is address
                 if (ast.operands.size() == 0 ){
                     memory.write(8, "00000000");

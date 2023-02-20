@@ -137,6 +137,7 @@ public:
            }
            heap[pc + degree][i - (degree * 8)] = temp;
            if (temp != '1' && temp != '0'){
+
                 chain::InternalCompilerError();
            }
         }
@@ -163,6 +164,12 @@ public:
     auto inc (size_t amount){
         pc += amount;
         ar += amount;
+    }
+
+    void set (size_t address){
+        ar = address;
+        pc = address;
+
     }
 
     int binToDec(std::string binary) {

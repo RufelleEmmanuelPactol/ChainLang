@@ -2,9 +2,8 @@ add
 label:
 mov, r, label
 mov, ac, [50]
-
-
-
+org, [130]
+variable : db, 0x102123B
 ; to-do
 ; Implement the label checker reference and the register checker
 ; implement numeric converter, numeric checker, found in translator and memory_unit
