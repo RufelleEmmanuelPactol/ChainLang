@@ -50,7 +50,7 @@ namespace chain {
     }
 
     void InternalCompilerError (){
-        std::cerr << "ERR 023C InternalCompilerError [Compiler]: Internal compiler error instance occured. This is not a bug on the user's end. Please contact me in Github at Xue64 to report this bug" << err_line;
+        std::cerr << "ERR 023C InternalCompilerError [Compiler]: Internal compiler error instance occurred. This is not a bug on the user's end. Please contact me in Github at Xue64 to report this bug" << err_line;
         exit(023);
     }
 
@@ -330,6 +330,12 @@ namespace chain {
              << "' as an address, as the register '" << mem_label << "' is 8-bit, and addresses are 16-bit values"
              << err_line;
         exit(401);
+    }
+
+    void NumericOverflow(int num, size_t insert_value){
+        cerr << "ERR 402 NumericOverflow [Data Error]: Value overflow found at instance " << line << " where max value is " << num << " and inserted value is " << insert_value << err_line;
+        cerr << ">>> Consider, reducing the size of the value used.\n";
+        exit(402);
     }
 
 

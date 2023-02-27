@@ -24,10 +24,11 @@ namespace chain
 
         strvector commands;
         strvector arguments;
+
         int c = 0;
-        for (auto&i : args){
-            if (c!=0){
-                if (c%2==0){
+        for (auto&i : args) {
+            if (c != 0) {
+                if (c % 2 == 0) {
                     arguments.emplace_back(i);
                 } else {
                     commands.emplace_back(i);
@@ -35,6 +36,7 @@ namespace chain
             }
             c++;
         }
+
         if (arguments.size()!=commands.size()){
             InvalidCommandSequence(args);
         }
@@ -42,16 +44,25 @@ namespace chain
         string fn;
         bool compileq = false;
         for (int i = 0; i<arguments.size(); i++){
+            std::cout << "args " << i << std::endl;
             auto &j = arguments[i];
             auto &k = commands[i];
 
+
             if (k == "-c"){
+                std::cout << "-c\n";
                 fn = j;
-                output_name = fn.substr(0, fn.find('.'));
+                auto last = fn.find_last_of('\\') > fn.find_last_of('/') ? fn.find_last_of('/') : fn.find_last_of('\\');
+                if (last == npos){
+                    last = 0;
+                }
+                output_name = fn.substr(last, fn.find('.'));
                 compileq = true;
+                std::cout << "Finished task";
             }
 
             if (k == "-o"){
+                std::cout << "-o\n";
                 output_name = j;
             }
 

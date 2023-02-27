@@ -8,10 +8,24 @@
 #include <vector>
 #include "../extern/divefile.h"
 #include "compiler_macros.h"
+
+
+
 class Translator {
 public:
 
-    static void translate (AST ast){
+    // OPERAND OPCODE
+    const string EMPTY = "00000000";
+    const string NOOP = "0000";
+    const string REGISTER8 = "0001";
+    const string REGISTER16 = "0010";
+    const string ADDRESS = "0011";
+    const string POINTER = "0100";
+
+
+
+    void translate (AST ast){
+        bool writeMode = false;
         if (!ast.labels.empty()){
             constants.emplaceLabel(ast.labels, memory.PC());
         }
@@ -23,6 +37,12 @@ public:
                 // org
                 if (ast.op.name == "org"){
                     memory.set(atoi(ast.operands[0].name.c_str()));
+                    return;
+                }
+
+                // db and dw
+                if (ast.op.operand == alloc){
+                    writeMode = true;
                 }
 
 
@@ -37,14 +57,13 @@ public:
 
 
 
-                // operands checker: where 0001 is register and 0000 is address
                 if (ast.operands.size() == 0 ){
-                    memory.write(8, "00000000");
+                    memory.write(8, EMPTY);
                     goto operator_analysis;
                 }
                 operator_write.append(getOpType(ast.operands[0]));
                 if (ast.operands.size() == 1){
-                    operator_write.append("0000");
+                    operator_write.append(NOOP);
                 } else {
                     operator_write.append(getOpType(ast.operands[1]));
                 }
@@ -86,6 +105,27 @@ public:
                         memory.write(16, constants.decToBin(16, strtol(str_ptr, const_cast<char **>(&end_ptr), 10)));
                     }
 
+                    else if (writeMode){
+                        if (ast.op.name == "dw"){
+                            memory.write(16, constants.decToBin(ast.operands[0].numeric, 16));
+                            memory.inc(2);
+                        } else {
+                            if (ast.operands[0].datatype == str) {
+                                for (auto i : ast.operands[0].name){
+                                    memory.write(8, constants.decToBin(i, 8));
+                                    memory.inc();
+                                }
+                            } else {
+                                memory.write(8, constants.decToBin(ast.operands[0].numeric, 8));
+                                memory.inc();
+                            }
+                        }
+
+                        return;
+                    }
+
+
+
                     else {
                         memory.write(8, i.opcode);
                         memory.inc();
@@ -94,13 +134,16 @@ public:
         }
     }
 
-    static string getOpType (const token & op){
+    string getOpType (const token & op){
         if (op.datatype == reg){
             if (op.reg == reg8){
-                return "1010"; // 8 bit register
+                return REGISTER8;
             }
-            return "1111"; // 16 bit register
-        } return "0001"; // not a register
+            return REGISTER16; // 16 bit register
+        } else if (op.datatype == reference) return ADDRESS;
+        else if (op.datatype == label_ref) return ADDRESS;
+        else if (op.datatype == mem_label) return POINTER;
+        return NOOP;
     }
 
 };

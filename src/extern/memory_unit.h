@@ -137,7 +137,6 @@ public:
            }
            heap[pc + degree][i - (degree * 8)] = temp;
            if (temp != '1' && temp != '0'){
-
                 chain::InternalCompilerError();
            }
         }

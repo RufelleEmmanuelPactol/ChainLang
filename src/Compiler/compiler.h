@@ -62,11 +62,12 @@ namespace chain
         // move this to the writer unit after
         // the m_line is a general macro used for detecting errors
         size_t ctr = 0;
+        Translator t;
         for (auto &i: AbstractSyntaxTree){
             line = indexes[ctr];
             ctr++;
             m_line = commands->at(line-1);
-            Translator::translate(i);
+            t.translate(i);
         }
 
         auto fw = dive::FileWriter(output_name + ".bcc");

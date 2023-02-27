@@ -134,6 +134,9 @@ public:
 
     std::string decToBin (int decimal, size_t length){
         std::string result;
+        if (decimal >= pow(2, length)){
+            chain::NumericOverflow(pow(2, length), decimal);
+        }
         for (int i=length; i>=0; i--){
             int max = (int)(pow(2, i-1));
             if (decimal-max >= 0){
