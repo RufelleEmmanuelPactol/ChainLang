@@ -138,7 +138,7 @@ public:
             chain::NumericOverflow(pow(2, length), decimal);
         }
         for (int i=length; i>=0; i--){
-            int max = (int)(pow(2, i-1));
+            int max = (int)(pow(2, i));
             if (decimal-max >= 0){
                 result.push_back('1');
                 decimal = decimal - max;

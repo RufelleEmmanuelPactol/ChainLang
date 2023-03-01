@@ -158,11 +158,20 @@ public:
     auto inc (){
         pc++;
         ar++;
+        if (pc > MEM_CAP()-100 || ar > MEM_CAP()-100) memory_full();
     }
+
+private:
+    void memory_full(){
+        std::cerr << "ERR 05 [OutOfMemoryError]: Heap is full. Cannot add instructions to memory.\n";
+        exit(05);
+    }
+public:
 
     auto inc (size_t amount){
         pc += amount;
         ar += amount;
+        if (pc > MEM_CAP()-100 || ar > MEM_CAP()-100) memory_full();
     }
 
     void set (size_t address){

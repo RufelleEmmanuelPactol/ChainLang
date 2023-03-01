@@ -81,20 +81,15 @@ public:
                     if (i.datatype == label_ref || i.datatype == mem_label){
                         auto found_label = constants.labels().find(i.name);
                         if (found_label == constants.labels().end()) chain::NoSuchLabelException(i.name);
+                        auto get_address = constants.fetchLabel(i.name);
+                        std::cout << "Ad: " << constants.decToBin(get_address, 16) << ' ' << get_address << std::endl;
+                        memory.write(16, constants.decToBin(get_address, 16));
+                        memory.inc(2);
                     }
 
                     else if (i.datatype == mem_reg){
                         auto opcode_finder_reg = constants.registers()->at(i.name);
                         memory.write(8, opcode_finder_reg.opcode);
-                    }
-
-                    // label reference writer
-
-                    else if (i.datatype == label_ref){
-                        auto get_address = constants.fetchLabel(i.name);
-                        std::cout << "Debug: " << constants.decToBin(get_address, 16) << std::endl;
-                        memory.write(16, constants.decToBin(get_address, 16));
-                        memory.inc(2);
                     }
 
                     // mem_ref writer

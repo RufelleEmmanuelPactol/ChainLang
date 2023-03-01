@@ -1,6 +1,7 @@
-inc, ac
-label:
-mov, ac, [label]
+add
+main:
+start, main
+end
 
 ; .bcc
 ; to-do
