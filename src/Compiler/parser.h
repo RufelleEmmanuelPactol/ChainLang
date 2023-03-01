@@ -36,6 +36,7 @@ namespace chain {
                 if (i.kind == op) {
                     if (instance_operand.operand == not_operand) {
                         instance_operand = i;
+                        if (i.name == "end") END_TOKEN = true;
                         continue;
                     }
                     UnexpectedInstanceOfOperator(i.name);
@@ -82,8 +83,8 @@ namespace chain {
                             DataSizeMismatch(op1.name, op1.reg, op2.name, op2.reg);
                         }
                     }
-                    if (op2dt != reg && op2dt != label_ref && op2dt != num && op2dt != reference){
-                        ParameterDataMismatch(instance_operand.name, reg, label_ref, reference, num, op2dt, op2.name);
+                    if (op2dt != reg && op2dt != label_ref  && op2dt != reference){
+                        ParameterDataMismatch(instance_operand.name, reg, label_ref, reference,  op2dt, op2.name);
                     }
                 }
             }

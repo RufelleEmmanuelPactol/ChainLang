@@ -63,6 +63,12 @@ namespace chain
         // the m_line is a general macro used for detecting errors
         size_t ctr = 0;
         Translator t;
+
+
+        // check for an end token
+        if (!END_TOKEN) NoEndDetectedToken(path);
+
+
         for (auto &i: AbstractSyntaxTree){
             line = indexes[ctr];
             ctr++;

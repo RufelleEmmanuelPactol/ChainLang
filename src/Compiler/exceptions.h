@@ -129,6 +129,11 @@ namespace chain {
         exit(131);
     }
 
+    void NoEndDetectedToken (const std::string & file_name){
+        cerr << "ERR132 [NoEndToken]: In module/path '" << file_name << "' no end directive found. Please refactor your code to include the end directive.";
+        exit(132);
+    }
+
     void RepeatLabelException(const string &label) {
         cerr << "ERR201 RepeatLabel [Variables]: Redeclaration of label '" << label << "' found in line " << line
              << ".\nIn line " << line << ": '" << m_line << "'.\n";

@@ -1,1 +1,1 @@
-db, 0d2
+print('Hello, {}', format, %d);
