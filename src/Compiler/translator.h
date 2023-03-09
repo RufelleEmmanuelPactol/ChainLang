@@ -27,6 +27,10 @@ public:
     void translate (AST ast){
         bool writeMode = false;
         if (!ast.labels.empty()){
+            auto a = constants.registers()->find(ast.labels);
+            if (a!=constants.registers()->end()){
+                chain::LabelRegisterCollision(ast.labels);
+            }
             constants.emplaceLabel(ast.labels, memory.PC());
         }
 
@@ -45,6 +49,21 @@ public:
                     writeMode = true;
                 }
 
+                else if (ast.op.name == "start"){
+                    if (ast.operands[0].datatype == label_ref){
+                        auto a = constants.fetchLabel(ast.operands[0].name);
+                        memory.set_start(constants.decToBin(a,16));
+                        return;
+                    }
+                    auto i = ast.operands[0];
+                    auto str_ptr = i.name.c_str();
+                    auto end_ptr = str_ptr + i.name.length()-1;
+                    memory.set_start(constants.decToBin(strtol(str_ptr, const_cast<char **>(&end_ptr), 10), 16));
+                    return;
+                }
+
+
+
 
             }
 
@@ -55,10 +74,9 @@ public:
                 string operator_write;
 
 
-
-
-                if (ast.operands.size() == 0 ){
+                if (ast.operands.size() == 0  ){
                     memory.write(8, EMPTY);
+                    memory.inc();
                     goto operator_analysis;
                 }
                 operator_write.append(getOpType(ast.operands[0]));
@@ -82,7 +100,6 @@ public:
                         auto found_label = constants.labels().find(i.name);
                         if (found_label == constants.labels().end()) chain::NoSuchLabelException(i.name);
                         auto get_address = constants.fetchLabel(i.name);
-                        std::cout << "Ad: " << constants.decToBin(get_address, 16) << ' ' << get_address << std::endl;
                         memory.write(16, constants.decToBin(get_address, 16));
                         memory.inc(2);
                     }
@@ -97,7 +114,12 @@ public:
                     else if (i.datatype == reference){
                         auto str_ptr = i.name.c_str();
                         auto end_ptr = str_ptr + i.name.length()-1;
-                        memory.write(16, constants.decToBin(16, strtol(str_ptr, const_cast<char **>(&end_ptr), 10)));
+                        auto str_num = constants.decToBin(strtol(str_ptr, const_cast<char **>(&end_ptr), 10), 16);
+                        memory.write(8,str_num.substr(1,8));
+                        memory.inc();
+                        memory.write(8, str_num.substr(9,8));
+                        memory.inc();
+                        continue;
                     }
 
                     else if (writeMode){

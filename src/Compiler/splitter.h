@@ -5,8 +5,23 @@
 #ifndef CHAINC_SPLITTER_H
 #define CHAINC_SPLITTER_H
 #include "constants.h"
+#include "exceptions.h"
 namespace chain
 {
+
+    void preproc_process(const std::string & directive){
+        if (directive == "@trace"){
+            std::cerr << "<!> Trace mode is on and is enabled upon compilation.\n";
+            preprocessor.set_trace(true);
+        } else if (directive == "@debug"){
+            std::cerr << "<!> Debug mode is on and is enabled upon runtime.\n";
+            preprocessor.set_debug(true);
+        } else {
+            PreprocessorDirectiveError(directive);
+        }
+    }
+
+
     strvector stack_split (std::string& line){
         strvector ret;
         std::string stack;
@@ -23,6 +38,19 @@ namespace chain
                 ret.emplace_back(stack);
                 return ret;
             }
+
+            // preprocessor directive splitter
+
+            if (c=='@'){
+                string preprocessor_dir;
+                while (line[i] != ' ' && i < line.size()){
+                    preprocessor_dir.push_back(line[i]);
+                    i++;
+                }
+                preproc_process(preprocessor_dir);
+                continue;
+            }
+
 
             // string splitter
             else if (c=='\"'){

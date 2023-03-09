@@ -7,6 +7,7 @@
 #include "../extern/divefile.h"
 #include <iostream>
 #include "../extern/memory_unit.h"
+#include "../extern/preprocessor.h"
 
 #define __ver__ "0.2.6  "
 
@@ -18,8 +19,7 @@
 auto const& npos = std::string::npos;
 std::string m_line, output_name = "out";
 
-
-Memory memory = Memory();
+Memory memory;
 size_t line = 0;
 
 

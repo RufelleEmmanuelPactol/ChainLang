@@ -13,7 +13,6 @@
 #define op2 operators[1]
 
 
-
 namespace chain {
     class Parser {
     public:
@@ -69,6 +68,12 @@ namespace chain {
             if (instance_operand.operand == mem){
                 if (op1dt != reference && op1dt != label_ref ){
                     ParameterDataMismatch(instance_operand.name,  label_ref, reference, op1dt, op1.name);
+                }
+            }
+
+            if (instance_operand.name == "inc"){
+                if (op1.reg == flag){
+                    chain::InvalidIncrement();
                 }
             }
 
@@ -152,6 +157,8 @@ namespace chain {
                         ParameterDataMismatch(instance_operand.name, reg, op2dt, op2.name);
                     }
                 }
+
+
                 // updated label checkers
 
                 for (auto i : operators){
@@ -165,11 +172,6 @@ namespace chain {
                     }
                 }
             }
-
-
-
-
-
 
             return ast;
 

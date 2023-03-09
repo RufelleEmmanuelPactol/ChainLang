@@ -25,6 +25,8 @@ public:
         m_registers.emplace("rx", token(not_op, reg, reg8, "rx", "10100010"));
         m_registers.emplace("ry", token(not_op, reg, reg8, "ry", "10100011"));
         m_registers.emplace("flag", token(not_op, reg, flag, "flag", "10100000"));
+        m_registers.emplace("pc", token(not_op, reg, reg16, "flag", "10110100"));
+        m_registers.emplace("ar", token(not_op, reg, reg16, "ar", "10110101"));
 
 
         // not accessible for users
@@ -57,6 +59,9 @@ public:
         m_commands.emplace("dec", token(op, single_op, reg_param, 1, "dec", "00001001"));
         m_commands.emplace("swp", token(op, basic, reg_param, 2, "swp", "00010001"));
         m_commands.emplace("end", token(op, basic, no_op, 0, "end", "01010101"));
+
+
+
     }
     
     auto registers(){
@@ -137,7 +142,7 @@ public:
         if (decimal >= pow(2, length)){
             chain::NumericOverflow(pow(2, length), decimal);
         }
-        for (int i=length; i>=0; i--){
+        for (int i=length-1; i>=0; i--){
             int max = (int)(pow(2, i));
             if (decimal-max >= 0){
                 result.push_back('1');

@@ -8,6 +8,8 @@
 #include <array>
 #include <cstring>
 #include <unistd.h>
+#include "../extern/preprocessor.h"
+Preprocessor preprocessor;
 
 namespace chain{
     void InternalCompilerError ();
@@ -22,7 +24,7 @@ class Memory
 private:
     char ** heap;
     bool isDeleted = false;
-
+    std::string START = "0000000000000000";
     // registers
     char * ac;
     char * acx;
@@ -141,6 +143,7 @@ public:
            }
         }
 
+
     }
 
     auto writeAt (size_t address, const std::string & cpy){
@@ -161,6 +164,14 @@ public:
         if (pc > MEM_CAP()-100 || ar > MEM_CAP()-100) memory_full();
     }
 
+    void set_start(const std::string & str){
+        START = str;
+    }
+
+    std::string get_start(){
+        return START;
+    }
+
 private:
     void memory_full(){
         std::cerr << "ERR 05 [OutOfMemoryError]: Heap is full. Cannot add instructions to memory.\n";
@@ -171,6 +182,10 @@ public:
     auto inc (size_t amount){
         pc += amount;
         ar += amount;
+
+        if (preprocessor.isDebugging()) {
+            std::cout << "PC NOW AT " << pc << std::endl;
+        }
         if (pc > MEM_CAP()-100 || ar > MEM_CAP()-100) memory_full();
     }
 
@@ -215,6 +230,7 @@ public:
 
     static size_t MEM_CAP(){return mem_cap;}
 };
+
 
 
 #endif //CHAINC_MEMORY_UNIT_H

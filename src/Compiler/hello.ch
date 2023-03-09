@@ -1,17 +1,24 @@
+; data
+i : db, 0d10
+str: db, "Hello, World"
+
+
+@trace
+
+
+mov, rx, [i]
+loop:
+char, rx
+inc, r
+inc, ac
+cmp, ac, i
+jpf, loop
 add
-main:
-start, main
+
+; fix inc memreg
+
+
+
+
+; invalidate mov [] to acx
 end
-
-; .bcc
-; to-do
-; Implement the label checker reference and the register checker
-; implement numeric converter, numeric checker, found in translator and memory_unit
-; number_string in tokenizer -> convert to binary string in translator
-; implement start and org
-; fix decimal parsing of memory references
-; add label-register convergences
-; create decimal parser
-
-
-; --> TO IMPLEMENT LIST before 1.0 release

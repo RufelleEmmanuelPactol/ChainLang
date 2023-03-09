@@ -310,6 +310,11 @@ namespace chain {
         exit(308);
     }
 
+    void LabelRegisterCollision (const std::string & str) {
+        cerr << "ERR 308 LabelRegisterCollision [Parse Error]: Cannot declare label '" << str << "' with the same name of register '" << str << "'" << err_line;
+        exit(308);
+    }
+
     void DataSizeMismatch(const string &reg_1, Register r1, const string &reg_2, Register r2) {
         auto size1 = Tknstringify::getDataSizeFromToken(r1);
         auto size2 = Tknstringify::getDataSizeFromToken(r2);
@@ -338,9 +343,20 @@ namespace chain {
     }
 
     void NumericOverflow(int num, size_t insert_value){
-        cerr << "ERR 402 NumericOverflow [Data Error]: Value overflow found at instance " << line << " where max value is " << num << " and inserted value is " << insert_value << err_line;
+        cerr << "ERR 402 NumericOverflow [Data Error]: Value overflow found at line"
+                " " << line << " where max value is " << num << " and inserted value is " << insert_value << err_line;
         cerr << ">>> Consider, reducing the size of the value used.\n";
         exit(402);
+    }
+
+    void InvalidIncrement (){
+        cerr << "ERR 403 InvalidIncrement [Data Error]: Cannot increment the flag register" << err_line;
+        exit(403);
+    }
+
+    void PreprocessorDirectiveError(const std::string & dir){
+        cerr << "ERR 501 UnrecognizedPreprocessorDirective [Preprocessor]: The preprocessor directive '" << dir << "' is unrecognized" << err_line;
+        exit(501);
     }
 
 
