@@ -7,4 +7,4 @@ As of beta 0.3.1, the ChainLang Project has fixed major bugs in the code, and th
 
 
 ## Future APIs and Features
-The Chain DevKit is to include the Education Module, starting with '@trace'. Moreover, we also plan to allow to chain binary (.exec) or chain executable.
+The Chain DevKit is to include the Education Module, starting with '@trace'. Moreover, we also plan to allow the ChainLang to compile to a more resource-friendly binary, from .exec -->  .binc files.
