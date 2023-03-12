@@ -12,7 +12,11 @@
 Preprocessor preprocessor;
 
 namespace chain{
-    void InternalCompilerError ();
+    void InternalCompilerError (){
+        using std::endl;
+        std::cerr << "ERR 023C InternalCompilerError [Compiler]: Internal compiler error instance occurred. This is not a bug on the user's end. Please contact me in Github at Xue64 to report this bug" << std::endl;
+        exit(023);
+    }
 }
 
 
@@ -166,6 +170,8 @@ public:
 
     void set_start(const std::string & str){
         START = str;
+        pc = binToDec(START);
+        ar = binToDec(START);
     }
 
     std::string get_start(){

@@ -125,9 +125,20 @@ public:
         return m_labels[find];
     }
 
-    int binToDecimal (std::string str){
-
+    int binToDecimal(std::string str) {
+        int result = 0;
+        int len = str.length();
+        for (int i = 0; i < len; i++) {
+            if (str[i] == '1') {
+                result += pow(2, len - 1 - i);
+            } else if (str[i] != '0') {
+                // if the string contains a non-binary character, return -1 to indicate an error
+                return -1;
+            }
+        }
+        return result;
     }
+
 
 
 

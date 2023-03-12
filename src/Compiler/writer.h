@@ -19,6 +19,7 @@ public:
     }
 
     void write(){
+        wr.writeLine(preprocessor.get_flags());
         wr.writeLine(memory.get_start() + '\n');
         for (int i=0; i<memory.MEM_CAP(); i++){
             auto string = memory.getBitString(i, 8);

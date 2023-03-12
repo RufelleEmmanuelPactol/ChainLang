@@ -10,8 +10,8 @@
 
 
 int main (int argc, char ** argv){
+    auto timer = new Timer();
     {
-        Timer timer;
         // scoped namespace
         using namespace chain;
        // std::cout << "pass timer\n";
@@ -19,10 +19,19 @@ int main (int argc, char ** argv){
        // std::cout << "pass vector\n";
         handle(args_vector);
      //   std::cout << "pass handler\n";
+
         if (argc == 1 ) compiler("../src/compiler/hello.ch");
+
+        if (preprocessor.isAuto()){
         std::cout << "<!> Compilation success.\n";
-        std::cout << "<!> Compiled under file name '" << output_name + ".bcc'\n";
+        std::cout << "<!> Compiled under file name '" << output_name + ".exec'\n";
+        }
     }
+
+    if (preprocessor.isAuto()){
+        auto str = output_name + ".exec";
+        system(str.c_str());
+    } else delete timer;
 
 
 }

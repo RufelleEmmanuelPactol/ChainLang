@@ -7,8 +7,6 @@
 #ifndef CHAIN_EXCEPTIONS_H
 #define CHAIN_EXCEPTIONS_H
 #include "tokens.h"
-
-
 #include "tknstringify.h"
 #include "coloredmacros.h"
 #define err_line ", found in line " << line << ".\nIn line " << line << ": '" << m_line << "'" << endl
@@ -27,6 +25,7 @@ namespace chain {
         cerr << "ERR 021C NoPathProvided [CompilerCall]: No path specified after invoking instance of command ["
              << command << "].\n";
         exit(021);
+#define exit(x) isExit=true
     }
 
     void InvalidCommandSequence(strvector_p commands) {
@@ -49,10 +48,7 @@ namespace chain {
         exit(022);
     }
 
-    void InternalCompilerError (){
-        std::cerr << "ERR 023C InternalCompilerError [Compiler]: Internal compiler error instance occurred. This is not a bug on the user's end. Please contact me in Github at Xue64 to report this bug" << err_line;
-        exit(023);
-    }
+
 
 
 
@@ -367,6 +363,8 @@ namespace chain {
 
 
 }
+
+#undef exit
 
 #include "errorhelper.h"
 

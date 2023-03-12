@@ -16,11 +16,14 @@
 #include "splitter.h"
 #include "tokenizer.h"
 #include "../extern/divefile.h"
-#include "exceptions.h"
 #include <vector>
 #include "parser.h"
 #include <functional>
 #include "writer.h"
+
+
+
+
 namespace chain
 {
     auto checkpiece (const string & i) -> bool {
@@ -75,18 +78,9 @@ namespace chain
             m_line = commands->at(line-1);
             t.translate(i);
         }
-
-        auto fw = dive::FileWriter(output_name + ".bcc");
+        if (isExit) exit(3);
+        auto fw = dive::FileWriter(output_name + ".exec");
         Writer write = Writer(fw);
-
-
-
-
-
-
-
-
-
     }
 }
 

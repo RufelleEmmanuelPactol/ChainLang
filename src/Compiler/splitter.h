@@ -16,6 +16,9 @@ namespace chain
         } else if (directive == "@debug"){
             std::cerr << "<!> Debug mode is on and is enabled upon runtime.\n";
             preprocessor.set_debug(true);
+        } else if (directive == "@auto"){
+            std::cerr << "<!> Auto run mode is on and will run the output automatically after compilation.\n";
+            preprocessor.set_auto(true);
         } else {
             PreprocessorDirectiveError(directive);
         }

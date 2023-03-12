@@ -13,9 +13,10 @@ int main (int argc, char ** argv){
         auto args = dive::vectorize(argc, argv);
         chain::handle(args);
     }
-    std::cout << "<!> Press the enter key to destroy the heap.";
-    getchar();
-    memory.destroy();
-    std::cout << "<!> Press any key to finish processes.";
-    getchar();
+
+    if (preprocessor.isAuto()) return 0;
+    else {
+        std::cout << "<!> Press any key to finish processes.\n";
+        getchar();
+    }
 }

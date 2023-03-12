@@ -11,7 +11,7 @@
 std::size_t MAXCONSTEXPR_line = 0;
 #define _LINE_ MAXCONSTEXPR_line
 Memory memory = Memory();
-Preprocessor preprocessor;
+
 
 void errMachineError(){
     std::cerr << "<!> Runtime Virtual Engine bug. Please contact us at github.\n";

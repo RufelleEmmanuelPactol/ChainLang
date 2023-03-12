@@ -9,7 +9,7 @@
 #include "../extern/memory_unit.h"
 #include "../extern/preprocessor.h"
 
-#define __ver__ "0.2.6  "
+#define __ver__ "0.3.1"
 
 #define func constexpr auto
 #define let const auto
@@ -18,7 +18,7 @@
 
 auto const& npos = std::string::npos;
 std::string m_line, output_name = "out";
-
+bool isExit = false;
 Memory memory;
 size_t line = 0;
 

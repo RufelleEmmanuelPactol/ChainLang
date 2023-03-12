@@ -115,6 +115,8 @@ public:
         m_labels.emplace(label_name, address);
     }
 
+
+
     auto fetchLabel(const string& find){
         if (m_labels.find(find)==m_labels.end()){
             chain::NoSuchLabelException(find);
