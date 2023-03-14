@@ -27,6 +27,9 @@ public:
         m_registers.emplace("flag", token(not_op, reg, flag, "flag", "10100000"));
         m_registers.emplace("pc", token(not_op, reg, reg16, "flag", "10110100"));
         m_registers.emplace("ar", token(not_op, reg, reg16, "ar", "10110101"));
+        m_registers.emplace("ctr", token(not_op, reg, reg16, "ctr", "10110110"));
+        m_registers.emplace("ctrx", token(not_op, reg, reg8, "ctrx", "10100110"));
+        m_registers.emplace("ctry", token(not_op, reg, reg8, "ctry", "10100111"));
 
 
         // not accessible for users

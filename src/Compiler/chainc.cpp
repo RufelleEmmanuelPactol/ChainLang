@@ -22,15 +22,16 @@ int main (int argc, char ** argv){
 
         if (argc == 1 ) compiler("../src/compiler/hello.ch");
 
-        if (preprocessor.isAuto()){
+        if (!preprocessor.isAuto() && !preprocessor.isSilent()){
         std::cout << "<!> Compilation success.\n";
         std::cout << "<!> Compiled under file name '" << output_name + ".exec'\n";
         }
     }
-
+    if (preprocessor.isSilent()) return 0;
     if (preprocessor.isAuto()){
         auto str = output_name + ".exec";
-        system(str.c_str());
+        int on_exit = system(str.c_str());
+        return on_exit;
     } else delete timer;
 
 

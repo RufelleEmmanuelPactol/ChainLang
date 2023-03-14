@@ -41,6 +41,9 @@ private:
     bool flag;
     char * pc_char;
     char * ar_char;
+    char * ctr;
+    char * ctrx;
+    char * ctry;
 
     void set(char * arr){
         for (int i=0; i<8; i++){
@@ -65,6 +68,7 @@ public:
         ac = regalloc();
         pc_char = regalloc();
         ar_char = regalloc();
+        ctr = regalloc();
 
         pc = 0;
         ar = 0;
@@ -80,12 +84,15 @@ public:
         set(ac);
         set(pc_char);
         set(ar_char);
+        set(ctr);
         flag = false;
 
         acx = ac;
         acy = ac + 8;
         rx = r;
         ry = r + 8;
+        ctrx = ctr;
+        ctry = ctr+8;
 
 
     }

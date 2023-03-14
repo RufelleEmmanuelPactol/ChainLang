@@ -50,13 +50,24 @@ struct Preprocessor{
 
     void set_auto(bool t){
         if (t) word[2] = '1';
-        else word[1] = '0';
+        else word[2] = '0';
     }
 
     bool isAuto(){
         if (word[2]=='1') return true;
         return false;
     }
+
+    void set_silent(bool t){
+        if (t) word[3] = '1';
+        else word[3] = '0';
+    }
+
+    bool isSilent(){
+        if (word[3]=='1') return true;
+        return false;
+    }
+
 
 
 
