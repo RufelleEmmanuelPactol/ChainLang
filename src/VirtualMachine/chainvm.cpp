@@ -13,10 +13,9 @@ int main (int argc, char ** argv){
         auto args = dive::vectorize(argc, argv);
         chain::handle(args);
     }
-
     if (preprocessor.isAuto()) return 0;
     else {
-        std::cout << "<!> Press any key to finish processes.\n";
+        std::cout << "<!> Press any key to finish processes.";
         getchar();
     }
 }
