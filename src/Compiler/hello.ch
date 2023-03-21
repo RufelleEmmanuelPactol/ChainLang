@@ -1,6 +1,7 @@
 ; data
 @auto
 
+mov, ac, [50]
 
 ; fix inc memreg
 

@@ -117,7 +117,7 @@ public:
                         auto str_num = constants.decToBin(strtol(str_ptr, const_cast<char **>(&end_ptr), 10), 16);
                         memory.write(8,str_num.substr(1,8));
                         memory.inc();
-                        memory.write(8, str_num.substr(9,8));
+                        memory.write(8, str_num.substr(8,8));
                         memory.inc();
                         continue;
                     }
