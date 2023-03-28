@@ -23,9 +23,20 @@ public:
         wr.writeLine(memory.get_start() + '\n');
         for (int i=0; i<memory.MEM_CAP(); i++){
             auto string = memory.getBitString(i, 8);
-            wr.writeLine(string + '\n');
+            transpose(string);
+            wr.writeLine(string);
             wr.flush();
         }
+    }
+
+    void transpose(string & bin)
+    {
+        if (!constants.COMPILE_MODE_BINARY) {
+            bin.push_back('\n');
+            return;
+        }
+        auto k = constants.binToDec(bin);
+        bin = k;
     }
 };
 

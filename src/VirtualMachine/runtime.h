@@ -72,6 +72,15 @@ namespace chain {
                     printf("%d: %s\n", x, parsed.c_str());
                     fflush(stdout);
                 }
+            } binaryREPL();
+        }
+
+        void binaryREPL(){
+            while(true){
+                auto command = memory.HEAP()[memory.PC()];
+                auto signature = memory.HEAP()[memory.PC()+1];
+                auto op1 = memory.HEAP()[memory.PC()+2];
+                // to do
             }
         }
 

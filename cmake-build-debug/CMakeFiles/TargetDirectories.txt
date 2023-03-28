@@ -1,4 +1,4 @@
-C:/Users/Rufelle/CLionProjects/Chain/cmake-build-debug/CMakeFiles/chainc.dir
 C:/Users/Rufelle/CLionProjects/Chain/cmake-build-debug/CMakeFiles/chainvm.dir
+C:/Users/Rufelle/CLionProjects/Chain/cmake-build-debug/CMakeFiles/chainc.dir
 C:/Users/Rufelle/CLionProjects/Chain/cmake-build-debug/CMakeFiles/edit_cache.dir
 C:/Users/Rufelle/CLionProjects/Chain/cmake-build-debug/CMakeFiles/rebuild_cache.dir

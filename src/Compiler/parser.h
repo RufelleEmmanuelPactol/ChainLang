@@ -35,7 +35,7 @@ namespace chain {
                 if (i.kind == op) {
                     if (instance_operand.operand == not_operand) {
                         instance_operand = i;
-                        if (i.name == "end") END_TOKEN = true;
+                        if (i.name == "end") constants.END_TOKEN = true;
                         continue;
                     }
                     UnexpectedInstanceOfOperator(i.name);
@@ -118,6 +118,13 @@ namespace chain {
                 if (op1.reg != reg16){
                     RegisterParameterMismatch(instance_operand.name, op1.name,op1.reg, reg16);
                 }
+            }
+
+            // basic reg param checking
+
+            if (instance_operand.operand == reg_param)
+            {
+                if (op1dt != reg) ParameterDataMismatch(instance_operand.name, reg, op1.datatype, op1.name);
             }
 
             // alloc type checking

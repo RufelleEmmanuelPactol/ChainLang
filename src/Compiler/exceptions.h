@@ -47,6 +47,12 @@ namespace chain {
         exit(022);
     }
 
+    void InvalidFileExtension (const string & file, const string & extension) {
+        cerr << "ERR 023C InvalidFileExtension [CompilerCall]: The file '" << file
+        << "' with extension '" << extension << "' is not valid.\n Please use the appropriate .ch files for compilation.\n";
+        exit(023);
+    }
+
 
 
 

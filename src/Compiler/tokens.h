@@ -30,7 +30,7 @@ enum Register{
 
 
 enum Operand{
-    not_operand, mem, math, reg_param16, reg_param8, mov, alloc, reg_param, no_op
+    not_operand, mem, math, reg_param16, reg_param8, mov, alloc, reg_param, no_op, iterator
 };
 using std::string;
 

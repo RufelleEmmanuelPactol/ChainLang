@@ -9,6 +9,7 @@
 #include <cstring>
 #include <unistd.h>
 #include "../extern/preprocessor.h"
+#include <bitset>
 Preprocessor preprocessor;
 
 namespace chain{
@@ -26,6 +27,7 @@ class Memory
 
     static const size_t mem_cap = pow(2, 16);
 private:
+    friend class Command;
     char ** heap;
     bool isDeleted = false;
     std::string START = "0000000000000000";
@@ -183,6 +185,12 @@ public:
 
     std::string get_start(){
         return START;
+    }
+
+    std::string to_bitstring(int num, int n) {
+        std::bitset<32> bits(num);
+        std::string bitstring = bits.to_string().substr(32 - n, n);
+        return bitstring;
     }
 
 private:

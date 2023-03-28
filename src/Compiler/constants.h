@@ -15,6 +15,8 @@ private:
     std::map<string, int> m_labels;
     
 public:
+    bool END_TOKEN = false;
+    bool COMPILE_MODE_BINARY = false;
     Constants(){
 
         // init for registers
@@ -60,9 +62,11 @@ public:
         m_commands.emplace("mov", token(op, basic, mov, 2, "mov", "00001000"));
         m_commands.emplace("inc", token(op, single_op, reg_param, 1, "inc", "00001000"));
         m_commands.emplace("dec", token(op, single_op, reg_param, 1, "dec", "00001001"));
-        m_commands.emplace("swp", token(op, basic, reg_param, 2, "swp", "00010001"));
+        m_commands.emplace("swp", token(op, basic, math, 2, "swp", "00010001"));
+        m_commands.emplace("set", token(op, single_op, reg_param, 1, "set", "00010010"));
+        m_commands.emplace("put", token(op, single_op, reg_param16, 1, "put", "00010011"));
+        m_commands.emplace("for", token(op, basic, iterator, 2, "for", "00010100"));
         m_commands.emplace("end", token(op, basic, no_op, 0, "end", "01010101"));
-
 
 
     }
@@ -130,6 +134,12 @@ public:
     int binToDec (std::string & decimal){
         auto pos = decimal.end().base();
         return strtol(decimal.c_str(), &pos, 2);
+    }
+
+    bool allBinary (const std::string & str){
+        for (auto i : str){
+            if (!isBinary(i)) return false;
+        } return true;
     }
 
     int hexToDec (std::string & decimal){

@@ -41,39 +41,6 @@ include CMakeFiles/rules.ninja
 
 cmake_ninja_workdir = C$:/Users/Rufelle/CLionProjects/Chain/cmake-build-debug/
 # =============================================================================
-# Object build statements for EXECUTABLE target chainc
-
-
-#############################################
-# Order-only phony target for chainc
-
-build cmake_object_order_depends_target_chainc: phony || CMakeFiles/chainc.dir
-
-build CMakeFiles/chainc.dir/src/Compiler/chainc.cpp.obj: CXX_COMPILER__chainc_Debug C$:/Users/Rufelle/CLionProjects/Chain/src/Compiler/chainc.cpp || cmake_object_order_depends_target_chainc
-  DEP_FILE = CMakeFiles\chainc.dir\src\Compiler\chainc.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
-  OBJECT_DIR = CMakeFiles\chainc.dir
-  OBJECT_FILE_DIR = CMakeFiles\chainc.dir\src\Compiler
-
-
-# =============================================================================
-# Link build statements for EXECUTABLE target chainc
-
-
-#############################################
-# Link the executable chainc.exe
-
-build chainc.exe: CXX_EXECUTABLE_LINKER__chainc_Debug CMakeFiles/chainc.dir/src/Compiler/chainc.cpp.obj
-  FLAGS = -g
-  LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = CMakeFiles\chainc.dir
-  POST_BUILD = cd .
-  PRE_LINK = cd .
-  TARGET_FILE = chainc.exe
-  TARGET_IMPLIB = libchainc.dll.a
-  TARGET_PDB = chainc.exe.dbg
-
-# =============================================================================
 # Object build statements for EXECUTABLE target chainvm
 
 
@@ -105,6 +72,39 @@ build chainvm.exe: CXX_EXECUTABLE_LINKER__chainvm_Debug CMakeFiles/chainvm.dir/s
   TARGET_FILE = chainvm.exe
   TARGET_IMPLIB = libchainvm.dll.a
   TARGET_PDB = chainvm.exe.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target chainc
+
+
+#############################################
+# Order-only phony target for chainc
+
+build cmake_object_order_depends_target_chainc: phony || CMakeFiles/chainc.dir
+
+build CMakeFiles/chainc.dir/src/Compiler/chainc.cpp.obj: CXX_COMPILER__chainc_Debug C$:/Users/Rufelle/CLionProjects/Chain/src/Compiler/chainc.cpp || cmake_object_order_depends_target_chainc
+  DEP_FILE = CMakeFiles\chainc.dir\src\Compiler\chainc.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
+  OBJECT_DIR = CMakeFiles\chainc.dir
+  OBJECT_FILE_DIR = CMakeFiles\chainc.dir\src\Compiler
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target chainc
+
+
+#############################################
+# Link the executable chainc.exe
+
+build chainc.exe: CXX_EXECUTABLE_LINKER__chainc_Debug CMakeFiles/chainc.dir/src/Compiler/chainc.cpp.obj
+  FLAGS = -g
+  LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  OBJECT_DIR = CMakeFiles\chainc.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_FILE = chainc.exe
+  TARGET_IMPLIB = libchainc.dll.a
+  TARGET_PDB = chainc.exe.dbg
 
 
 #############################################
@@ -144,7 +144,7 @@ build chainvm: phony chainvm.exe
 #############################################
 # Folder: C:/Users/Rufelle/CLionProjects/Chain/cmake-build-debug
 
-build all: phony chainc.exe chainvm.exe
+build all: phony chainvm.exe chainc.exe
 
 # =============================================================================
 # Built-in targets

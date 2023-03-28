@@ -12,19 +12,20 @@
 int main (int argc, char ** argv){
     auto timer = new Timer();
     {
-        // scoped namespace
-        using namespace chain;
-       // std::cout << "pass timer\n";
-        auto args_vector = vectorize(argc, argv);
-       // std::cout << "pass vector\n";
-        handle(args_vector);
-     //   std::cout << "pass handler\n";
+        try {
+            // scoped namespace
+            using namespace chain;
+            auto args_vector = vectorize(argc, argv);
+            handle(args_vector);
 
-        if (argc == 1 ) compiler("../src/compiler/hello.ch");
+            if (argc == 1) compiler("../src/compiler/hello.ch");
 
-        if (!preprocessor.isAuto() && !preprocessor.isSilent()){
-        std::cout << "<!> Compilation success.\n";
-        std::cout << "<!> Compiled under file name '" << output_name + ".exec'\n";
+            if (!preprocessor.isAuto() && !preprocessor.isSilent()) {
+                std::cout << "<!> Compilation success.\n";
+                std::cout << "<!> Compiled under file name '" << output_name + ".exec'\n";
+            }
+        } catch (std::exception & e) {
+            std::cerr << "<!> During loading, invalid file provided.\n";
         }
     }
     if (preprocessor.isSilent()) return 0;

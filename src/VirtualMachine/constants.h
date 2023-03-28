@@ -8,18 +8,19 @@
 #include <string>
 #include "../compiler/tokens.h"
 #include "vm_macros.h"
+
 struct Constants{
+    friend class Command;
 
 private:
     std::map<string, token> m_registers;
     std::map<string, token> m_commands;
     std::map<string, token> m_directives;
     std::map<string, int> m_labels;
-    
+
 public:
     Constants(){
 
-        // init for registers
         m_registers.emplace("ac", token(not_op, reg, reg16, "ac", "10110001"));
         m_registers.emplace("acx", token(not_op, reg, reg8, "acx", "10100000"));
         m_registers.emplace("acy", token(not_op, reg, reg8, "acy", "10100001"));
@@ -27,6 +28,11 @@ public:
         m_registers.emplace("rx", token(not_op, reg, reg8, "rx", "10100010"));
         m_registers.emplace("ry", token(not_op, reg, reg8, "ry", "10100011"));
         m_registers.emplace("flag", token(not_op, reg, flag, "flag", "10100000"));
+        m_registers.emplace("pc", token(not_op, reg, reg16, "flag", "10110100"));
+        m_registers.emplace("ar", token(not_op, reg, reg16, "ar", "10110101"));
+        m_registers.emplace("ctr", token(not_op, reg, reg16, "ctr", "10110110"));
+        m_registers.emplace("ctrx", token(not_op, reg, reg8, "ctrx", "10100110"));
+        m_registers.emplace("ctry", token(not_op, reg, reg8, "ctry", "10100111"));
 
 
         // not accessible for users
@@ -57,10 +63,13 @@ public:
         m_commands.emplace("mov", token(op, basic, mov, 2, "mov", "00001000"));
         m_commands.emplace("inc", token(op, single_op, reg_param, 1, "inc", "00001000"));
         m_commands.emplace("dec", token(op, single_op, reg_param, 1, "dec", "00001001"));
-        m_commands.emplace("swp", token(op, basic, reg_param, 2, "swp", "00010001"));
+        m_commands.emplace("swp", token(op, basic, math, 2, "swp", "00010001"));
+        m_commands.emplace("set", token(op, single_op, reg_param, 1, "set", "00010010"));
+        m_commands.emplace("put", token(op, single_op, reg_param16, 1, "put", "00010011"));
+        m_commands.emplace("for", token(op, basic, iterator, 2, "for", "00010100"));
         m_commands.emplace("end", token(op, basic, no_op, 0, "end", "01010101"));
     }
-    
+
     auto registers(){
         return &m_registers;
     }

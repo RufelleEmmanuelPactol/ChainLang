@@ -44,7 +44,26 @@ namespace dive {
             } catch (std::exception &e){
 
             }
-            if (!isOpen()){throw new std::ios_base::failure(path + " not found.");}
+            if (!isOpen()){throw std::ios_base::failure(path + " not found.");}
+
+        }
+
+
+        /**
+         *
+         *
+         * @brief The @c dive::FileReader() default constructor.
+         * @params path contains the file's path.
+         * @params ignore if true, does not throw an exception.
+         */
+        explicit FileReader(const std::string& path, bool ignore) {
+            this->path = path;
+            try{
+                input_file = std::make_shared<std::ifstream>(path);
+            } catch (std::exception &e){
+
+            }
+            if (!isOpen() && !ignore){throw std::ios_base::failure(path + " not found.");}
 
         }
 

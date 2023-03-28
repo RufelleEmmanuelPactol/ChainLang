@@ -1,12 +1,9 @@
-; data
 @auto
+@debug
+db, "Hello World"
+main:
+start, main
+; implement iterators for registers
 
-mov, ac, [50]
 
-; fix inc memreg
-
-
-
-
-; invalidate mov [] to acx
 end

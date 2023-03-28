@@ -40,8 +40,7 @@ namespace chain
     }
 
     auto compiler (const std::string& path){
-        //FileReader fr = FileReader("../src/compiler/hello.link");
-        FileReader fr = FileReader(path);
+        FileReader fr = FileReader(path, true);
         if (!fr.isOpen()){
             FileNotFoundException(path);
         }
@@ -69,7 +68,7 @@ namespace chain
 
 
         // check for an end token
-        if (!END_TOKEN) NoEndDetectedToken(path);
+        if (!constants.END_TOKEN) NoEndDetectedToken(path);
 
 
         for (auto &i: AbstractSyntaxTree){
@@ -79,7 +78,9 @@ namespace chain
             t.translate(i);
         }
         if (isExit) exit(3);
-        auto fw = dive::FileWriter(output_name + ".exec");
+        string extension = ".exec";
+        if (constants.COMPILE_MODE_BINARY) extension = ".binc";
+        auto fw = dive::FileWriter(output_name + extension);
         Writer write = Writer(fw);
     }
 }

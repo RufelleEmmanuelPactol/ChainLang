@@ -53,16 +53,30 @@ namespace chain
                 output_name = std::filesystem::path(fn).filename().string();
                 output_name = output_name.substr(0, output_name.find('.'));
                 compileq = true;
+                continue;
             }
 
             if (k == "-o"){
                 output_name = j;
+                continue;
             }
+
+            if (k == "-b")
+            {
+                if (j!="true") continue;
+                constants.COMPILE_MODE_BINARY = true;
+                continue;
+            }
+            InvalidCommandSequence(args);
+
+
 
 
         }
         // compile command takes last precedence
         if (compileq){
+            auto k = std::filesystem::path(fn).extension();
+            if (k.string()!=".ch") InvalidFileExtension(fn, k.string());
             compiler(fn);
         } else if (!compileq){
             exit(0);
