@@ -5,11 +5,15 @@
 
 #ifndef CHAINC_RUNTIME_H
 #define CHAINC_RUNTIME_H
+#include "signature.h"
 #include "string"
 #include "../extern/divefile.h"
 #include "vm_macros.h"
 #include "constants.h"
 #include "../extern/memory_unit.h"
+
+namespace fs = std::filesystem;
+
 
 namespace chain {
     class Runtime {
@@ -32,8 +36,8 @@ namespace chain {
                 vector_binaries = fr->readFile();
                 load_to_memory();
                 run_binaries();
-            }  catch (std::ios_base::failure & e){
-                std::cout << "<!> Invalid file name with no .exec extension.\n";
+            }  catch (FileNotFoundException & e){
+                std::cout << "<!> Cannot find the instance of file '" << getPath(path_name) << "'.\n";
                 exit(0);
             }
         }
@@ -42,20 +46,28 @@ namespace chain {
             fr->close();
         }
 
-        std::string getPath (std::string & path_name){
-            std::string result;
-                auto index = path_name.find(".exec");
-                if (index == std::string::npos || index > path_name.size()){
-                    throw std::invalid_argument("");
-                }
-                char curr = path_name[index];
-                do  {
-                    result.insert(result.begin(), curr);
-                    index--;
-                    curr = path_name[index];
-                } while (!(curr == '\\' || curr == '/'));
-                result.append("exec");return result;
+        string getFileExtension(const string& fileName)
+        {
+            if(fileName.find_last_of(".") != string::npos)
+                return fileName.substr(fileName.find_last_of(".")+1);
+            return "";
         }
+
+
+        string getPath(const string& filePath)
+        {
+            using namespace std;
+            fs::path pathObj(filePath);
+            auto fn = pathObj.filename().string();
+            auto x = getFileExtension(fn);
+
+            // checks if the binary read flag is turned on
+            if (x == ".binc") constants.BINARY_READ_MODE = true;
+            return fn;
+        }
+
+
+
     private:
         auto run_binaries() -> void {
             if (preprocessor.isDebugging()) {
@@ -75,17 +87,66 @@ namespace chain {
             } binaryREPL();
         }
 
+
+        auto decouple (const string && signature)
+        {
+            using namespace signature;
+            auto id_1 = signature.substr(0, 4);
+            auto id_2 = signature.substr(4, 4);
+            using std::pair;
+            pair<string, string> res;
+            if (id_1 == EMPTY) res.first = sgTKN::EMPTY;
+            else if (id_1 == REGISTER8) res.first = sgTKN::REGISTER8;
+            else if (id_1 == REGISTER16) res.first = sgTKN::REGISTER16;
+            else if (id_1 == ADDRESS) res.first = sgTKN::ADDRESS;
+            else if (id_1 == POINTER) res.first = sgTKN::POINTER;
+            else InternalCompilerError();
+            if (id_2 == EMPTY) res.second = sgTKN::EMPTY;
+            else if (id_2 == REGISTER8) res.second = sgTKN::REGISTER8;
+            else if (id_2 == REGISTER16) res.second = sgTKN::REGISTER16;
+            else if (id_2 == ADDRESS) res.second = sgTKN::ADDRESS;
+            else if (id_2 == POINTER) res.second = sgTKN::POINTER;
+            else InternalCompilerError();
+            return res;
+        }
+
         void binaryREPL(){
+            printf("Entering binary REPL\n");
             while(true){
                 auto command = memory.HEAP()[memory.PC()];
                 auto signature = memory.HEAP()[memory.PC()+1];
                 auto op1 = memory.HEAP()[memory.PC()+2];
-                // to do
+                decouple(signature);
+                printf("Decoupling Done!\n");
+                exit(0);
+            }
+        }
+
+
+        bool all_bit(const std::string & code_pc){
+            for (auto i: code_pc) {
+                if (i != '0' && i != '1' && i != 0 && i != 1) {
+                   return false;
+                }
+            } return true;
+        }
+
+        void binary_load(){
+            for (auto i : *vector_binaries) {
+                if (all_bit(i)) continue;
+                else {
+                    std::cerr << "<!> This file is corrupted. Unable to proceed with runtime.\n";
+                    exit(3);
+                }
             }
         }
 
         void load_to_memory(){
             int indexer = -1;
+            if (constants.BINARY_READ_MODE)
+            {
+                binary_load();
+            }
             for (auto &i: *vector_binaries){
                 indexer++;
                 if (constants.allBinary(i)){

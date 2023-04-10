@@ -102,6 +102,7 @@ namespace chain
                         }
 
                         if (!constants.isHex(line[i])){
+                            if (line[i]==' ') continue;
                             InvalidNumericToken(line, line[i]);
                         }
 
@@ -130,6 +131,7 @@ namespace chain
                         }
 
                         if (!constants.isDecimal(line[i])){
+                            if (line[i]==' ') continue;
                             InvalidNumericToken(line, line[i]);
                         }
 
@@ -150,6 +152,17 @@ namespace chain
                 if (line[i+1] == 'b'){
                     i+=2;
                     while (true){
+
+                        if (i >= line.size() || line[i] == ','){
+                            break;
+                        }
+
+                        if (line[i]==' '){
+                            i++;
+                            continue;
+                        }
+
+
 
                         if (line[i]==';'){
                             if (stack.empty()){

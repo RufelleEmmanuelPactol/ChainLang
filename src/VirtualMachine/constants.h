@@ -18,9 +18,11 @@ private:
     std::map<string, token> m_directives;
     std::map<string, int> m_labels;
 
-public:
-    Constants(){
 
+public:
+    bool BINARY_READ_MODE;
+    Constants(){
+        BINARY_READ_MODE = false;
         m_registers.emplace("ac", token(not_op, reg, reg16, "ac", "10110001"));
         m_registers.emplace("acx", token(not_op, reg, reg8, "acx", "10100000"));
         m_registers.emplace("acy", token(not_op, reg, reg8, "acy", "10100001"));
@@ -65,8 +67,8 @@ public:
         m_commands.emplace("dec", token(op, single_op, reg_param, 1, "dec", "00001001"));
         m_commands.emplace("swp", token(op, basic, math, 2, "swp", "00010001"));
         m_commands.emplace("set", token(op, single_op, reg_param, 1, "set", "00010010"));
-        m_commands.emplace("put", token(op, single_op, reg_param16, 1, "put", "00010011"));
-        m_commands.emplace("for", token(op, basic, iterator, 2, "for", "00010100"));
+        m_commands.emplace("put", token(op, single_op, reg_param, 1, "put", "00010011"));
+        m_commands.emplace("log", token(op, basic, iterator, 2, "for", "00010100"));
         m_commands.emplace("end", token(op, basic, no_op, 0, "end", "01010101"));
     }
 

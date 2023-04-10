@@ -4,7 +4,7 @@ project(chainc)
 set(CMAKE_CXX_STANDARD 20)
 
 
-add_executable(chainvm src/VirtualMachine/chainvm.cpp)
+add_executable(chainvm src/VirtualMachine/chainvm.cpp src/VirtualMachine/command_loader.h)
 add_executable(chainc src/Compiler/chainc.cpp)
 
 

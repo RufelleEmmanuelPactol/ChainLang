@@ -77,6 +77,8 @@ namespace chain
             m_line = commands->at(line-1);
             t.translate(i);
         }
+
+
         if (isExit) exit(3);
         string extension = ".exec";
         if (constants.COMPILE_MODE_BINARY) extension = ".binc";

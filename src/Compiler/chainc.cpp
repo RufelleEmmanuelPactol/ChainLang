@@ -12,6 +12,7 @@
 int main (int argc, char ** argv){
     auto timer = new Timer();
     {
+
         try {
             // scoped namespace
             using namespace chain;

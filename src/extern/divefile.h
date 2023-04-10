@@ -14,6 +14,10 @@
 #include <iostream>
 #include <memory>
 
+class FileNotFoundException : public std::exception {
+
+};
+
 namespace dive {
 
     /**
@@ -44,7 +48,7 @@ namespace dive {
             } catch (std::exception &e){
 
             }
-            if (!isOpen()){throw std::ios_base::failure(path + " not found.");}
+            if (!isOpen()){throw FileNotFoundException();}
 
         }
 

@@ -64,8 +64,8 @@ public:
         m_commands.emplace("dec", token(op, single_op, reg_param, 1, "dec", "00001001"));
         m_commands.emplace("swp", token(op, basic, math, 2, "swp", "00010001"));
         m_commands.emplace("set", token(op, single_op, reg_param, 1, "set", "00010010"));
-        m_commands.emplace("put", token(op, single_op, reg_param16, 1, "put", "00010011"));
-        m_commands.emplace("for", token(op, basic, iterator, 2, "for", "00010100"));
+        m_commands.emplace("put", token(op, single_op, reg_param, 1, "put", "00010011"));
+        m_commands.emplace("log", token(op, basic, iterator, 2, "for", "00010100"));
         m_commands.emplace("end", token(op, basic, no_op, 0, "end", "01010101"));
 
 
@@ -91,6 +91,7 @@ public:
     }
 
     auto isDecimal(const char change){
+        if (change == ' ') return true;
         if (change>='0' && change<='9'){
             return true;
         } return false;

@@ -316,6 +316,7 @@ namespace chain {
         exit(308);
     }
 
+
     void DataSizeMismatch(const string &reg_1, Register r1, const string &reg_2, Register r2) {
         auto size1 = Tknstringify::getDataSizeFromToken(r1);
         auto size2 = Tknstringify::getDataSizeFromToken(r2);
@@ -353,6 +354,11 @@ namespace chain {
     void InvalidIncrement (){
         cerr << "ERR 403 InvalidIncrement [Data Error]: Cannot increment the flag register" << err_line;
         exit(403);
+    }
+
+    void IteratorMismatch (const string & op, Datatype a, Datatype b){
+        cerr << "ERR 404 IteratorMismatch [Data Error]: Cannot iterate through mismatched data types '" << Tknstringify::getDatatypeFromToken(a) << "' and '" << Tknstringify::getDatatypeFromToken(b) << "' where these two must match upon invoking of command '" << op << "'" << err_line;
+        exit(404);
     }
 
     void PreprocessorDirectiveError(const std::string & dir){

@@ -146,6 +146,24 @@ namespace chain {
 
             }
 
+            // iterator checker
+
+            if (instance_operand.operand == Operand::iterator)
+            {
+                if (op1dt != op2dt)
+                {
+                    if (op1dt == Datatype::reference){
+                        if (op2dt == Datatype::label_ref) goto pass_iterator;
+                    } else if (op1dt == Datatype::label_ref){
+                        if (op2dt == Datatype::reference) goto pass_iterator;
+                    }
+                    IteratorMismatch(instance_operand.name, op1dt, op2dt);
+                }
+            }
+
+            pass_iterator:
+
+
             // mov checker
 
             if (instance_operand.operand == mov){
@@ -164,6 +182,7 @@ namespace chain {
                         ParameterDataMismatch(instance_operand.name, reg, op2dt, op2.name);
                     }
                 }
+
 
 
                 // updated label checkers

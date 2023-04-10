@@ -50,6 +50,7 @@ namespace chain
 
             if (k == "-c"){
                 fn = j;
+                if (fn == "this") the_chain_lang();
                 output_name = std::filesystem::path(fn).filename().string();
                 output_name = output_name.substr(0, output_name.find('.'));
                 compileq = true;
