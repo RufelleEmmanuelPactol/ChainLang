@@ -57,6 +57,20 @@ namespace chain
                 continue;
             }
 
+            if (k == "make"){
+                fn = j;
+                FileWriter wr =  FileWriter(fn + ".ch");
+                wr.writeLine(""
+                             "; .bss SECTION (BLOCK STARTING SYMBOL) for predeclared data:\n\n"
+                             "; THE MAIN LABEL (where the program starts)\n"
+                             "main:\nstart, main\n"
+                             "; START THE PROGRAM LOGIC HERE\n\n"
+                             "; the end marker\n\nend");
+                wr.close();
+                colorize::end_state();
+            exit(0);
+            }
+
             if (k == "-o"){
                 output_name = j;
                 continue;
@@ -80,6 +94,7 @@ namespace chain
             if (k.string()!=".ch") InvalidFileExtension(fn, k.string());
             compiler(fn);
         } else if (!compileq){
+            colorize::end_state();
             exit(0);
         }
 

@@ -5,13 +5,15 @@
 
 #ifndef CHAINC_RUNTIME_H
 #define CHAINC_RUNTIME_H
+#include "VMExceptions.h"
+#include "../extern/debug.h"
 #include "signature.h"
 #include "string"
 #include "../extern/divefile.h"
 #include "vm_macros.h"
 #include "constants.h"
 #include "../extern/memory_unit.h"
-
+#include "command_loader.h"
 namespace fs = std::filesystem;
 
 
@@ -38,7 +40,9 @@ namespace chain {
                 run_binaries();
             }  catch (FileNotFoundException & e){
                 std::cout << "<!> Cannot find the instance of file '" << getPath(path_name) << "'.\n";
-                exit(0);
+                colorize::end_state();
+            colorize::end_state();
+            exit(0);
             }
         }
 
@@ -94,34 +98,85 @@ namespace chain {
             auto id_1 = signature.substr(0, 4);
             auto id_2 = signature.substr(4, 4);
             using std::pair;
-            pair<string, string> res;
-            if (id_1 == EMPTY) res.first = sgTKN::EMPTY;
+            pair<int, int> res;
+            if (id_1 == NOOP) res.first = sgTKN::EMPTY;
             else if (id_1 == REGISTER8) res.first = sgTKN::REGISTER8;
             else if (id_1 == REGISTER16) res.first = sgTKN::REGISTER16;
             else if (id_1 == ADDRESS) res.first = sgTKN::ADDRESS;
             else if (id_1 == POINTER) res.first = sgTKN::POINTER;
-            else InternalCompilerError();
-            if (id_2 == EMPTY) res.second = sgTKN::EMPTY;
+            else res.first = -1;
+            if (id_2 == NOOP) res.second = sgTKN::EMPTY;
             else if (id_2 == REGISTER8) res.second = sgTKN::REGISTER8;
             else if (id_2 == REGISTER16) res.second = sgTKN::REGISTER16;
             else if (id_2 == ADDRESS) res.second = sgTKN::ADDRESS;
             else if (id_2 == POINTER) res.second = sgTKN::POINTER;
-            else InternalCompilerError();
+            else res.second = -1;
             return res;
         }
 
+        int push(std::pair<int, int> & couple)
+        {
+            int ret = 2;
+            if (couple.first == sgTKN::REGISTER16) ret++;
+            if (couple.first == sgTKN::REGISTER8) ret++;
+            if (couple.first == sgTKN::ADDRESS) ret+=2;
+            if (couple.first == sgTKN::POINTER) ret+=2;
+            if (couple.second == sgTKN::REGISTER16) ret++;
+            if (couple.second == sgTKN::REGISTER8) ret++;
+            if (couple.second == sgTKN::ADDRESS) ret+=2;
+            if (couple.second == sgTKN::POINTER) ret+=2;
+            return ret;
+        }
+
         void binaryREPL(){
-            printf("Entering binary REPL\n");
-            while(true){
+            string instruction_pointer;
+            std::pair<string, string> args;
+            while(instruction_pointer!=constants.commands()->find("end")->second.opcode){
                 auto command = memory.HEAP()[memory.PC()];
+                instruction_pointer = command;
                 auto signature = memory.HEAP()[memory.PC()+1];
-                auto op1 = memory.HEAP()[memory.PC()+2];
-                decouple(signature);
-                printf("Decoupling Done!\n");
-                exit(0);
+                auto x = decouple(signature);
+                args_handler(args, x, memory.PC()+2);
+
+                /* This checks for any exceptions caused by invalid command
+                 * loading due to programmer error.
+                 */
+
+                if (x.first == -1 || x.second == -1) VMexcept::InvalidProgramSequence(command, memory.PC());
+                auto loaded = commandloader.direct(instruction_pointer);
+                loaded(x.first, x.second);
+
+                memory.inc(push(x));
             }
         }
 
+
+        void args_handler(std::pair<string, string> & args, const std::pair<int, int> & op, int start_ptr)
+        {
+            string empty = "00000000";
+            if (op.first == sgTKN::NOOP) {
+                args.first.append(empty);
+            }
+            else if (op.first == sgTKN::REGISTER8 || op.first == sgTKN::REGISTER16) {
+                args.first.append(memory.getBitString(start_ptr, 8));
+                start_ptr++;
+            } else {
+                args.first.append(memory.getBitString(start_ptr, 16));
+                start_ptr+=2;
+            }
+
+            if (op.second == sgTKN::NOOP) {
+                args.second.append(empty);
+            }
+            else if (op.second == sgTKN::REGISTER8 || op.second == sgTKN::REGISTER16) {
+                args.second.append(memory.getBitString(start_ptr, 8));
+                start_ptr++;
+            } else {
+                args.second.append(memory.getBitString(start_ptr, 16));
+                start_ptr+=2;
+            }
+
+        }
 
         bool all_bit(const std::string & code_pc){
             for (auto i: code_pc) {
@@ -136,7 +191,9 @@ namespace chain {
                 if (all_bit(i)) continue;
                 else {
                     std::cerr << "<!> This file is corrupted. Unable to proceed with runtime.\n";
-                    exit(3);
+                    colorize::end_state();
+            colorize::end_state();
+            exit(3);
                 }
             }
         }
@@ -153,7 +210,9 @@ namespace chain {
                     memory.writeAt(indexer, i);
                 } else {
                     std::cerr << "<!> This file is corrupted. Unable to proceed with runtime.\n";
-                    exit(3);
+                    colorize::end_state();
+            colorize::end_state();
+            exit(3);
                 }
 
             }

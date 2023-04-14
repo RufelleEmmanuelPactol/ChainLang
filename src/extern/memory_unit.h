@@ -11,12 +11,13 @@
 #include "../extern/preprocessor.h"
 #include <bitset>
 Preprocessor preprocessor;
-
+#include "../extern/diveColors.h"
 namespace chain{
     void InternalCompilerError (){
         using std::endl;
         std::cerr << "ERR 023C InternalCompilerError [Compiler]: Internal compiler error instance occurred. This is not a bug on the user's end. Please contact me in Github at Xue64 to report this bug" << std::endl;
-        exit(023);
+        colorize::end_state();
+            exit(023);
     }
 }
 
@@ -196,7 +197,8 @@ public:
 private:
     void memory_full(){
         std::cerr << "ERR 05 [OutOfMemoryError]: Heap is full. Cannot add instructions to memory.\n";
-        exit(05);
+        colorize::end_state();
+            exit(05);
     }
 public:
 
@@ -209,6 +211,7 @@ public:
         }
         if (pc > MEM_CAP()-100 || ar > MEM_CAP()-100) memory_full();
     }
+
 
     void set (size_t address){
         ar = address;
@@ -228,6 +231,18 @@ public:
         return decimal;
     }
 
+    int binToDec(char* binary, int n) {
+
+        int decimal = 0;
+        for (int i = 0; i < n; i++) {
+            if (binary[i] == '1') {
+                decimal += pow(2, n-1-i);
+            }
+        }
+        return decimal;
+    }
+
+
     std::string getBitString (size_t address, size_t size){
         std::string result;
         for (int i=0; i<size; i++){
@@ -235,6 +250,54 @@ public:
         }
         return result;
     }
+
+    char * AC(){
+        return ac;
+    }
+    char * ACx(){
+        return acx;
+    }
+
+    char * ACy(){
+        return acy;
+    }
+
+    char * R(){
+        return r;
+    }
+
+    char * Rx(){
+        return rx;
+    }
+
+    char * Ry(){
+        return ry;
+    }
+
+    char * CTR(){
+        return ctr;
+    }
+
+    char * CTRx(){
+        return ctrx;
+    }
+
+    char * CTRy(){
+        return ctry;
+    }
+
+    bool& FLAG(){
+        return flag;
+    }
+
+    void set_reg (char * address, int size, std::string && s){
+        for (int i=0; i<size; i++){
+            address[i] = s[i];
+        }
+    }
+
+
+
 
 
 

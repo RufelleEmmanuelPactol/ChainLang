@@ -15,7 +15,8 @@ Memory memory = Memory();
 
 void errMachineError(){
     std::cerr << "<!> Runtime Virtual Engine bug. Please contact us at github.\n";
-    exit(3);
+    colorize::end_state();
+            exit(3);
 }
 #endif //CHAINC_VM_MACROS_H
 

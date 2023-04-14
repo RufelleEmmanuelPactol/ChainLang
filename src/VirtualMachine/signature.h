@@ -28,6 +28,15 @@ namespace sgTKN
     const int ADDRESS = 5;
     const int POINTER = 6;
 
+    std::string get(int n){
+        if (n==1) return "EMPTY";
+        if (n==3) return "REGISTER8";
+        if (n==4) return "REGISTER16";
+        if (n==5) return "ADDRESS";
+        if (n==6) return "POINTER";
+        return "UNKNOWN";
+    }
+
 }
 
 

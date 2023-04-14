@@ -18,7 +18,7 @@
 
 auto const& npos = std::string::npos;
 std::string m_line, output_name = "out";
-bool isExit = false;
+bool isexit = false;
 Memory memory;
 size_t line = 0;
 #define __CURR_YEAR__ 2023
@@ -48,7 +48,8 @@ void the_chain_lang()
                  "(4) -b experimental compiler flag to create binary-compressed compilation\n\n"
                  "Visit the official documentation website:\n"
                  "<placeholder>\n";
-    exit(0);
+    colorize::end_state();
+            exit(0);
 }
 
 

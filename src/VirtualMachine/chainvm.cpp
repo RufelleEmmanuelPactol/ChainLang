@@ -6,6 +6,7 @@
 #include "vm_macros.h"
 #include "chaintimeVM.h"
 #include "args_handler.h"
+#include "../extern/diveColors.h"
 int main (int argc, char ** argv){
     {
         // scope to destruct chain time object
@@ -13,9 +14,10 @@ int main (int argc, char ** argv){
         auto args = dive::vectorize(argc, argv);
         chain::handle(args);
     }
-    if (preprocessor.isAuto()) return 0;
+    if (preprocessor.isSilent()) return 0;
     else {
-        std::cout << "<!> Press any key to finish processes.";
+        colorize::end_state();
+        std::cout << colorize(color::bright_blue, "<!> Press any key to finish processes.\n");
         getchar();
     }
 }

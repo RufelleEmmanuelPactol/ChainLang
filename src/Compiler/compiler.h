@@ -79,7 +79,7 @@ namespace chain
         }
 
 
-        if (isExit) exit(3);
+        if (isexit) exit(3);
         string extension = ".exec";
         if (constants.COMPILE_MODE_BINARY) extension = ".binc";
         auto fw = dive::FileWriter(output_name + extension);

@@ -8,17 +8,18 @@
 #include "exceptions.h"
 namespace chain
 {
+    using namespace color;
 
     void preproc_process(const std::string & directive){
         auto silence = preprocessor.isSilent();
         if (directive == "@trace"){
-        if (!silence) std::cerr << "<!> Trace mode is on and is enabled upon compilation.\n";
+        if (!silence) std::cout << colorize(bright_blue, "<!> Trace mode is on and is enabled upon compilation.\n");
             preprocessor.set_trace(true);
         } else if (directive == "@debug"){
             if (!silence) std::cerr << "<!> Debug mode is on and is enabled upon runtime.\n";
             preprocessor.set_debug(true);
         } else if (directive == "@auto"){
-            if (!silence) std::cerr << "<!> Auto run mode is on and will run the output automatically after compilation.\n";
+            if (!silence) std::cout << colorize(bright_blue, "<!> Auto run mode is on and will run the output automatically after compilation.\n");
             preprocessor.set_auto(true);
         } else if (directive == "@silent"){
             preprocessor.set_silent(true);

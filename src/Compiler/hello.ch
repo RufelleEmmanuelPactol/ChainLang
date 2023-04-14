@@ -1,9 +1,12 @@
+; .bss
 @auto
-@debug
-db, "Hello World"
+m:
+
+name: db, "Hello, Kyla"
+mxb: dw, 0xFFFF
 main:
-start, main
-; implement iterators for registers
-
-
+start, m
+add, ac, r
+add, r, ac
 end
+mov, ac, [50]

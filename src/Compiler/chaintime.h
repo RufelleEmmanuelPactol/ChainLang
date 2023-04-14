@@ -18,7 +18,9 @@ public:
     ~Timer(){
         if (preprocessor.isAuto()) return;
         end = std::chrono::steady_clock::now();
+        colorize::in_this_state_color_is(color::bright_blue);
         std::cout << "<!> Compilation finished in: " << std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count()*0.000000001 << " seconds.\n";
+        colorize::end_state();
     }
 
 };

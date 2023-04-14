@@ -11,6 +11,7 @@
 #define CHAINC_CHAINTIME_H
 #include "chrono"
 #include <iostream>
+#include "../extern/diveColors.h"
 
 class Timer{
 
@@ -23,9 +24,11 @@ public:
     ~Timer(){
         end = std::chrono::steady_clock::now();
         if (!preprocessor.isSilent()) {
-            std::cout << "<!> Runtime finished in: "
+            colorize::color_set_lifetime(color::retain);
+            std::cout << colorize(color::bright_blue, "<!> Runtime finished in: ")
                       << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() * 0.000000001
                       << " seconds.\n";
+            colorize::color_set_lifetime(color::disable);
         }
     }
 
