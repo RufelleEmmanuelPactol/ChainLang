@@ -39,6 +39,7 @@ namespace chain {
                 load_to_memory();
                 run_binaries();
             }  catch (FileNotFoundException & e){
+                colorize::in_this_state_color_is(color::yellow);
                 std::cout << "<!> Cannot find the instance of file '" << getPath(path_name) << "'.\n";
                 colorize::end_state();
             colorize::end_state();
@@ -145,7 +146,6 @@ namespace chain {
                 if (x.first == -1 || x.second == -1) VMexcept::InvalidProgramSequence(command, memory.PC());
                 auto loaded = commandloader.direct(instruction_pointer);
                 loaded(x.first, x.second);
-
                 memory.inc(push(x));
             }
         }
@@ -190,9 +190,9 @@ namespace chain {
             for (auto i : *vector_binaries) {
                 if (all_bit(i)) continue;
                 else {
-                    std::cerr << "<!> This file is corrupted. Unable to proceed with runtime.\n";
+                    colorize::in_this_state_color_is(color::yellow);
+                    std::cout << "<!> This file is corrupted. Unable to proceed with runtime.\n";
                     colorize::end_state();
-            colorize::end_state();
             exit(3);
                 }
             }
@@ -209,7 +209,8 @@ namespace chain {
                 if (constants.allBinary(i)){
                     memory.writeAt(indexer, i);
                 } else {
-                    std::cerr << "<!> This file is corrupted. Unable to proceed with runtime.\n";
+                    colorize::in_this_state_color_is(color::yellow);
+                    std::cout << "<!> This file is corrupted. Unable to proceed with runtime.\n";
                     colorize::end_state();
             colorize::end_state();
             exit(3);

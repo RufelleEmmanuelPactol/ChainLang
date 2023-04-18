@@ -55,3 +55,7 @@
 5378	17590	7031649876625291	chainc.exe	dad6eb556a339f81
 3	3860	7031651004097115	CMakeFiles/chainc.dir/src/Compiler/chainc.cpp.obj	426d699033bf58fe
 3861	15897	7031651124440074	chainc.exe	dad6eb556a339f81
+3	4301	7032402427828220	CMakeFiles/chainc.dir/src/Compiler/chainc.cpp.obj	426d699033bf58fe
+4301	5386	7032402438690132	chainc.exe	dad6eb556a339f81
+4	3544	7033414362193492	CMakeFiles/chainvm.dir/src/VirtualMachine/chainvm.cpp.obj	cf13d0ed68dd43cd
+3545	4288	7033414369650634	chainvm.exe	99ae1ad49d00dbd8

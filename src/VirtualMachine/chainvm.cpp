@@ -7,6 +7,8 @@
 #include "chaintimeVM.h"
 #include "args_handler.h"
 #include "../extern/diveColors.h"
+#include <vector>
+
 int main (int argc, char ** argv){
     {
         // scope to destruct chain time object

@@ -35,8 +35,13 @@ public:
     }
 
     auto direct(const string & opcode){
-        return director[opcode];
+        auto x = director.find(opcode);
+    if (x == director.end()) throw std::runtime_error("bad_function_call_chainvm");
+
+        return x->second;
     }
+
+
 
 
 };
