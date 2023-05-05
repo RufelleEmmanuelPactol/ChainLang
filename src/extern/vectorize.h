@@ -12,6 +12,12 @@ namespace dive{
         for (int i=0; i<argc; i++){
             ret.emplace_back(argv[i]);
         }
+        if (argc == 1) {
+            // DEBUG area
+
+            ret.emplace_back("spawn");
+            ret.emplace_back("5");
+        }
 
         return ret;
     }

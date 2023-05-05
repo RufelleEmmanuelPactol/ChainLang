@@ -289,7 +289,7 @@ namespace dive {
          * @warning Unless absolutely necessary, do not close this file manually. Upon calling this object's destructor, the file will be closed automatically.
          */
         void close(){
-            delete this;
+            flush();
         }
 
         /**

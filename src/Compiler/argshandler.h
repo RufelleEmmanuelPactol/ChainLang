@@ -68,7 +68,20 @@ namespace chain
                              "; the end marker\n\nend");
                 wr.close();
                 colorize::end_state();
-            exit(0);
+                exit(0);
+            }
+
+            if (k == "spawn"){
+                spawn:
+                string nonconst = j;
+                char * raw = const_cast<char *>(nonconst.c_str());
+                auto x = (raw+nonconst.length());
+                int bitset = ::strtol(raw, &x, 10);
+                if (bitset <= 6){
+                    InvalidMemoryPoolSpawn(bitset);
+                }
+                memory.extend(bitset);
+                continue;
             }
 
             if (k == "-o"){

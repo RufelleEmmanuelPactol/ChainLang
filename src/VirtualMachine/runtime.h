@@ -146,6 +146,7 @@ namespace chain {
                 if (x.first == -1 || x.second == -1) VMexcept::InvalidProgramSequence(command, memory.PC());
                 auto loaded = commandloader.direct(instruction_pointer);
                 loaded(x.first, x.second);
+                if (x.first == -2) return; // This means that the end marker is successfully retrieved.
                 memory.inc(push(x));
             }
         }

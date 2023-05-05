@@ -25,7 +25,6 @@ public:
             auto string = memory.getBitString(i, 8);
             transpose(string);
             wr.writeLine(string);
-            wr.flush();
         }
     }
 

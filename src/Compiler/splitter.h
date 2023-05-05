@@ -23,6 +23,8 @@ namespace chain
             preprocessor.set_auto(true);
         } else if (directive == "@silent"){
             preprocessor.set_silent(true);
+        } else if (directive == "@window"){
+            preprocessor.set_window_mode(true);
         }
         else {
             PreprocessorDirectiveError(directive);

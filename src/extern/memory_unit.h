@@ -12,7 +12,12 @@
 #include <bitset>
 Preprocessor preprocessor;
 #include "../extern/diveColors.h"
+void spawn_memory();
+
+
+
 namespace chain{
+    void MemoryOverflowError(size_t);
     void InternalCompilerError (){
         using std::endl;
         std::cerr << "ERR 023C InternalCompilerError [Compiler]: Internal compiler error instance occurred. This is not a bug on the user's end. Please contact me in Github at Xue64 to report this bug" << std::endl;
@@ -21,18 +26,21 @@ namespace chain{
     }
 }
 
+int __BITSET__ = 16;
 
 
 class Memory
 {
+    int bitset;
+    size_t mem_cap;
 
-    static const size_t mem_cap = pow(2, 16);
 private:
     friend class Command;
     char ** heap;
     bool isDeleted = false;
     std::string START = "0000000000000000";
     // registers
+    char * block;
     char * ac;
     char * acx;
     char * acy;
@@ -56,7 +64,7 @@ private:
     }
 
     char * regalloc(){
-        auto * a = new char[8];
+        auto * a = new char[bitset];
         if (a == NULL){
             regalloc();
         } return a;
@@ -64,40 +72,7 @@ private:
 
 public:
     Memory(){
-
-
-
-        r = regalloc();
-        ac = regalloc();
-        pc_char = regalloc();
-        ar_char = regalloc();
-        ctr = regalloc();
-
-        pc = 0;
-        ar = 0;
-
-
-        heap = new char*[mem_cap];
-        for (int i=0; i<mem_cap; i++){
-            heap[i] = new char[9];
-            set(heap[i]);
-        }
-
-        set(r);
-        set(ac);
-        set(pc_char);
-        set(ar_char);
-        set(ctr);
-        flag = false;
-
-        acx = ac;
-        acy = ac + 8;
-        rx = r;
-        ry = r + 8;
-        ctrx = ctr;
-        ctry = ctr+8;
-
-
+        reallocate();
     }
 
     auto memory(){
@@ -126,9 +101,9 @@ public:
         if (isDeleted){
             return;
         }
-        for (int i=0; i<mem_cap; i++){
-            delete heap[i];
-        } delete heap;
+            destroy();
+            return;
+
     }
 public:
     auto& AR(){
@@ -214,6 +189,9 @@ public:
 
 
     void set (size_t address){
+        if (address > mem_cap){
+            chain::MemoryOverflowError(address);
+        }
         ar = address;
         pc = address;
 
@@ -303,16 +281,59 @@ public:
 
     void destroy (){
         isDeleted = true;
-        for (int i=0; i<MEM_CAP(); i++){
-            free(HEAP()[i]);
-        }
         free(r);
         free(ac);
+        free(ctr);
+        delete heap;
+        delete block;
+
+    }
+
+    void extend (int x){
+        __BITSET__ = x;
+        destroy();
+        reallocate();
+    }
+
+    void reallocate(){
+        bitset = __BITSET__;
+        mem_cap = pow(2, bitset);
+
+        r = regalloc();
+        ac = regalloc();
+        pc_char = regalloc();
+        ar_char = regalloc();
+        ctr = regalloc();
+
+        pc = 0;
+        ar = 0;
+
+
+        heap = new char*[mem_cap];
+        block = new char[mem_cap*8];
+        for (int i=0; i<mem_cap; i++){
+            heap[i] = &block[i*8];
+            set(heap[i]);
+        }
+
+        set(r);
+        set(ac);
+        set(pc_char);
+        set(ar_char);
+        set(ctr);
+        flag = false;
+
+        acx = ac;
+        acy = ac + 8;
+        rx = r;
+        ry = r + 8;
+        ctrx = ctr;
+        ctry = ctr+8;
     }
 
 
 
-    static size_t MEM_CAP(){return mem_cap;}
+    size_t MEM_CAP(){return mem_cap;}
 };
 
 

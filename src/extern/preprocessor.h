@@ -68,6 +68,17 @@ struct Preprocessor{
         return false;
     }
 
+    void set_window_mode(bool t){
+        if (t) word[4] = '1';
+        else word[4] = '0';
+    }
+
+    bool isWindowMode()
+    {
+        if (word[4]=='1') return true;
+        return false;
+    }
+
 
 
 

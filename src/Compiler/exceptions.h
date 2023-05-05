@@ -63,7 +63,13 @@ namespace chain {
             exit(023);
     }
 
-
+    void InvalidMemoryPoolSpawn (int spawn_size){
+        colorize::in_this_state_color_is(color::yellow);
+        cout << "ERR 024C InvalidMemoryPoolSpawn [CompilerCall]: Spawn pool request of size " << pow(2, spawn_size) << " invoked upon command line args: 'spawn " << spawn_size
+        << "' is not valid as it is too small. Please use a bigger spawn size next time\n";
+        colorize::end_state();
+        exit(24);
+    }
 
 
 
@@ -459,6 +465,16 @@ namespace chain {
             exit(404);
     }
 
+    void MemoryOverflowError (size_t n){
+        colorize::in_this_state_color_is(color::yellow);
+        cout << "ERR 405 MemoryOverflowError [Data Error]: Cannot access memory location " << n << " where memory pool goes up only until memory address " << memory.MEM_CAP() << ". "
+        << "Typically, this error is associated with 'org'. If you want to extend the memory (@experimental), please use the command line argument 'spawn <bit to use>' to extend the memory"
+           " capacity. The current bit used is " << __BITSET__ << err_line;
+        colorize::end_state();
+        exit(405);
+    }
+
+
     void PreprocessorDirectiveError(const std::string & dir){
         colorize::in_this_state_color_is(color::yellow);
             cout << "ERR 501 UnrecognizedPreprocessorDirective [Preprocessor]: The preprocessor directive '" << dir << "' is unrecognized" << err_line;
@@ -467,12 +483,15 @@ namespace chain {
     }
 
 
+
     void UnsupportedRegisterAddressExtraction(const string &reg){
     colorize::in_this_state_color_is(color::yellow);
-            cout << "ERR 600 Unsupported Feature [Feature Error]: Cannot extract the addresses of register '" << reg << "', as register address extraction is still unsupported in this build of the chainc: " << __ver__ << err_line;
+            cout << "ERR 502 Unsupported Feature [Feature Error]: Cannot extract the addresses of register '" << reg << "', as register address extraction is still unsupported in this build of the chainc: " << __ver__ << err_line;
     colorize::end_state();
-            exit(600);
+            exit(502);
     }
+
+
 
 
 

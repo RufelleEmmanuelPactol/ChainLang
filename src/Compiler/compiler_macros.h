@@ -23,6 +23,7 @@ Memory memory;
 size_t line = 0;
 #define __CURR_YEAR__ 2023
 
+
 void the_chain_lang()
 {
     std::cout << "The Chain Lang\n"
@@ -45,7 +46,8 @@ void the_chain_lang()
                  "(1) @trace VM directive for processor tracing\n"
                  "(2) @experimental VM directive for experimental integration\n"
                  "(3) @memset for a more flexible heap memory size.\n"
-                 "(4) -b experimental compiler flag to create binary-compressed compilation\n\n"
+                 "(4) -b experimental compiler flag to create binary-compressed compilation\n"
+                 "(5) spawn experimental compiler flag to extend/decrease memory usage \n\n"
                  "Visit the official documentation website:\n"
                  "<placeholder>\n";
     colorize::end_state();

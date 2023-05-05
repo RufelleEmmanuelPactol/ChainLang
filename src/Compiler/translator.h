@@ -40,6 +40,7 @@ public:
 
                 // org
                 if (ast.op.name == "org"){
+
                     memory.set(atoi(ast.operands[0].name.c_str()));
                     return;
                 }
